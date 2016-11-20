@@ -37,6 +37,9 @@ data Boids neighbhors a b =
   }
 makeLenses ''Boids
 
+numNeighbhors :: forall n a b x. _ => Boids n a b -> x
+numNeighbhors _ = typeNum (Proxy :: Proxy n)
+
 boidsSimulatorInstance :: forall a b . (RealFloat a,Integral b,V.Storable a) => Simulator (Boids 4 a b) a
 boidsSimulatorInstance = Simulator simRender simStep simCost mainState
     where
@@ -50,8 +53,7 @@ boidsSimulatorInstance = Simulator simRender simStep simCost mainState
                          & pictures
             where vecTranslate (Vec (x,y)) = translate (realToFrac x) (realToFrac y)
 
-        simStep :: Boids 4 a b -> Boids 4 a b
-        simStep (Boids moves goal@(loc,angle) numBumps size updater) =
+        simStep boids@(Boids moves goal@(loc,angle) numBumps size updater) =
             Boids newMoves (loc,angle+0.1) newNumBumps size updater
           where
             (newMoves, newNumBumps) = moves &> update & unzip & second (sum &. (+numBumps))
@@ -59,7 +61,7 @@ boidsSimulatorInstance = Simulator simRender simStep simCost mainState
             update (pos,vel) = ((pos+vel,updater (computeGoal goal) nClosest), numCollisions)
               where
                 numCollisions = (inRadius kdm boidSize pos & genericLength) - 1
-                nClosest = kNearest kdm 4 pos & fromList
+                nClosest = kNearest kdm (numNeighbhors boids) pos & fromList
 
         simCost boids = closenessCost + 0.1*boids^.numBumps
           where closenessCost = boids^.moves &> fst
