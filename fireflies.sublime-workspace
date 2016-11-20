@@ -1,0 +1,3723 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Neg",
+				"NegNumWeightsOut"
+			],
+			[
+				"Ne",
+				"NegNumWeightsOut"
+			],
+			[
+				"rest",
+				"restemp"
+			],
+			[
+				"wou2",
+				"wout2"
+			],
+			[
+				"brain",
+				"brain1"
+			],
+			[
+				"comp",
+				"complexerTrained"
+			],
+			[
+				"com",
+				"complexerTrained"
+			],
+			[
+				"complex",
+				"complexTrained"
+			],
+			[
+				"mu",
+				"myUpdater"
+			],
+			[
+				"show",
+				"showInstance"
+			],
+			[
+				"fire",
+				"fliesSimulatorInstance\t(FireFlies.hs)"
+			],
+			[
+				"comple",
+				"complexTrained"
+			],
+			[
+				"simpl",
+				"simpleTrained"
+			],
+			[
+				"clos",
+				"closenessCost"
+			],
+			[
+				"train",
+				"trainBrain"
+			],
+			[
+				"numTes",
+				"numTests"
+			],
+			[
+				"single",
+				"singleBrain"
+			],
+			[
+				"boid",
+				"boidsSimulatorInstance\t(Boids.hs)"
+			],
+			[
+				"out",
+				"outs2"
+			],
+			[
+				"out1",
+				"outs1"
+			],
+			[
+				"flie",
+				"fliesNeuralSimInstance\t(FireFlies.hs)"
+			],
+			[
+				"an",
+				"anWeights"
+			],
+			[
+				"ste",
+				"stepSize"
+			],
+			[
+				"step",
+				"stepFunction"
+			],
+			[
+				"stup",
+				"stupidBrain"
+			],
+			[
+				"Contro",
+				"Control.Arrow\t(SizedS.hs)"
+			],
+			[
+				"ins",
+				"instance\tInstance"
+			],
+			[
+				"Vec",
+				"Vector"
+			],
+			[
+				"boids",
+				"boidsNeuralInstance\t(Boids.hs)"
+			],
+			[
+				"Flexi",
+				"FlexibleContexts\t(Brain.hs)"
+			],
+			[
+				"G",
+				"GHC.TypeLits\t(Brain.hs)"
+			],
+			[
+				"vecT",
+				"vecToSized"
+			],
+			[
+				"dis",
+				"disabled1"
+			],
+			[
+				"bra",
+				"brain1"
+			],
+			[
+				"Nu",
+				"NumWeightsOut"
+			],
+			[
+				"NumW",
+				"NumWeightsIn"
+			],
+			[
+				"Num",
+				"NumWeightsIn"
+			],
+			[
+				"NumWei",
+				"NumWeightsOut"
+			],
+			[
+				"Brain",
+				"BrainDisabler"
+			],
+			[
+				"new",
+				"newBrain"
+			],
+			[
+				"chu",
+				"chunkMap"
+			],
+			[
+				"spli",
+				"splitAt"
+			],
+			[
+				"sin",
+				"singleton"
+			],
+			[
+				"Size",
+				"SizedV\t(Brain.hs)"
+			],
+			[
+				"rand",
+				"randWeights\t(Brain.hs)"
+			],
+			[
+				"type",
+				"typeNum"
+			],
+			[
+				"pse",
+				"pseudoRand\t(Convenience.hs)"
+			],
+			[
+				"Types",
+				"LiberalTypeSynonyms"
+			],
+			[
+				"lan",
+				"lang\tLanguage Extension"
+			],
+			[
+				"Bra",
+				"BrainD"
+			],
+			[
+				"vec",
+				"vect2"
+			],
+			[
+				"ve",
+				"vect1"
+			],
+			[
+				"Rule",
+				"RULES"
+			],
+			[
+				"make",
+				"makeSized"
+			],
+			[
+				"Function",
+				"FunctionalDependencies\t(Thang.hs)"
+			],
+			[
+				"mode",
+				"module\t(Brain.hs)"
+			],
+			[
+				"option",
+				"OPTIONS_GHC"
+			],
+			[
+				"strong",
+				"stronglyConnected"
+			],
+			[
+				"B",
+				"Boids"
+			],
+			[
+				"Netwo",
+				"NetworkD"
+			],
+			[
+				"net",
+				"network"
+			],
+			[
+				"act",
+				"activation"
+			],
+			[
+				"Or",
+				"Ord\t(Convenience.hs)"
+			],
+			[
+				"Sim",
+				"Simulator"
+			],
+			[
+				"flies",
+				"fliesSimulatorInstance\t(FireFlies.hs)"
+			],
+			[
+				"circl",
+				"circleSolid"
+			],
+			[
+				"Real",
+				"RealFloat"
+			],
+			[
+				"mag",
+				"magVsq\t(FireFlies.hs)"
+			],
+			[
+				"nei",
+				"_boidsNeighbhorhood"
+			],
+			[
+				"T",
+				"TemplateHaskell\t(FireFlies.hs)"
+			],
+			[
+				"start",
+				"startBrain"
+			],
+			[
+				"current",
+				"currentInstance"
+			],
+			[
+				"curre",
+				"currentInstance"
+			],
+			[
+				"curr",
+				"currentInstance"
+			],
+			[
+				"S",
+				"Simulator"
+			],
+			[
+				"defau",
+				"defaultCosts"
+			],
+			[
+				"Neur",
+				"NeuralFlies"
+			],
+			[
+				"Fie",
+				"Fireflies"
+			],
+			[
+				"def",
+				"defaultCosts"
+			],
+			[
+				"fly",
+				"flyNeural"
+			],
+			[
+				"gradien",
+				"gradientDescent\t\tNumeric.AD"
+			],
+			[
+				"NuralSim",
+				"NeuralSim"
+			],
+			[
+				"minimzed",
+				"minimizedBrain"
+			],
+			[
+				"defa",
+				"default"
+			],
+			[
+				"myS",
+				"myStartState"
+			],
+			[
+				"cost",
+				"costs"
+			],
+			[
+				"updat",
+				"updateBrain"
+			],
+			[
+				"neural",
+				"neuralSyncer"
+			],
+			[
+				"modul",
+				"module"
+			],
+			[
+				"module",
+				"module"
+			],
+			[
+				"mod",
+				"module"
+			],
+			[
+				"literal",
+				"NegativeLiterals"
+			],
+			[
+				"Net",
+				"Network"
+			],
+			[
+				"gener",
+				"genericSplitAt"
+			],
+			[
+				"inint",
+				"initFlatNetwork"
+			],
+			[
+				"random",
+				"randomNeuralState"
+			],
+			[
+				"multi",
+				"MultiParamTypeClasses"
+			],
+			[
+				"neura",
+				"neuralStartState\t(Lib.hs)"
+			],
+			[
+				"num",
+				"numNeighbhors"
+			],
+			[
+				"mat",
+				"matrix"
+			],
+			[
+				"po",
+				"positions"
+			],
+			[
+				"per",
+				"period"
+			],
+			[
+				"currT",
+				"currTime"
+			],
+			[
+				"upd",
+				"updateWith"
+			],
+			[
+				"Rank",
+				"Rank2Types"
+			],
+			[
+				"subsy",
+				"_subSystem"
+			],
+			[
+				"defualtSt",
+				"defaultStartState"
+			],
+			[
+				"currentS",
+				"currentSyncer"
+			],
+			[
+				"Multi",
+				"MultiParamTypeClasses"
+			],
+			[
+				"Fly",
+				"FlySystem"
+			],
+			[
+				"curentS",
+				"currentSyncer"
+			],
+			[
+				"C",
+				"Cobal3"
+			],
+			[
+				"Fir",
+				"Firefly"
+			],
+			[
+				"pseu",
+				"pseudoRands"
+			],
+			[
+				"sig",
+				"signum"
+			],
+			[
+				"sign",
+				"signum\t\tPrelude"
+			],
+			[
+				"pseud",
+				"pseudoRand"
+			],
+			[
+				"newt",
+				"newtype\tNewtype"
+			],
+			[
+				"Fire",
+				"Fireflies"
+			],
+			[
+				"chunk",
+				"chunksOf\tInt -> [e] -> [[e]]\tData.List.Split"
+			],
+			[
+				"chun",
+				"chunksOf\tInt -> [e] -> [[e]]\tData.List.Split"
+			],
+			[
+				"windo",
+				"window\t(Eq a, Integral b) => ([a] -> c) -> b -> [a] -> [c]\tConvenience"
+			],
+			[
+				"closes",
+				"closestsByIndex"
+			],
+			[
+				"clo",
+				"closestIndices"
+			],
+			[
+				"feed",
+				"feedNeuron"
+			],
+			[
+				"sort",
+				"sortBy"
+			],
+			[
+				"simul",
+				"simulateN"
+			],
+			[
+				"newN",
+				"newNonLine"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Boids.hs",
+			"settings":
+			{
+				"buffer_size": 9292,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Brain.hs",
+			"settings":
+			{
+				"buffer_size": 3299,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "SizedL.hs",
+			"settings":
+			{
+				"buffer_size": 4169,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "FireFlies.hs",
+			"settings":
+			{
+				"buffer_size": 17565,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Convenience.hs",
+			"settings":
+			{
+				"buffer_size": 5973,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Minimizer.hs",
+			"settings":
+			{
+				"buffer_size": 2920,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Simulator.hs",
+			"settings":
+			{
+				"buffer_size": 847,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/mnt/DROP/Dropbox/anything goes/haskell/fireflies/app/Main.hs",
+			"settings":
+			{
+				"buffer_size": 860,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Test.hs",
+			"settings":
+			{
+				"buffer_size": 3648,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/mnt/DROP/Dropbox/anything goes/haskell/fireflies/stack.yaml",
+			"settings":
+			{
+				"buffer_size": 99,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "SizedV.hs",
+			"settings":
+			{
+				"buffer_size": 5221,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "SizedS.hs",
+			"settings":
+			{
+				"buffer_size": 3993,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/User/stack.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Haskell/Haskell.sublime-build",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/c++11.sublime-build",
+					""
+				],
+				[
+					"Packages/User/c++11.sublime-build",
+					"run"
+				],
+				[
+					"Packages/User/runcabal.sublime-build",
+					""
+				],
+				[
+					"Packages/User/stack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/vsc++.sublime-build",
+					""
+				],
+				[
+					"Packages/User/vsc++.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/stack.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Haskell/Haskell.sublime-build",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/c++11.sublime-build",
+					""
+				],
+				[
+					"Packages/User/c++11.sublime-build",
+					"run"
+				],
+				[
+					"Packages/User/runcabal.sublime-build",
+					""
+				],
+				[
+					"Packages/User/vsc++.sublime-build",
+					""
+				],
+				[
+					"Packages/User/vsc++.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/Haskell/Haskell.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/c++11.sublime-build",
+					""
+				],
+				[
+					"Packages/User/c++11.sublime-build",
+					"run"
+				],
+				[
+					"Packages/User/runcabal.sublime-build",
+					""
+				],
+				[
+					"Packages/User/vsc++.sublime-build",
+					""
+				],
+				[
+					"Packages/User/vsc++.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"ofbuild",
+					""
+				],
+				[
+					"ofbuild",
+					"run"
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				],
+				[
+					"Packages/C++11/C++11.sublime-build",
+					""
+				],
+				[
+					"Packages/C++11/C++11.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/c++11.sublime-build",
+					""
+				],
+				[
+					"Packages/User/c++11.sublime-build",
+					"run"
+				],
+				[
+					"Packages/User/vsc++.sublime-build",
+					""
+				],
+				[
+					"Packages/User/vsc++.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"ofbuild",
+				""
+			]
+		],
+		[
+			[
+				[
+					"ofbuild",
+					"run"
+				],
+				[
+					"Packages/User/c++11.sublime-build",
+					"run"
+				]
+			],
+			[
+				"ofbuild",
+				"run"
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 385.0,
+		"last_filter": "haskell",
+		"selected_items":
+		[
+			[
+				"haskell",
+				"SublimeREPL: Haskell"
+			],
+			[
+				"histor",
+				"Local History: Compare"
+			],
+			[
+				"run",
+				"Build With: Run"
+			],
+			[
+				"",
+				"ANF: Delete Current File"
+			],
+			[
+				"install",
+				"Build With: Install"
+			],
+			[
+				"instal",
+				"SublimeHaskell: Install"
+			],
+			[
+				"insert",
+				"SublimeHaskell: Insert type"
+			],
+			[
+				"sublimehaskell nex",
+				"SublimeHaskell: Go to next error"
+			],
+			[
+				"next",
+				"SublimeLinter: Next Error"
+			],
+			[
+				"syntax has",
+				"Set Syntax: Haskell"
+			],
+			[
+				"insall",
+				"Build With: Install"
+			],
+			[
+				"inset",
+				"SublimeHaskell: Insert type"
+			],
+			[
+				"auto",
+				"SublimeHaskell: Auto fix"
+			],
+			[
+				"error",
+				"SublimeHaskell: Go to previous error"
+			],
+			[
+				"sublimehaskell inst",
+				"SublimeHaskell: Insert type"
+			],
+			[
+				"prefere",
+				"Preferences: SublimeHaskell Settings – User"
+			],
+			[
+				":",
+				":w - Save"
+			],
+			[
+				"sublimehaskell sett",
+				"Preferences: SublimeHaskell Settings – User"
+			],
+			[
+				"ru",
+				"Build With: Run"
+			],
+			[
+				"inst",
+				"SublimeHaskell: Install"
+			],
+			[
+				"ins",
+				"SublimeHaskell: Install"
+			],
+			[
+				"toggle men",
+				"View: Toggle Menu"
+			],
+			[
+				"men",
+				"View: Toggle Menu"
+			],
+			[
+				"preferen",
+				"Preferences: Key Bindings - Default"
+			],
+			[
+				"keybin",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"user",
+				"Preferences: Settings - User"
+			],
+			[
+				"menu",
+				"View: Toggle Menu"
+			],
+			[
+				"run0",
+				"Build With: run0"
+			],
+			[
+				"insta",
+				"Build With: Install"
+			],
+			[
+				":w",
+				":w - Save"
+			],
+			[
+				"typech",
+				"SublimeHaskell: Typecheck build (no codegen)"
+			],
+			[
+				"typeche",
+				"SublimeHaskell: Typecheck build (no codegen)"
+			],
+			[
+				"b",
+				"Build With: Run"
+			],
+			[
+				"type",
+				"SublimeHaskell: Insert type"
+			],
+			[
+				"preferences",
+				"Preferences: SublimeHaskell Settings – User"
+			],
+			[
+				"check",
+				"SublimeHaskell: Check"
+			],
+			[
+				"preferenc",
+				"Preferences: SublimeHaskell Settings – User"
+			],
+			[
+				"chec",
+				"SublimeHaskell: Check"
+			],
+			[
+				"sublimehaskell",
+				"SublimeHaskell: Configure"
+			],
+			[
+				"sublimehakell",
+				"SublimeHaskell: Reinspect all"
+			],
+			[
+				"show",
+				"SublimeHaskell: Show type"
+			],
+			[
+				"type ch",
+				"SublimeHaskell: Typecheck build (no codegen)"
+			],
+			[
+				"reins",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"show ty",
+				"SublimeHaskell: Show type"
+			],
+			[
+				"stylis",
+				"SublimeHaskell: Stylish"
+			],
+			[
+				"sty",
+				"SublimeHaskell: Stylish"
+			],
+			[
+				"styli",
+				"SublimeHaskell: Stylish"
+			],
+			[
+				"styl",
+				"SublimeHaskell: Stylish"
+			],
+			[
+				"sublime haskell",
+				"SublimeHaskell: Stylish"
+			],
+			[
+				"brow",
+				"Preferences: Browse Packages"
+			],
+			[
+				"sublimehaske",
+				"SublimeHaskell: Show type"
+			],
+			[
+				"linter",
+				"SublimeLinter: Toggle Linter"
+			],
+			[
+				"pacin",
+				"Package Control: Install Package"
+			],
+			[
+				"che",
+				"SublimeHaskell: Check & Lint"
+			],
+			[
+				"sublimehask",
+				"SublimeHaskell: Check & Lint"
+			],
+			[
+				"nex",
+				"SublimeLinter: Next Error"
+			],
+			[
+				"syntax",
+				"Set Syntax: Haskell"
+			],
+			[
+				"synta",
+				"Set Syntax: Haskell"
+			],
+			[
+				"pacrem",
+				"Package Control: Remove Package"
+			],
+			[
+				"show t",
+				"SublimeHaskell: Show type"
+			],
+			[
+				"prefer",
+				"Preferences: SublimeHaskell Settings – User"
+			],
+			[
+				"symbo",
+				"SublimeHaskell: Show symbol info"
+			],
+			[
+				"info",
+				"SublimeHaskell: Show symbol info"
+			],
+			[
+				"haske",
+				"Set Syntax: Haskell"
+			],
+			[
+				"preference",
+				"Preferences: SublimeHaskell Settings – User"
+			],
+			[
+				"sublimehaskell user",
+				"Preferences: SublimeHaskell Settings – User"
+			],
+			[
+				"remove pac",
+				"Package Control: Remove Package"
+			],
+			[
+				"syntax cab",
+				"Set Syntax: Cabal"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"enable",
+				"Package Control: Enable Package"
+			],
+			[
+				"disabl",
+				"Package Control: Disable Package"
+			],
+			[
+				"dele",
+				"ANF: Delete Current File"
+			],
+			[
+				"select",
+				"BracketHighlighter: Select Bracket Content"
+			],
+			[
+				"colo",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"colorsu",
+				"Colorsublime: Browse Themes"
+			],
+			[
+				"pacin ",
+				"Package Control: Install Package"
+			],
+			[
+				"repl",
+				"SublimeREPL: Haskell"
+			],
+			[
+				"brows",
+				"Preferences: Browse Packages"
+			],
+			[
+				"build",
+				"Build With: Run"
+			],
+			[
+				"haskell ",
+				"SublimeREPL: Haskell"
+			],
+			[
+				"build with",
+				"Build With: run1"
+			],
+			[
+				"xik",
+				"Create Xiki Buffer"
+			],
+			[
+				"repl she",
+				"SublimeREPL: Shell"
+			],
+			[
+				"move",
+				"File: Move"
+			],
+			[
+				"rename",
+				"File: Rename"
+			],
+			[
+				"browse p",
+				"Preferences: Browse Packages"
+			],
+			[
+				"history",
+				"Local History: Browse"
+			],
+			[
+				"browse",
+				"Local History: Browse"
+			],
+			[
+				"prefere sublimehask",
+				"Preferences: SublimeHaskell Settings – User"
+			],
+			[
+				"repl ha",
+				"SublimeREPL: Haskell"
+			],
+			[
+				"type ",
+				"SublimeStackIDE: Show Type"
+			],
+			[
+				"infer",
+				"SublimeHaskell: Scan docs and infer types"
+			],
+			[
+				"packa up",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"removepa",
+				"Package Control: Remove Package"
+			],
+			[
+				"preferences sublimehask",
+				"Preferences: SublimeHaskell Settings – User"
+			],
+			[
+				"sublimehaskel lint",
+				"SublimeHaskell: Lint"
+			],
+			[
+				"hayoo",
+				"SublimeHaskell: Hayoo"
+			],
+			[
+				"sublimehaskel",
+				"SublimeHaskell: Toggle symbol info panel"
+			],
+			[
+				"docs",
+				"SublimeHaskell: Browse declarations"
+			],
+			[
+				"hsdocs",
+				"SublimeHaskell: Scan docs and infer types"
+			],
+			[
+				"prefere hask",
+				"Preferences: SublimeHaskell Settings – Default"
+			],
+			[
+				"preference hask",
+				"Preferences: SublimeHaskell Settings – User"
+			],
+			[
+				"stack",
+				"SublimeHaskell: Typecheck build (no codegen)"
+			],
+			[
+				"sublime",
+				"SublimeHaskell: Test"
+			],
+			[
+				"local",
+				"Local History: Compare"
+			],
+			[
+				"hayo",
+				"SublimeHaskell: Hayoo"
+			],
+			[
+				"haskel",
+				"SublimeREPL: Haskell"
+			],
+			[
+				"settings ",
+				"Preferences: SublimeHaskell Settings – Default"
+			],
+			[
+				"sublime auto",
+				"SublimeHaskell: Auto fix"
+			],
+			[
+				"prefereces sub",
+				"Preferences: SublimeHaskell Settings – Default"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"linter tog",
+				"SublimeLinter: Toggle Linter"
+			],
+			[
+				"linter e",
+				"SublimeLinter: Enable Linter"
+			],
+			[
+				"pac rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"synta has",
+				"Set Syntax: Haskell"
+			],
+			[
+				"prefe",
+				"Preferences: Settings - User"
+			],
+			[
+				"disable",
+				"Package Control: Disable Package"
+			],
+			[
+				"dis",
+				"Package Control: Disable Package"
+			],
+			[
+				"enabl",
+				"Package Control: Enable Package"
+			],
+			[
+				"disa",
+				"Package Control: Disable Package"
+			],
+			[
+				"ena",
+				"Package Control: Enable Package"
+			],
+			[
+				"remove p",
+				"Package Control: Remove Package"
+			],
+			[
+				"dias",
+				"Package Control: Disable Package"
+			],
+			[
+				"mark",
+				"Markdown HTML Preview"
+			],
+			[
+				"enable pa",
+				"Package Control: Enable Package"
+			],
+			[
+				"disab",
+				"Package Control: Disable Package"
+			],
+			[
+				"diasa",
+				"Package Control: Disable Package"
+			]
+		],
+		"width": 644.0
+	},
+	"console":
+	{
+		"height": 301.0,
+		"history":
+		[
+			"sublime.run_command(\"toggle_menu\")",
+			"git commit --ammend --reset-author"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": false,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": true,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies"
+	],
+	"file_history":
+	[
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/fireflies.cabal",
+		"/home/iggybibi/Dropbox/jad/china.txt",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/stack.yaml",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/src/Boids.hs",
+		"/home/iggybibi/.config/sublime-text-3/Packages/User/SublimeHaskell.sublime-settings",
+		"/home/iggybibi/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
+		"/home/iggybibi/.config/sublime-text-3/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/iggybibi/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/fireflies-exe.prof",
+		"/mnt/DROP/Recovery.txt",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/src/FireFlies.hs",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/src/Minimizer.hs",
+		"/home/iggybibi/.cache/.fr-8Ed0xX/linter.py",
+		"/home/iggybibi/.config/sublime-text-3/.sublime/Local History/home/iggybibi/.config/sublime-text-3/Backup/20160524233220/SublimeLiner-ghc/linter-20160709221834.py",
+		"/home/iggybibi/.config/sublime-text-3/Backup/20160524233220/SublimeLiner-ghc/linter.py",
+		"/home/iggybibi/.config/sublime-text-3/Packages/User/SublimeLinter.sublime-settings",
+		"/home/iggybibi/.stack/global-project/stack.yaml",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/src/Sequence.hs",
+		"/mnt/DROP/Dropbox/anything goes/haskell/Thang.hs",
+		"/home/iggybibi/.config/sublime-text-3/Packages/User/SublimeREPL.sublime-settings",
+		"/home/iggybibi/.config/sublime-text-3/Packages/SublimeREPL/SublimeREPL.sublime-settings",
+		"/home/iggybibi/.config/sublime-text-3/Packages/SublimeREPL/repls/sublimehaskell_repl.py",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/src/Brain.hs",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/src/fireflies.sublime-project",
+		"/home/iggybibi/.config/sublime-text-3/Packages/User/stack.sublime-build",
+		"/home/iggybibi/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/.stack-work/install/x86_64-linux/lts-6.2/7.10.3/bin/fireflies-exe.prof",
+		"/home/iggybibi/.config/sublime-text-3/Packages/User/vsc++.sublime-build",
+		"/home/iggybibi/Desktop/Minimizer.hs",
+		"/home/iggybibi/Desktop/Minimizer (1).hs",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/src/Convenience.hs",
+		"/mnt/DROP/Dropbox/cmps/12/lab6/passes.txt",
+		"/mnt/DROP/Dropbox/cmps/12/lab6/passes2.txt",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/src/Simulator.hs",
+		"/home/iggybibi/.config/sublime-text-3/Packages/SublimeHaskell/Settings/SublimeHaskell.sublime-settings",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/.stack-work/install/x86_64-linux/lts-5.17/7.10.3/bin/fireflies-exe.prof",
+		"/home/iggybibi/.sublime/history/mnt/DROP/Dropbox/anything goes/haskell/fireflies/src/2016-05-28_21.08.24.Lib.hs",
+		"/mnt/DROP/Dropbox/anything goes/haskell/fireflies/.stack-work/install/x86_64-linux/lts-5.17/7.10.3/bin/fireflies-exe",
+		"/mnt/DROP/Dropbox/anything goes/haskell/Testify.hs",
+		"/home/iggybibi/.config/sublime-text-3/Packages/SublimeLiner-ghc/linter.py",
+		"/home/iggybibi/.cache/.fr-38Crsl/linter.py",
+		"/home/iggybibi/.config/sublime-text-3/Packages/SublimeLinter-contrib-clang/linter.py",
+		"/home/iggybibi/.config/sublime-text-3/Packages/User/SublimeLinter/cobalt3 (SL).tmTheme",
+		"/home/iggybibi/.config/sublime-text-3/Packages/Theme - Cobalt3/cobalt3.tmTheme",
+		"/home/iggybibi/.config/sublime-text-3/Packages/Theme - Cobalt3/Cobalt3.sublime-theme",
+		"/home/iggybibi/Documents/fireflies/.stack-work/install/x86_64-linux/lts-4.2/7.10.3/bin/fireflies-exe.prof",
+		"/home/iggybibi/Documents/fireflies/fireflies.cabal",
+		"/home/iggybibi/Documents/fireflies/stack.yaml",
+		"/home/iggybibi/Documents/fireflies/app/Main.hs",
+		"/home/iggybibi/.config/sublime-text-3/Packages/SublimeStackIDE/Keymaps/Default (Linux).sublime-keymap",
+		"/home/iggybibi/.config/sublime-text-3/Packages/SublimeStackIDE/SublimeStackIDE.sublime-settings",
+		"/home/iggybibi/.config/sublime-text-3/Packages/SublimeREPL/config/Haskell/Main.sublime-menu",
+		"/home/iggybibi/Documents/fireflies/app/Convenience.hs",
+		"/mnt/DROP/Dropbox/ahmed code/todo.txt",
+		"/home/iggybibi/Documents/fireflies/ap",
+		"/mnt/DROP/Dropbox/anything goes/octave/neuralsync/durmation.m",
+		"/mnt/DROP/Dropbox/anything goes/octave/neuralsync/sigmoid.m",
+		"/home/iggybibi/.ssh/id_rsa.pub",
+		"/mnt/DROP/Dropbox/anything goes/octave/neuralsync/averagation.matlab",
+		"/mnt/DROP/Dropbox/anything goes/octave/neuralsync/kNearestNeighbors.matlab",
+		"/mnt/DROP/Dropbox/anything goes/haskell/glossThings/fireflies/fireflies.cabal",
+		"/mnt/DROP/Dropbox/anything goes/haskell/glossThings/fireflies/stack.yaml",
+		"/home/iggybibi/Documents/of_v0.8.4_linux64_release/libs/openFrameworksCompiled/project/makefileCommon/compile.project.mk",
+		"/mnt/DROP/Downloads/GLSLnoisetest4.frag",
+		"/mnt/DROP/Downloads/CornCobScrew.stl",
+		"/home/iggybibi/Documents/of_v0.8.4_linux64_release/apps/myApps/ProjectSplace/test.cpp",
+		"/usr/include/stdint.h",
+		"/home/iggybibi/Documents/of_v0.8.4_linux64_release/apps/myApps/ProjectSplace/test.hpp",
+		"/home/iggybibi/Documents/fbstalker2.0/snoopy-ng/plugins/infoer.py",
+		"/mnt/DROP/Downloads/test.cpp",
+		"/mnt/DROP/Downloads/FastRand.h",
+		"/home/iggybibi/Documents/of_v0.8.4_linux64_release/apps/myApps/ProjectSplace/ProjectSplace.sublime-workspace",
+		"/home/iggybibi/Documents/of_v0.8.4_linux64_release/apps/myApps/ProjectSplace/ProjectSplace.sublime-project",
+		"/home/iggybibi/Documents/of_v0.8.4_linux64_release/libs/openFrameworksCompiled/project/makefileCommon/config.project.mk",
+		"/home/iggybibi/.vimrc",
+		"/home/iggybibi/.vimrx",
+		"/home/iggybibi/Documents/of_v0.8.4_linux64_release/apps/myApps/freethemalloc/src/Disp.cpp",
+		"/home/iggybibi/Documents/of_v0.8.4_linux64_release/apps/myApps/freethemalloc/freethemalloc.sublime-project",
+		"/home/iggybibi/Downloads/poptart/decryptversion.txt",
+		"/home/iggybibi/Downloads/poptart/updates/yes.txt",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Attractor.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Orbiter.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/bin/data/test.txt",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Planet.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/testApp.cpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/screen2.sublime-workspace",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/bin/data/levels/meta.txt",
+		"/home/iggybibi/.cache/.fr-I4htq6/antlr3.2_cpp_parser4.1.0/Grammar.txt",
+		"/media/ssd/Dropbox/ReadablePlusPlus/.gitignore",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Neutrons.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Neutron.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Disp.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Neutron.cpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Neutrons.cpp",
+		"/media/ssd/Dropbox/ahmed code/todo.txt",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Menu.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Planets.hpp",
+		"/usr/include/c++/4.6/streambuf",
+		"/usr/include/c++/4.6/sstream",
+		"/usr/include/c++/4.6/bits/basic_ios.h",
+		"/usr/include/c++/4.6/bits/ios_base.h",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Cage.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Pulsator.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Combine.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Button.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Planet.cpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Menu.cpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/PlanetInclude.hpp",
+		"/home/iggybibi/go/src/github.com/limetext/lime/backend/editor.go",
+		"/media/ssd/Dropbox/rpp/ReadablePlusPlus/README.md",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/stuff.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/bin/data/levels/test.txt",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/Disp.cpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src/OGLdpf.log",
+		"/usr/include/X11/Xlib.h",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/Screen.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/Menu.hpp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/freethemalloc.sublime-project",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/projectGenerator/projectGeneratorSimple/run",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/freethemalloc.cbp",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/config.make",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/addons.make",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/Makefile",
+		"/home/iggybibi/Downloads/LightTable/LightTable",
+		"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/projectGenerator/projectGeneratorSimple/run.sh",
+		"/media/ssd/Dropbox/CMPS253Broject/manyak.txt",
+		"/media/ssd/Dropbox/CMPS277Project/readme.txt",
+		"/home/iggybibi/.config/sublime-text-3/Packages/SublimeLinter/SublimeLinter.sublime-settings"
+	],
+	"find":
+	{
+		"height": 24.0
+	},
+	"find_in_files":
+	{
+		"height": 95.0,
+		"where_history":
+		[
+			"",
+			"/home/iggybibi/Documents/of_v0.8.4_linux64_release/apps/myApps/freethemalloc/src",
+			"/home/iggybibi/Documents/of_v0.8.0_linux64_release/apps/myApps/freethemalloc/src"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"1",
+			"feed1",
+			"NumWeightsOut",
+			"randWeights",
+			"complexerTrained",
+			"randWeights",
+			"complexTrained",
+			"goal",
+			"(randWeights 324)",
+			"singleTrained",
+			"Test",
+			"test",
+			"simpleTrained",
+			"complexTrained",
+			"singleTrained",
+			"goodWeights",
+			"bigBrain",
+			"goal",
+			"Double",
+			"tiz",
+			"complexTrained",
+			"(randWeights 123)",
+			"complexTrained",
+			"(randWeights 23423)",
+			"simpleTrained",
+			"simpleBrain",
+			"(randWeights 3423)",
+			"singleTrained",
+			"(randWeights 3242)",
+			"singleTrained",
+			"(4,7)",
+			"(4, 7)",
+			"(randWeights 2323)",
+			"singleTrained",
+			"(randWeights 234234)",
+			"boidsNeuralInstance",
+			"timepf",
+			"(randWeights 3432)",
+			"singleTrained",
+			"singleBrain",
+			"(randWeights 2343)",
+			"singleTrained",
+			"(randWeights 1234)",
+			"singleTrained",
+			"(randWeights 1234)",
+			"3",
+			"outs",
+			"outs1",
+			"updater",
+			"size",
+			"numBumps",
+			"goal",
+			"moves",
+			"seed",
+			"Seed",
+			"seed",
+			"Seed",
+			"seed",
+			"Seed",
+			"seed",
+			"Seed",
+			"seed",
+			"n",
+			"flies",
+			"firefliesSimulatorInstance",
+			"boids",
+			"boidsSimulatorInstance",
+			"ctrl+shift+c",
+			"ctrl+c",
+			"stupidTrained",
+			"stupidBrain",
+			"Storable",
+			"reflectDim",
+			"arity",
+			"SizedS",
+			"SizedV",
+			"simCost",
+			"randWeights",
+			"trained",
+			"stupidTrained",
+			"stupidBrain",
+			"Vector",
+			"str",
+			"Matrix",
+			"String",
+			"(randWeights 1234)",
+			"trained",
+			"brain",
+			"SizedL",
+			"randWeights",
+			"/>",
+			"1",
+			"toSeq",
+			"toList",
+			"toVec",
+			"take",
+			"numNeighbhors",
+			"n",
+			"W",
+			"w",
+			"b",
+			"B",
+			"b",
+			"B",
+			"b",
+			"B",
+			"import",
+			"::",
+			"BrainDisabler",
+			"&",
+			"randWeights",
+			"startBrain",
+			"SizedS",
+			"SizedL",
+			"SizedV",
+			"SizedL",
+			"SizedS",
+			"sequence",
+			"SizedL",
+			"cont",
+			"sconcat",
+			"sconcatMap",
+			"sizedMap",
+			"toList",
+			"SizedV",
+			"V.",
+			"v",
+			"V"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"",
+			"pointify(std::stringstream ss)",
+			"Disp",
+			"kind"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Boids.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9292,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1816,
+								1816
+							]
+						],
+						"settings":
+						{
+							"_anf_new": "",
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"history_list_is_closing": true,
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 192.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Brain.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3299,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2029,
+								2029
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"history_list_is_closing": true,
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 496.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "SizedL.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4169,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2637,
+								2637
+							]
+						],
+						"settings":
+						{
+							"_anf_new": "",
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										1043,
+										1044
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										1031,
+										1032
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 974.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "FireFlies.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17565,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1351,
+								1351
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										1350,
+										1351
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										1329,
+										1330
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"history_list_is_closing": true,
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 430.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 4,
+					"file": "Convenience.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5973,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4873,
+								4873
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content"
+							],
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"history_list_is_closing": true,
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2208.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Minimizer.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2920,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1973,
+								1973
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content"
+							],
+							"history_list_is_closing": true,
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 160.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 6,
+					"file": "Simulator.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 847,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								512,
+								512
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										619,
+										620
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										389,
+										390
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"history_list_is_closing": true,
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 48.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/mnt/DROP/Dropbox/anything goes/haskell/fireflies/app/Main.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 860,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								574,
+								574
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/cobalt3 (SL).tmTheme",
+							"history_list_is_closing": true,
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 144.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 8,
+					"file": "Test.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3648,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								659,
+								659
+							]
+						],
+						"settings":
+						{
+							"_anf_new": "",
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"history_list_is_closing": true,
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/mnt/DROP/Dropbox/anything goes/haskell/fireflies/stack.yaml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 99,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								99,
+								99
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"syntax": "Packages/YAML/YAML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "SizedV.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5221,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								319,
+								319
+							]
+						],
+						"settings":
+						{
+							"_anf_new": "",
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										345,
+										346
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/curly_bracket.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										308,
+										309
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content"
+							],
+							"history_list_is_closing": true,
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "SizedL.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4169,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1044,
+								1044
+							]
+						],
+						"settings":
+						{
+							"_anf_new": "",
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										1043,
+										1044
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										1031,
+										1032
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 448.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "SizedS.hs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3993,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								683,
+								683
+							]
+						],
+						"settings":
+						{
+							"_anf_new": "",
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content"
+							],
+							"syntax": "Packages/SublimeHaskell/Syntaxes/Haskell-SublimeHaskell.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 34.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				1,
+				0,
+				2,
+				1
+			],
+			[
+				2,
+				0,
+				3,
+				2
+			],
+			[
+				1,
+				1,
+				2,
+				2
+			],
+			[
+				0,
+				0,
+				1,
+				2
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.31927227127,
+			0.653562391692,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			0.622712835402,
+			1.0
+		]
+	},
+	"menu_visible": false,
+	"output.exec":
+	{
+		"height": 390.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 120.0
+	},
+	"output.haskell_error_checker":
+	{
+		"height": 180.0
+	},
+	"output.haskell_error_panel":
+	{
+		"height": 272.0
+	},
+	"output.haskell_sublime_load":
+	{
+		"height": 114.0
+	},
+	"output.hide_errors":
+	{
+		"height": 222.0
+	},
+	"output.sublime_haskell_auto_fix":
+	{
+		"height": 114.0
+	},
+	"output.sublime_haskell_build_log":
+	{
+		"height": 114.0
+	},
+	"output.sublime_haskell_build_log_panel":
+	{
+		"height": 114.0
+	},
+	"output.sublime_haskell_error_panel":
+	{
+		"height": 114.0
+	},
+	"output.sublime_haskell_output_panel":
+	{
+		"height": 281.0
+	},
+	"output.sublime_haskell_show_type":
+	{
+		"height": 114.0
+	},
+	"output.sublime_haskell_symbol_info":
+	{
+		"height": 114.0
+	},
+	"pinned_build_system": "",
+	"project": "fireflies.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"cabal",
+				"fireflies.cabal"
+			],
+			[
+				"sat",
+				"stack.yaml"
+			],
+			[
+				"caba",
+				"fireflies.cabal"
+			],
+			[
+				"stac",
+				"stack.yaml"
+			],
+			[
+				"stack.",
+				"stack.yaml"
+			],
+			[
+				"sta",
+				"stack.yaml"
+			],
+			[
+				"prof",
+				"fireflies-exe.prof"
+			],
+			[
+				"",
+				"fireflies-exe.prof"
+			],
+			[
+				"fireflies",
+				"src/FireFlies.hs"
+			],
+			[
+				"mini",
+				"src/Minimizer.hs"
+			],
+			[
+				"stack",
+				"stack.yaml"
+			],
+			[
+				"minimi",
+				"src/Minimizer.hs"
+			],
+			[
+				".prof",
+				"fireflies-exe.prof"
+			],
+			[
+				"cab",
+				"fireflies.cabal"
+			],
+			[
+				".pro",
+				"fireflies-exe.prof"
+			],
+			[
+				"fire",
+				"fireflies-exe.prof"
+			],
+			[
+				"ca",
+				"fireflies.cabal"
+			],
+			[
+				"cabl",
+				"fireflies.cabal"
+			],
+			[
+				"brain",
+				"src/Brain.hs"
+			],
+			[
+				"proje",
+				"src/fireflies.sublime-project"
+			],
+			[
+				"sublime",
+				"src/fireflies.sublime-project"
+			],
+			[
+				".hs",
+				"src/Convenience.hs"
+			],
+			[
+				"bra",
+				"src/Brain.hs"
+			],
+			[
+				"sim",
+				"src/Simulator.hs"
+			],
+			[
+				"fir",
+				"fireflies.cabal"
+			],
+			[
+				"li",
+				"src/Lib.hs"
+			],
+			[
+				"con",
+				"app/Convenience.hs"
+			],
+			[
+				"main",
+				"app/Main.hs"
+			],
+			[
+				"conv",
+				"app/Convenience.hs"
+			],
+			[
+				"triangl",
+				"trianglesInCircles.hs"
+			],
+			[
+				"fmin",
+				"ex5/fmincg.m"
+			],
+			[
+				"train",
+				"ex5/trainLinearReg.m"
+			],
+			[
+				".cabal",
+				"fireflies.cabal"
+			],
+			[
+				"worl",
+				"src/world.hpp"
+			],
+			[
+				"plane",
+				"src/Planet.hpp"
+			],
+			[
+				"dis",
+				"src/Disp.hpp"
+			],
+			[
+				"di",
+				"src/Disp.cpp"
+			],
+			[
+				"tes",
+				"src/testApp.cpp"
+			],
+			[
+				"neutr",
+				"src/Neutron.hpp"
+			],
+			[
+				"neutro",
+				"src/Neutron.cpp"
+			],
+			[
+				"neut",
+				"src/Neutrons.hpp"
+			],
+			[
+				"menu",
+				"src/Menu.hpp"
+			],
+			[
+				"te",
+				"bin/data/test.txt"
+			],
+			[
+				"test",
+				"bin/data/test.txt"
+			],
+			[
+				"pr",
+				"freethemalloc.sublime-project"
+			],
+			[
+				"butt",
+				"src/Button.hpp"
+			],
+			[
+				"buttons",
+				"src/Buttons.cpp"
+			],
+			[
+				"but",
+				"src/Button.cpp"
+			],
+			[
+				"plan",
+				"src/Planets.hpp"
+			],
+			[
+				"pla",
+				"src/Planets.hpp"
+			],
+			[
+				".cpp",
+				"src/main.cpp"
+			],
+			[
+				"neu",
+				"src/Neutron.hpp"
+			],
+			[
+				"neutrons",
+				"src/Neutrons.cpp"
+			],
+			[
+				"com",
+				"src/Combinations.cpp"
+			],
+			[
+				"ne",
+				"src/Neutrons.hpp"
+			],
+			[
+				"thin",
+				"src/thing.hpp"
+			],
+			[
+				"combin",
+				"src/Combinations.cpp"
+			],
+			[
+				"s",
+				"src/stuff.cpp"
+			],
+			[
+				"pul",
+				"src/Pulsator.cpp"
+			],
+			[
+				"at",
+				"src/Attractor.cpp"
+			],
+			[
+				"stuff",
+				"src/stuff.hpp"
+			],
+			[
+				"a",
+				"src/Attractor.cpp"
+			],
+			[
+				"stu",
+				"src/stuff.hpp"
+			],
+			[
+				"cpp",
+				"src/stuff.cpp"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 557.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Documents/of_v0.8.4_linux64_release/apps/myApps/freethemalloc/freethemalloc.sublime-project"
+			],
+			[
+				"free",
+				"~/Documents/of_v0.8.4_linux64_release/apps/myApps/freethemalloc/freethemalloc.sublime-project"
+			]
+		],
+		"width": 423.0
+	},
+	"select_symbol":
+	{
+		"height": 375.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"Combinations"
+			]
+		],
+		"width": 378.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 266.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

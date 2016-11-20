@@ -1,0 +1,52 @@
+{
+	"build_systems":
+	[
+		{
+			"cmd":
+			[
+				"stack",
+				"install"
+			],
+			"name": "Install"
+		},
+		{
+			"cmd":
+			[
+				"stack-run",
+				"fireflies-exe",
+				"0"
+			],
+			"name": "run0"
+		},
+		{
+			"cmd":
+			[
+				"stack-run",
+				"fireflies-exe",
+				"1"
+			],
+			"name": "Run"
+		},
+		{
+			"cmd":
+			[
+				"stack-run",
+				"fireflies-exe",
+				"2"
+			],
+			"name": "run2"
+		},
+		{
+			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+			"name": "Anaconda Python Builder",
+			"selector": "source.python",
+			"shell_cmd": "\"python\" -u \"$file\""
+		}
+	],
+	"folders":
+	[
+		{
+			"path": "/mnt/DROP/Dropbox/anything goes/haskell/fireflies"
+		}
+	]
+}
