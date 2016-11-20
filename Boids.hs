@@ -23,7 +23,7 @@ import           GHC.TypeLits
 import           Minimizer
 import           Numeric.FastMath()
 import           Simulator
-import           Data.KdMap.Static
+import           Data.KdMap.Static hiding (size)
 
 type Updater (n::Nat) a = Vec a -> Sized n (Vec a,Vec a) -> Vec a
 
@@ -53,13 +53,13 @@ boidsSimulatorInstance = Simulator simRender simStep simCost mainState
         simStep :: Boids 4 a b -> Boids 4 a b
         simStep (Boids moves goal@(loc,angle) numBumps size updater) =
             Boids newMoves (loc,angle+0.1) newNumBumps size updater
-            where (newMoves, newNumBumps) = moves &> update & unzip & second (sum &. (+numBumps))
-                  update (pos,vel) = ((pos+vel,updater (computeGoal goal) nClosest), numCollisions)
-                    where
-                        numCollisions = nClosest & toList
-                                                 & filter (\(himP,_) -> dist pos himP < boidSize)
-                                                 & genericLength
-                        nClosest = moves & qsortOn (fst &. distsq pos) & fromList
+          where
+            (newMoves, newNumBumps) = moves &> update & unzip & second (sum &. (+numBumps))
+            kdm = buildWithDist vecToList distsq moves
+            update (pos,vel) = ((pos+vel,updater (computeGoal goal) nClosest), numCollisions)
+              where
+                numCollisions = (inRadius kdm boidSize pos & genericLength) - 1
+                nClosest = kNearest kdm 4 pos & fromList
 
         simCost boids = closenessCost + 0.1*boids^.numBumps
           where closenessCost = boids^.moves &> fst
@@ -67,7 +67,7 @@ boidsSimulatorInstance = Simulator simRender simStep simCost mainState
                                              & sum
                                              & (/ fromIntegral (boids^.size))
 
-        mainState = randBoids (20,30) 133435 (neuralUpdater complexerBrain complexerTrained) False
+        mainState = randBoids (300,300) 133435 (neuralUpdater complexerBrain complexerTrained) False
 
 computeGoal :: Floating a => (Vec a, a) -> Vec a
 computeGoal (loc, angle) = rotateVec (fromScalar 100) angle + loc
