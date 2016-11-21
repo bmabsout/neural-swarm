@@ -119,7 +119,7 @@ ring (a,b) n
 
 
 pseudoRand :: RealFloat a => (a,a) -> a -> a
-pseudoRand (a,b) seed = ring (a,b) ((sin (seed * ring (20,30) seed) + 1) * (newB-newA) /2 + newA)
+pseudoRand (a,b) seed = ring (a,b) ((sin (seed * ring (200,230) seed) + 1) * (newB-newA) /2 + newA)
     where newA = (a+b)/2 + (a - (a+b)/2)*10
           newB = (a+b)/2 + (b - (a+b)/2)*10
 

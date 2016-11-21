@@ -38,11 +38,11 @@ networkMinimizer :: (RealFloat b, Integral c) =>
 networkMinimizer optimizer (NeuralSim simulator startWeights randTrainingState) =
   (paths,minimizedWeights, zip (defaultCosts startWeights) (defaultCosts minimizedWeights))
     where
-        generalSeed = 2303453450
+        generalSeed = 2345350
         optiters = 100
-        simIterRange = (300,700)
-        numSystemsPerMinimization = 1
-        numMinimizations = 10
+        simIterRange = (500,1000)
+        numSystemsPerMinimization = 2
+        numMinimizations = 1
         defaultCosts weights = [100,200..1000] &> costOfRun (randTrainingState generalSeed weights)
         costOfRun state iters = simulateN simulator (iters::Int) state & fst
         randIter seed = pseudoRand simIterRange seed & floor
