@@ -1,6 +1,7 @@
 {-# LANGUAGE KindSignatures,DataKinds,TypeOperators,ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE NegativeLiterals #-}
+{-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE PartialTypeSignatures #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
@@ -34,16 +35,33 @@ infixr 5 \>
 (\>) (Brain feed1) (Brain feed2) =
     splitSized &. (\(s1,s2) -> feed1 s1 &. feed2 s2) & Brain
 
-infixr 5 #>
-(#>) :: _ => (b1 t ins1 outs1 w1, Weights (w1+w2) t)
+infixl 5 #>
+(#>) :: _ => (Brain t ins1 outs1 w1, Weights (w2+n) t, Weights w1 t, Weights w1 t -> Weights y t)
              -> b2 t outs1 outs2 w2
-             -> (Brain t ins1 outs2 (NumWeightsOut b1 w1 + NumWeightsOut b2 w2), Weights (NumWeightsOut b1 w1 + NumWeightsOut b2 w2) t,
-                 Weights (NumWeightsOut b1 w1 + NumWeightsOut b2 w2) t -> Weights (w1+w2) t)
-(#>) (brain1,win) brain2 = (bout1 \> bout2, joinSized wout1 wout2, undefined)
-    where
-      (win1,win2) = splitSized win
-      (bout1,wout1) = disabler brain1 win1
-      (bout2,wout2) = disabler brain2 win2
+             -> (Brain t ins1 outs2 (w1 + NumWeightsOut b2 w2),
+                 Weights n t,
+                 Weights (w1 + NumWeightsOut b2 w2) t,
+                 Weights (w1 + NumWeightsOut b2 w2) t -> Weights (y+w2) t)
+(#>) (accumBrain, win, wbefores, recreator) tempBrain = (accumBrain \> brain, rest, joinSized wbefores wafters, recreator2)
+  where
+    recreator2 weights = joinSized (recreator w1) (realSecondWeights tempBrain w2 wbrain)
+      where (w1,w2) = splitSized weights
+
+    (wbrain,rest) = splitSized win
+    (brain,wafters) = disabler tempBrain wbrain
+
+initBrain ws brain = (brain ,w2, w1, id)
+  where (w1,w2) = splitSized ws
+
+buildBrain :: _ => (_, Weights 0 _, _, _) -> (_,_,_)
+buildBrain (brain,_, uneatenWeights, weightRebuilder) = (brain, uneatenWeights, weightRebuilder)
+
+kh :: _ => Weights 47 _
+kh = fromList [1..]
+
+test = buildBrain ((initBrain kh (biased @4 @2) #> (Disable $ biased @3))
+                                    #> (biased @5))
+
 
 infixr 6 ><
 (><) :: _ => B out1 in1 t w1 -> B out2 in2 t w2 -> B (out1+out2) (in1+in2) t (w1+w2)
@@ -73,23 +91,26 @@ biased = Brain (\weights inputs -> (unBrain stronglyConnected) weights (cons 1 i
 randWeights :: (K n,RealFloat a) => a -> Weights n a
 randWeights = randomS (-1,1)
 
-
 newtype Disable t ins outs w = Disable (Brain t ins outs w)
 
 type family NumWeightsOut a (w::Nat) where
   NumWeightsOut Brain w = w
   NumWeightsOut Disable w = 0
 
-type family NegNumWeightsOut a (w::Nat) where
-  NegNumWeightsOut Brain w = 0
-  NegNumWeightsOut Disable w = w
+type family IfEnabled brain a b where
+  IfEnabled Brain a _b = a
+  IfEnabled Disable _a b = b
 
 class BrainDisabler a where
   disabler :: (KnownNat w) => a t ins outs w -> Weights w t ->
                                (Brain t ins outs (NumWeightsOut a w), Weights (NumWeightsOut a w) t)
+  realSecondWeights :: (KnownNat w) => a t ins outs w -> Weights (NumWeightsOut a w) t ->
+                                        Weights w t -> Weights w t
 
 instance BrainDisabler Brain where
   disabler b w = (b, w)
+  realSecondWeights b w _ = w
 
 instance BrainDisabler Disable where
   disabler (Disable (Brain feed)) weights = (Brain (\_ -> feed weights), empty)
+  realSecondWeights b _ w = w

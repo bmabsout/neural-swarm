@@ -125,7 +125,6 @@ closestIs n l = l &> sortDist withIs
                            & tail & genericTake n &> fst
 
 
-
 timeDist :: (Ord a, Num a) => a -> a -> a -> a
 timeDist n t1 t2 = min absDiff (n - absDiff)
   where absDiff = abs (t1 - t2)
