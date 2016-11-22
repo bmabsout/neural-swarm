@@ -50,17 +50,11 @@ infixl 5 #>
     (wbrain,rest) = splitSized win
     (brain,wafters) = disabler tempBrain wbrain
 
-initBrain ws brain = (brain ,w2, w1, id)
-  where (w1,w2) = splitSized ws
+initBrain :: Weights w t -> (Brain t ins ins 0, Weights w t, Weights 0 t, Weights 0 t -> Weights 0 t)
+initBrain ws = (Brain (\_ inp -> inp), ws, empty, id)
 
 buildBrain :: _ => (_, Weights 0 _, _, _) -> (_,_,_)
 buildBrain (brain,_, uneatenWeights, weightRebuilder) = (brain, uneatenWeights, weightRebuilder)
-
-kh :: _ => Weights 47 _
-kh = fromList [1..]
-
-test = buildBrain ((initBrain kh (biased @4 @2) #> (Disable $ biased @3))
-                                    #> (biased @5))
 
 
 infixr 6 ><
