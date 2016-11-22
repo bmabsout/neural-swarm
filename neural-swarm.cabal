@@ -1,8 +1,8 @@
-name:                fireflies
+name:                neural-swarm
 version:             0.2.0.0
 synopsis:            Initial project template from stack
 description:         Please see README.md
-homepage:            http://github.com/githubuser/fireflies#readme
+homepage:            http://github.com/githubuser/neural-swarm#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Bassel Mabsout
@@ -40,23 +40,23 @@ library
                      , hsdev
   default-language:    Haskell2010
 
-executable fireflies-exe
+executable neural-swarm-exe
   hs-source-dirs:      app
   main-is:             Main.hs
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base,
-                       fireflies
+                       neural-swarm
   default-language:    Haskell2010
 
-test-suite fireflies-test
+test-suite neural-swarm-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
   build-depends:       base
-                     , fireflies
+                     , neural-swarm
   ghc-options:         -O2 -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/fireflies
+  location: https://github.com/githubuser/neural-swarm
