@@ -30,6 +30,8 @@ type Weights w t = S w t
 type Inputs w t = S w t
 type Outputs w t = S w t
 
+type BrainBox t ins outs w n = (Brain t ins outs w, Weights w t, Weights w t -> Weights n t)
+
 infixr 5 \>
 (\>) :: _ => B b a t w1 -> B c b t w2 -> B c a t (w1+w2)
 (\>) (Brain feed1) (Brain feed2) =
@@ -42,7 +44,8 @@ infixl 5 #>
                  Weights n t,
                  Weights (w1 + NumWeightsOut b2 w2) t,
                  Weights (w1 + NumWeightsOut b2 w2) t -> Weights (y+w2) t)
-(#>) (accumBrain, win, wbefores, recreator) tempBrain = (accumBrain \> brain, rest, joinSized wbefores wafters, recreator2)
+(#>) (accumBrain, win, wbefores, recreator) tempBrain =
+    (accumBrain \> brain, rest, joinSized wbefores wafters, recreator2)
   where
     recreator2 weights = joinSized (recreator w1) (realSecondWeights tempBrain w2 wbrain)
       where (w1,w2) = splitSized weights
@@ -53,9 +56,11 @@ infixl 5 #>
 initBrain :: Weights w t -> (Brain t ins ins 0, Weights w t, Weights 0 t, Weights 0 t -> Weights 0 t)
 initBrain ws = (Brain (\_ inp -> inp), ws, empty, id)
 
-buildBrain :: _ => (_, Weights 0 _, _, _) -> (_,_,_)
+buildBrain :: _ => (Brain t ins outs w, Weights 0 t, Weights w t, Weights w t -> Weights n t) ->
+                    BrainBox t ins outs w n
 buildBrain (brain,_, uneatenWeights, weightRebuilder) = (brain, uneatenWeights, weightRebuilder)
 
+applyBeforeBox (brain,weights,_) f = f brain weights
 
 infixr 6 ><
 (><) :: _ => B out1 in1 t w1 -> B out2 in2 t w2 -> B (out1+out2) (in1+in2) t (w1+w2)

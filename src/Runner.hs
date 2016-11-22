@@ -4,8 +4,6 @@
 module Runner(runner) where
 
 import FireFlies
-import Test
-import Boids
 import Simulator
 import Minimizer
 
@@ -14,7 +12,7 @@ import Graphics.Gloss
 currentInstance :: Simulator (Flies _ Int) Float
 currentInstance = fliesSimulatorInstance
 
-neuralInstance :: NeuralSim (Flies _ Int) Double _
+neuralInstance :: NeuralSim (Flies _ Int) Double _ _
 neuralInstance = fliesNeuralSimInstance
 
 stage :: Display

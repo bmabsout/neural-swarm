@@ -69,7 +69,7 @@ boidsSimulatorInstance = Simulator simRender simStep simCost mainState
                                              & sum
                                              & (/ fromIntegral (boids^.size))
 
-        mainState = randBoids (300,300) 133435 (neuralUpdater complexerBrain complexerTrained) False
+        mainState = randBoids (300,300) 133435 (applyBeforeBox complexerBox neuralUpdater) False
 
 computeGoal :: Floating a => (Vec a, a) -> Vec a
 computeGoal (loc, angle) = rotateVec (fromScalar 100) angle + loc
@@ -100,11 +100,12 @@ myUpdater goal poss =
 
 
 boidsNeuralInstance :: (RealFloat a,Ord a,V.Storable a,V.Storable b,Integral b) =>
-                              NeuralSim (Boids _ a b) a _
-boidsNeuralInstance = NeuralSim boidsSimulatorInstance complexerTrained randTrainingState
+                              NeuralSim (Boids _ a b) a _ _
+boidsNeuralInstance = NeuralSim boidsSimulatorInstance currentBox randTrainingState
   where
+    currentBox@(brain,_,_) = complexerBox
     randTrainingState seed weights =
-      randBoids (5,10) (seed+1) (neuralUpdater complexerBrain weights) False
+      randBoids (5,10) (seed+1) (neuralUpdater brain weights) False
 
 neuralUpdater :: (Num a) => Brain a (n*4+2) 2 w -> Weights w a -> Updater n a
 neuralUpdater (Brain feed) weights goal poss = feed weights cleanedInputs & sizedToVec
@@ -134,11 +135,13 @@ complexBrain = (biased @2 @2 >< shared Proxy inputizer) \> biased @2
   where
     inputizer = (biased @4 @2 \> biased @1)
 
+complexerBox :: _ => BrainBox a _ _ _ _
+complexerBox = buildBrain (initBrain complexerTrained #> complexerBrain)
+
 complexerBrain :: _ => Brain a _ _ _
 complexerBrain = (biased @2 @2 >< shared Proxy inputizer) \> biased @4 \> biased @2
   where
     inputizer = (biased @4 @2 \> biased @1)
-
 
 
 complexTrained :: (Floating a) => Weights 45 a

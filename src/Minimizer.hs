@@ -1,5 +1,6 @@
 
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE ExistentialQuantification #-}
 
 module Minimizer(NeuralSim(..), printMinimizer) where
 
@@ -17,9 +18,9 @@ import           Foreign.C.Types
 import           Control.Arrow
 type Minimizer c n a = c -> (Weights n a -> a) -> Weights n a -> (Weights n a,Vector a)
 
-data NeuralSim system floating w = NeuralSim {
+data NeuralSim system floating w n = forall ins outs. NeuralSim {
     _simulatorInstance :: Simulator system floating,
-    _startWeights      :: Weights w floating,
+    _startBox          :: BrainBox floating ins outs w n,
     _randTrainingState :: floating -> Weights w floating -> system
 }
 
@@ -34,20 +35,21 @@ annealing iterations cost xi = (simanSolve 123 (ssize xi) anParams xi cost metri
         stepFunction rands stepSize current = rands & fromVec &> (\x -> x*2*stepSize - stepSize) & sZipWith (+) current
 
 networkMinimizer :: (RealFloat b, Integral c) =>
-    Minimizer c n b -> NeuralSim a b n -> ([Vector b],Weights n b, [(b,b)])
-networkMinimizer optimizer (NeuralSim simulator startWeights randTrainingState) =
-  (paths,minimizedWeights, zip (defaultCosts startWeights) (defaultCosts minimizedWeights))
+    Minimizer c n b -> NeuralSim a b n w -> ([Vector b],Weights w b, [(b,b)])
+networkMinimizer optimizer (NeuralSim simulator startBox randTrainingState) =
+  (paths,weightRestorer minimizedWeights, zip (defaultCosts startWeights) (defaultCosts minimizedWeights))
     where
+        (startBrain, startWeights, weightRestorer) = startBox
         generalSeed = 2345350
         optiters = 100
-        simIterRange = (500,1000)
+        simIterRange = (200,400)
         numSystemsPerMinimization = 2
         numMinimizations = 1
         defaultCosts weights = [100,200..1000] &> costOfRun (randTrainingState generalSeed weights)
         costOfRun state iters = simulateN simulator (iters::Int) state & fst
         randIter seed = pseudoRand simIterRange seed & floor
         sseeds = pseudoRands (0,1000) generalSeed & chunksOf numSystemsPerMinimization
-                                           & take numMinimizations
+                                                  & take numMinimizations
         (minimizedWeights,paths) = mapAccumL minimizeWeightSeeds startWeights sseeds
 
         minimizeWeightSeeds weights seeds =
@@ -59,7 +61,7 @@ networkMinimizer optimizer (NeuralSim simulator startWeights randTrainingState) 
                   & sum
 
 
-printMinimizer :: KnownNat n => NeuralSim a Double n -> IO ()
+printMinimizer :: KnownNat n => NeuralSim a Double n w -> IO ()
 printMinimizer neuralSim = do
   mapM_ print a
   print b

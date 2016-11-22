@@ -37,7 +37,7 @@ testSimulatorInstance = Simulator simRender simStep simCost mainState
 
         simCost (Test (points, goal, _)) = points &> distsq (computeGoal goal) & sum
 
-        mainState = randTests (100,100) (neuralUpdater trainBrain goodWeights) 114678
+        mainState = randTests (100,100) (applyBeforeBox box neuralUpdater) 114678
 
 computeGoal :: Floating a => (Vec a, a) -> Vec a
 computeGoal (loc, angle) = rotateVec (fromScalar 100) angle + loc
@@ -63,11 +63,15 @@ neuralUpdater (Brain feed) weights points goal =
     sizedToVec :: Num a => Sized 2 a -> Vec a
     sizedToVec (Sized [a,b]) = Vec (lerp -10 10 a, lerp -10 10 b)
 
-testNeuralInstance :: RealFloat a => NeuralSim (Test a) a _
-testNeuralInstance = NeuralSim testSimulatorInstance goodWeights randTrainingState
+testNeuralInstance :: RealFloat a => NeuralSim (Test a) a _ _
+testNeuralInstance = NeuralSim testSimulatorInstance currentBox randTrainingState
     where
+        currentBox@(brain,_,_) = box
         randTrainingState seed weights =
-            randTests (100,100) (neuralUpdater trainBrain weights) (seed+1)
+            randTests (100,100) (neuralUpdater brain weights) (seed+1)
+
+box :: _ => BrainBox a _ _ _ _
+box = buildBrain (initBrain goodWeights #> biased @4 #> biased @2)
 
 trainBrain :: _ => Brain a _ _ _
 trainBrain = biased @4 \> biased @2

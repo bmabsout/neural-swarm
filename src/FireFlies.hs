@@ -72,25 +72,27 @@ fliesSimulatorInstance = Simulator simRender simStep simCost mainState
                             matrix
             where sync indices ts syncer = indices & newGetIxs ts & syncer
 
-    mainState = randFlies (100,200) 203430 5 (neuralSyncer reallysmallBrain reallysmallWeights) False
+    mainState = randFlies (100,200) 203430 5 (applyBeforeBox reallySmallBox neuralSyncer) False
 
 
 type NumNeighbhors = 5
 
 fliesNeuralSimInstance :: (RealFloat a,Ord a,V.Storable a,V.Storable b,Integral b) =>
-                              NeuralSim (Flies a b) a _
-fliesNeuralSimInstance = NeuralSim fliesSimulatorInstance reallysmallWeights randTrainingState
+                              NeuralSim (Flies a b) a _ _
+fliesNeuralSimInstance = NeuralSim fliesSimulatorInstance currentBox randTrainingState
   where
+    currentBox@(brain,_,_) = reallySmallBox
     numNeighbhors = typeNum (Proxy :: Proxy NumNeighbhors)
 
     randTrainingState seed weights =
-        randFlies (100,200) (seed+1) numNeighbhors (neuralSyncer reallysmallBrain weights) False
+        randFlies (15,25) (seed+1) numNeighbhors (neuralSyncer brain weights) False
 
 
 newGetIxs vec indices = indices & V.fromList & V.map fromIntegral
                                 & V.backpermute vec & V.toList
 
-neuralSyncer :: _ => Brain a ins outs numWeights -> Weights numWeights a -> a -> Syncer a
+
+neuralSyncer :: _ => Brain a _ _ w -> Weights w a -> a -> Syncer a
 neuralSyncer (Brain feedForward) weights period inputs = feedForward weights (fromList inputs) & shead & (*(-period))
 
 mySyncer :: (Ord a,Fractional a) => a -> Syncer a
@@ -132,11 +134,11 @@ timeDist n t1 t2 = min absDiff (n - absDiff)
 smallBrain :: (V.Storable a,Floating a) => Brain a NumNeighbhors 1 _
 smallBrain = biased @7 \> biased
 
-reallysmallBrain :: (V.Storable a,Floating a) => Brain a NumNeighbhors 1 _
-reallysmallBrain = biased @3 \> biased
+reallySmallBox :: _ => BrainBox t NumNeighbhors 1 _ _
+reallySmallBox = buildBrain (initBrain reallysmallWeights #> Disable (biased @3) #> biased @3 #> biased)
 
-reallysmallWeights :: (Floating a, V.Storable a) => Weights 22 a
-reallysmallWeights = mkN -0.7334381641872847 1.0938472660172938 1.0660863550775022 2.4185786519725396 2.3936844141880522 2.1486174159519726 -1.001344026934531 -0.865626178993556 -0.3754357835138557 0.26613213327252705 0.28793641294238603 0.49556430626227277 -1.03561251581661 -0.45290830123844117 -0.38028426554067485 -0.6010359243134789 -0.2677604523204588 9.926473410559172e-2 -1.3232296019931278 1.4373720394232283 -0.36773282412467073 0.1971848559062057
+reallysmallWeights :: (RealFloat a, V.Storable a) => Weights 34 a
+reallysmallWeights = mkN -0.7334381641872847 1.0938472660172938 1.0660863550775022 2.4185786519725396 2.3936844141880522 2.1486174159519726 -1.001344026934531 -0.865626178993556 -0.3754357835138557 0.26613213327252705 0.28793641294238603 0.49556430626227277 -1.03561251581661 -0.45290830123844117 -0.38028426554067485 -0.6010359243134789 -0.2677604523204588 9.926473410559172e-2 -1.5796644674274913 3.3350435131062746 -0.16275227168160122 -5.4740616916753436e-2 0.5903334518757735 -1.4122912769204028 0.607711956873247 0.6154003132545869 -0.7563804638605576 -0.7180158302857877 -1.5843572795322811 -0.7669881269471803 -1.0720646428106975 1.8170116882560636 -1.7281382427769225 -0.7752604712197634
 
 
 smallerWeights :: (Floating a, V.Storable a) => Weights 50 a
