@@ -136,12 +136,8 @@ complexBrain = (biased @2 @2 >< shared Proxy inputizer) \> biased @2
     inputizer = (biased @4 @2 \> biased @1)
 
 complexerBox :: _ => BrainBox a _ _ _ _
-complexerBox = buildBrain (initBrain complexerTrained #> complexerBrain)
-
-complexerBrain :: _ => Brain a _ _ _
-complexerBrain = (biased @2 @2 >< shared Proxy inputizer) \> biased @4 \> biased @2
-  where
-    inputizer = (biased @4 @2 \> biased @1)
+complexerBox = buildBrain (initBrain complexerTrained #> (biased @2 @2 >< shared Proxy inputizer) #> biased @4 #> biased @2)
+  where inputizer = (biased @4 @2 \> biased @1)
 
 
 complexTrained :: (Floating a) => Weights 45 a
