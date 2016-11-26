@@ -3,7 +3,5 @@ packages:
 - '.'
 extra-deps:
 - fast-math-1.0.2
-- hdocs-0.5.0.1
-- hsdev-0.2.0.0
 - storable-tuple-0.0.3.2
 resolver: lts-7.10

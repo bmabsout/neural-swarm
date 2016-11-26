@@ -40,10 +40,10 @@ networkMinimizer optimizer (NeuralSim simulator startBox randTrainingState) =
   (paths,weightRestorer minimizedWeights, zip (defaultCosts startWeights) (defaultCosts minimizedWeights))
     where
         (startBrain, startWeights, weightRestorer) = startBox
-        generalSeed = 2345350
-        optiters = 100
-        simIterRange = (200,400)
-        numSystemsPerMinimization = 2
+        generalSeed = 2340550
+        optiters = 1000
+        simIterRange = (200,700)
+        numSystemsPerMinimization = 3
         numMinimizations = 1
         defaultCosts weights = [100,200..1000] &> costOfRun (randTrainingState generalSeed weights)
         costOfRun state iters = simulateN simulator (iters::Int) state & fst

@@ -28,20 +28,20 @@ timepf = 1/60
 
 type Syncer a = [a] -> a
 type Fly a = (Vec a, a)
-data Flies a b = Flies {
+data Flies a = Flies {
     _period           :: a,
-    _flyNeighbhorhood :: b,
+    _flyNeighbhorhood :: Int,
     _times            :: [a],
     _positions        :: [Vec a],
-    _size             :: b,
-    _matrix           :: [[b]],
+    _size             :: Int,
+    _matrix           :: [[Int]],
     _syncer           :: Syncer a}
 makeLenses ''Flies
 
 
 nonSyncer = randFlies (10,20) 234 5 (\_ _ -> 0) False
 
-fliesSimulatorInstance :: (Ord a,RealFloat a,Integral b,V.Storable b,V.Storable a) => Simulator (Flies a b) a
+fliesSimulatorInstance :: (Ord a,RealFloat a,V.Storable a) => Simulator (Flies a) a
 fliesSimulatorInstance = Simulator simRender simStep simCost mainState
   where
     simCost (Flies p n ts _ s m _) = m &> newGetIxs (V.fromList ts)
@@ -72,13 +72,13 @@ fliesSimulatorInstance = Simulator simRender simStep simCost mainState
                             matrix
             where sync indices ts syncer = indices & newGetIxs ts & syncer
 
-    mainState = randFlies (100,200) 203430 5 (applyBeforeBox reallySmallBox neuralSyncer) False
+    mainState = randFlies (2000,2000) 203430 5 (applyBeforeBox reallySmallBox neuralSyncer) False
 
 
 type NumNeighbhors = 5
 
-fliesNeuralSimInstance :: (RealFloat a,Ord a,V.Storable a,V.Storable b,Integral b) =>
-                              NeuralSim (Flies a b) a _ _
+fliesNeuralSimInstance :: (RealFloat a,Ord a,V.Storable a) =>
+                              NeuralSim (Flies a) a _ _
 fliesNeuralSimInstance = NeuralSim fliesSimulatorInstance currentBox randTrainingState
   where
     currentBox@(brain,_,_) = reallySmallBox
@@ -102,7 +102,7 @@ mySyncer period l = l &> ringDiff period & mean
         mean l  = sum l / fromIntegral (length l)
 
 
-randFlies :: (RealFloat a,Integral b) => (a,a) -> a -> b -> (a -> Syncer a) -> Bool -> Flies a b
+randFlies :: RealFloat a => (a,a) -> a -> Int -> (a -> Syncer a) -> Bool -> Flies a
 randFlies numFliesRange seed numNeighbhors syncer singleLine =
     Flies per numNeighbhors tgen vecs size (closestIs numNeighbhors vecs) (syncer per)
     where
@@ -114,17 +114,17 @@ randFlies numFliesRange seed numNeighbhors syncer singleLine =
 
       ygen | singleLine = repeat 0
            | otherwise  = pseudoRands (-500,500) (seed+1)
-      vecs = zip xgen ygen & genericTake size &> Vec
-      tgen = pseudoRands (0,per) seed & genericTake size
+      vecs = zip xgen ygen & take size &> Vec
+      tgen = pseudoRands (0,per) seed & take size
 
 -- closests :: (Ord a,Num a) =>  Flies a -> Fly a -> Flies a
 -- closests (Flies t pos _) (fp,_) = (zip pos t) & sortBy (comparing (\(p,_) -> magVsq (fp-p))) & tail
 
-closestIs :: (Fractional a,Ord a,Integral b,Integral c) => b -> [Vec a] -> [[c]]
+closestIs :: (Fractional a,Ord a) => Int -> [Vec a] -> [[Int]]
 closestIs n l = l &> sortDist withIs
     where withIs = zip [0..] l
           sortDist l e = l & sortOn (snd &. distsq e)
-                           & tail & genericTake n &> fst
+                           & tail & take n &> fst
 
 
 timeDist :: (Ord a, Num a) => a -> a -> a -> a

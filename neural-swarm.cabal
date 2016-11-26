@@ -1,13 +1,13 @@
 name:                neural-swarm
-version:             0.2.0.0
+version:             0.3.0.0
 synopsis:            Initial project template from stack
 description:         Please see README.md
-homepage:            http://github.com/githubuser/neural-swarm#readme
+homepage:            http://github.com/bmabsout/neural-swarm#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Bassel Mabsout
 maintainer:          bme11@mail.aub.edu
-copyright:           2016 Author Here
+copyright:           2016 Bassel Mabsout
 category:            Research
 build-type:          Simple
 -- extra-source-files:
@@ -37,7 +37,6 @@ library
                      , containers
                      , vector
                      , storable-tuple
-                     , hsdev
   default-language:    Haskell2010
 
 executable neural-swarm-exe
@@ -59,4 +58,4 @@ test-suite neural-swarm-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/neural-swarm
+  location: https://github.com/bmabsout/neural-swarm
