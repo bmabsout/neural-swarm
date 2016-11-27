@@ -21,9 +21,9 @@ stage = InWindow "Simulation" (200,200) (10,10)
 
 fps = 60
 
-runner :: Int -> IO ()
-runner 0 = printMinimizer neuralInstance
-runner 1 = let Simulator simRender simStep _ mainState = currentInstance
-           in simulate stage black fps mainState simRender (\_ _ a -> simStep a)
-runner 2 = mapM_ print (trackCost 100 currentInstance)
+runner :: String -> IO ()
+runner "train" = printMinimizer neuralInstance
+runner "run"   = let Simulator simRender simStep _ mainState = currentInstance
+                 in simulate stage black fps mainState simRender (\_ _ a -> simStep a)
+runner "test"  = mapM_ print (trackCost 100 currentInstance)
 
