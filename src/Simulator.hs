@@ -20,7 +20,7 @@ simulateN (Simulator _ simStep simCost _) n initState =
      & (\(_,cost,finalState) -> (cost,finalState))
 
 
-trackCost :: Simulator a b -> [b]
-trackCost (Simulator _ simStep simCost mainState) = iterate (apply (1000::Int) simStep) mainState &> simCost
+trackCost :: Int -> Simulator a b -> [b]
+trackCost iterations (Simulator _ simStep simCost mainState) = iterate (apply iterations simStep) mainState &> simCost
 
 

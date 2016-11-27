@@ -28,8 +28,8 @@ data NeuralSim system floating w n = forall ins outs. NeuralSim {
 minimizeS :: (KnownNat n) => Minimizer Int n Double
 minimizeS iterations cost xi = minimizeV NMSimplex2 0.0000001 iterations (V.replicate (ssize xi) 1) (fromVec &. cost) (toVec xi) & second (toColumns &. (!!1)) & first fromVec
 
-annealing :: (KnownNat n) => Minimizer CInt n Double
-annealing iterations cost xi = (simanSolve 123 (ssize xi) anParams xi cost metricDist stepFunction (Just (const "")), V.empty)
+annealing :: (KnownNat n) => (Weights n Double -> String) -> Minimizer CInt n Double
+annealing printer iterations cost xi = (simanSolve 123 (ssize xi) anParams xi cost metricDist stepFunction (Just printer), V.empty)
   where anParams = SimulatedAnnealingParams 1000 iterations 1.0 1.0 0.1 1.02 0.001
         metricDist a1 a2 = sZipWith (\x1 x2 -> (x1-x2)*(x1-x2)) a1 a2 & ssum & sqrt
         stepFunction rands stepSize current = rands & fromVec &> (\x -> x*2*stepSize - stepSize) & sZipWith (+) current
@@ -40,11 +40,11 @@ networkMinimizer optimizer (NeuralSim simulator startBox randTrainingState) =
   (paths,weightRestorer minimizedWeights, zip (defaultCosts startWeights) (defaultCosts minimizedWeights))
     where
         (startBrain, startWeights, weightRestorer) = startBox
-        generalSeed = 2340550
+        generalSeed = 23555844363
         optiters = 1000
-        simIterRange = (200,700)
-        numSystemsPerMinimization = 3
-        numMinimizations = 1
+        simIterRange = (200,600)
+        numSystemsPerMinimization = 5
+        numMinimizations = 10
         defaultCosts weights = [100,200..1000] &> costOfRun (randTrainingState generalSeed weights)
         costOfRun state iters = simulateN simulator (iters::Int) state & fst
         randIter seed = pseudoRand simIterRange seed & floor
@@ -58,12 +58,14 @@ networkMinimizer optimizer (NeuralSim simulator startBox randTrainingState) =
         costOfFlatPerSeeds seeds weights =
             seeds &> randIter
                   &> costOfRun (randTrainingState generalSeed weights)
+                  &> (^^2)
                   & sum
 
 
 printMinimizer :: KnownNat n => NeuralSim a Double n w -> IO ()
-printMinimizer neuralSim = do
+printMinimizer neuralSim@(NeuralSim _ (_,_,restorer) _) = do
   mapM_ print a
   print b
   print c
     where (a,b,c) = networkMinimizer minimizeS neuralSim
+          minimizeA = annealing (restorer &. show)

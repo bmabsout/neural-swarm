@@ -78,6 +78,14 @@ shared :: _ => Proxy n -> B outs ins t w -> B (outs*n) (ins*n) t w
 shared prox (Brain feed) = Brain (\weights inputs ->
     transform prox (feed weights) inputs)
 
+recurrent :: forall n t ins shared w . _ => Proxy n -> Brain t (ins+shared) shared w -> Brain t (ins*n) shared w
+recurrent inputSize (Brain feed) = Brain newFeed
+  where
+    newFeed weights inputs = sfoldl' (\acc input -> feed weights (joinSized acc input)) (sreplicate 0) feedList
+      where
+        feedList :: _ => Sized n (Sized ins t)
+        feedList = chunkMap id inputs
+
 infixr 6 >!<
 (>!<) :: _ => B out1 in1 t w -> B out2 in2 t w -> B (out1+out2) (in1+in2) t w
 (>!<) (Brain feed1) (Brain feed2) = Brain (\weights inputs ->
