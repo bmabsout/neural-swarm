@@ -26,4 +26,5 @@ runner "train" = printMinimizer neuralInstance
 runner "run"   = let Simulator simRender simStep _ mainState = currentInstance
                  in simulate stage black fps mainState simRender (\_ _ a -> simStep a)
 runner "test"  = mapM_ print (trackCost 100 currentInstance)
+runner _       = print "wrong arg, try train run or test"
 
