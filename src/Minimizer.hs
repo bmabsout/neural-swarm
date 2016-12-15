@@ -30,7 +30,7 @@ minimizeS iterations cost xi = minimizeV NMSimplex2 0.0000001 iterations (V.repl
 
 annealing :: (KnownNat n) => (Weights n Double -> String) -> Minimizer CInt n Double
 annealing printer iterations cost xi = (simanSolve 123 (ssize xi) anParams xi cost metricDist stepFunction (Just printer), V.empty)
-  where anParams = SimulatedAnnealingParams 1000 iterations 1.0 1.0 0.1 1.02 0.001
+  where anParams = SimulatedAnnealingParams 1000 iterations 1.0 1.0 100 1.05 1
         metricDist a1 a2 = sZipWith (\x1 x2 -> (x1-x2)*(x1-x2)) a1 a2 & ssum & sqrt
         stepFunction rands stepSize current = rands & fromVec &> (\x -> x*2*stepSize - stepSize) & sZipWith (+) current
 
@@ -40,11 +40,11 @@ networkMinimizer optimizer (NeuralSim simulator startBox randTrainingState) =
   (paths,weightRestorer minimizedWeights, zip (defaultCosts startWeights) (defaultCosts minimizedWeights))
     where
         (startBrain, startWeights, weightRestorer) = startBox
-        generalSeed = 23555844363
-        optiters = 1000
-        simIterRange = (200,600)
-        numSystemsPerMinimization = 5
-        numMinimizations = 10
+        generalSeed = 23445554445444
+        optiters = 100
+        simIterRange = (50,50)
+        numSystemsPerMinimization = 10
+        numMinimizations = 5
         defaultCosts weights = [100,200..1000] &> costOfRun (randTrainingState generalSeed weights)
         costOfRun state iters = simulateN simulator (iters::Int) state & fst
         randIter seed = pseudoRand simIterRange seed & floor
