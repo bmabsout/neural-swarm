@@ -12,9 +12,9 @@ import Minimizer
 import Graphics.Gloss
 
 currentInstance :: Simulator _ Double
-currentInstance = boidsSimulatorInstance
+currentInstance = fliesSimulatorInstance
 
-neuralInstance = boidsNeuralInstance
+neuralInstance = fliesNeuralSimInstance
 
 stage :: Display
 stage = InWindow "Simulation" (200,200) (10,10)
@@ -23,6 +23,7 @@ fps = 60
 
 runner :: String -> IO ()
 runner "train" = printMinimizer neuralInstance
+runner "alternate" = printAlternateMinimizer neuralInstance
 runner "run"   = let Simulator simRender simStep _ mainState = currentInstance
                  in simulate stage black fps mainState simRender (\_ _ a -> simStep a)
 runner "test"  = mapM_ print (trackCost 100 currentInstance)

@@ -64,9 +64,10 @@ neuralUpdater (Brain feed) weights points goal =
     sizedToVec (Sized [a,b]) = Vec (lerp -10 10 a, lerp -10 10 b)
 
 testNeuralInstance :: RealFloat a => NeuralSim (Test a) a _ _
-testNeuralInstance = NeuralSim testSimulatorInstance currentBox randTrainingState
+testNeuralInstance = NeuralSim testSimulatorInstance currentBox randTrainingState neuralStep
     where
         currentBox@(brain,_,_) = box
+        neuralStep (Test (a,b,_)) weights = _simStep testSimulatorInstance (Test (a,b,neuralUpdater brain weights))
         randTrainingState seed weights =
             randTests (10,10) (neuralUpdater brain weights) (seed+1)
 
