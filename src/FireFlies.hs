@@ -1,13 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE NegativeLiterals #-}
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE PartialTypeSignatures #-}
-{-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE DataKinds #-}
-{-# OPTIONS_GHC -freduction-depth=0 #-}
-{-# OPTIONS_GHC -fno-warn-partial-type-signatures #-}
 module FireFlies
     ( Flies,
       fliesSimulatorInstance,
@@ -20,6 +12,7 @@ import           Data.List
 import qualified Data.Vector.Storable as V
 import           Numeric.FastMath()
 import           Convenience
+import           Data.Proxy
 import           Brain
 import           Simulator
 import           Minimizer
@@ -72,13 +65,13 @@ fliesSimulatorInstance = Simulator simRender simStep simCost mainState
                             matrix
             where sync indices ts syncer = indices & newGetIxs ts & syncer
 
-    mainState = randFlies (10,10) 203430 5 (applyBeforeBox reallySmallBox neuralSyncer) True
+    mainState = randFlies (100,100) 203430 5 (applyBeforeBox reallySmallBox neuralSyncer) True
 
 
 type NumNeighbhors = 5
 
 fliesNeuralSimInstance :: (RealFloat a,Ord a,V.Storable a) =>
-                              NeuralSim (Flies a) a _ _
+                              NeuralSim (Flies a) a _ _ _ _
 fliesNeuralSimInstance = NeuralSim fliesSimulatorInstance currentBox randTrainingState neuralStep
   where
     currentBox@(brain,_,_) = reallySmallBox
@@ -87,7 +80,7 @@ fliesNeuralSimInstance = NeuralSim fliesSimulatorInstance currentBox randTrainin
     neuralStep system weights =
       _simStep fliesSimulatorInstance (system & syncer .~ (neuralSyncer brain weights (system^.period)))
     randTrainingState seed weights =
-        randFlies (10,10) (seed+1) numNeighbhors (neuralSyncer brain weights) True
+        randFlies (100,100) (seed+1) numNeighbhors (neuralSyncer brain weights) True
 
 
 newGetIxs vec indices = indices & V.fromList & V.map fromIntegral
@@ -135,15 +128,14 @@ timeDist n t1 t2 = min absDiff (n - absDiff)
 
 
 rnnBox :: _ => BrainBox t NumNeighbhors 1 _ _
-rnnBox = buildBrain (initBrain rnnWeights #> (recurrent Proxy (biased @3 @3 \> biased @2)) #> biased @3 #> biased)
+rnnBox = buildBrain (initBrain (randWeights 4354) #> (recurrent (biased @3 @3 \> biased @2)) #> biased @3 #> biased)
 
 rnnWeights :: (RealFloat a, V.Storable a) => Weights 33 a
-rnnWeights = mkN 0.5733087931295338 0.8843116035583927 0.9830967542071569 8.069029547587606e-2 0.8494013052245915 0.5147435987459859 0.31671157542727635 0.2929332074380583 0.11594838674512303 -0.21799856915503135 0.7506602746298818 -1.2018478917172448 -4.7336712761004804e-2 0.951387058910403 0.30171590558247674 0.4978051952463163 -0.5000584294988752 0.14617815919033744 -0.36632085833377115 1.4354171506330022 -0.21495207420824136 -0.7011369451564735 1.0350156769651155 0.7781496741742064 0.17379993858229503 0.7229360946979062 0.3135918408278803 0.44759171529078823 -0.858169598985294 0.637177720473048 -0.5570147426335263 -1.3689263428559317 0.9636319146515153
-
+rnnWeights = mkN 1.750423440485752 3.222924885666668 2.2910227257536877 5.439806511011806 4.142005480385802 0.9805584364407558 2.5731630594431865 2.1391747233079625 -3.753164586650063 1.3161119585357113 0.2727157753602446 3.1794925669165823 0.41001096249619695 2.213345108078485 0.2780969665798213 0.9830443442915242 0.7433014784356982 1.6996108574973636 -3.7336393201376086 1.7007999286302289 5.752409698338232 5.2568993666229495 6.0264486640847686e-2 6.986510599213041 5.431577136860181 5.216348090138221 -6.760813283224193 -0.9074726111072304 -0.5494264835463663 -9.957843973110734 -16.751593067894785 -20.83451745186865 -5.652927477333056
 
 
 reallySmallBox :: _ => BrainBox t NumNeighbhors 1 _ _
 reallySmallBox = buildBrain (initBrain reallysmallWeights #> (biased @3) #> biased @3 #> biased)
 
 reallysmallWeights :: (RealFloat a, V.Storable a) => Weights 34 a
-reallysmallWeights =mkN -3.485997443664722 3.451639097464124 4.6567863555356706 4.470679516204539 3.9304224519718254 4.742358370965663 0.7278736549802336 2.4365247834777284 4.700972937949945 1.2255097792956406 1.5108881599242179 2.015614765613079 -0.9432506251405637 -0.5775964416410124 -1.29058891032523 2.7151107459603425 0.3510448791637692 -1.196157361476466 -9.124757650115334e-2 -5.4653920470406465 -0.298434359392983 5.596502199172447 3.0185076881971398 -7.785398322055368 0.9611303021238209 3.0860859835503316 -0.15065477628538185 -1.7844407315762827 7.856067324479121e-2 2.069374025550582 -2.633304452556725 0.3048943975446088 -5.718433693248468 -0.13907868626636355
+reallysmallWeights = mkN -21.147765925861748 -7.157520810353779 21.867200558295607 3.1873027120123423 23.153808797252992 19.953684577169447 -13.931980859957292 19.690257687079672 -0.725098590502125 16.864812826017662 24.388280078155965 36.565231025605044 -24.763620768975855 12.380198264778645 10.061059717637573 -0.8041508421257408 -9.97285236309175 0.7930357200543705 -9.71132095994771 0.212352901695059 8.168080838848994 -55.31368141505385 -6.433411124149906 -13.11363109954484 -2.044228629855218 -3.2491047847162804 -5.378954435521983 10.620746019167061 -11.492523001566003 -8.824140419183614 -6.8609385938675995 30.279113023315666 6.655981326763193 -24.438219318848198

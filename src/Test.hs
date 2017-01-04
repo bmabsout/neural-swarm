@@ -1,14 +1,5 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE NegativeLiterals #-}
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE PartialTypeSignatures #-}
-{-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE DataKinds #-}
-{-# OPTIONS_GHC -freduction-depth=0 #-}
-{-# OPTIONS_GHC -fno-warn-partial-type-signatures #-}
 module Test(Test, testSimulatorInstance, testNeuralInstance) where
 
 import Brain
@@ -63,7 +54,7 @@ neuralUpdater (Brain feed) weights points goal =
     sizedToVec :: Num a => Sized 2 a -> Vec a
     sizedToVec (Sized [a,b]) = Vec (lerp -10 10 a, lerp -10 10 b)
 
-testNeuralInstance :: RealFloat a => NeuralSim (Test a) a _ _
+testNeuralInstance :: RealFloat a => NeuralSim (Test a) a _ _ _ _
 testNeuralInstance = NeuralSim testSimulatorInstance currentBox randTrainingState neuralStep
     where
         currentBox@(brain,_,_) = box

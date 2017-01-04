@@ -1,15 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE NegativeLiterals #-}
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE PartialTypeSignatures #-}
-{-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE DataKinds #-}
-{-# OPTIONS_GHC -freduction-depth=0 #-}
-{-# OPTIONS_GHC -fno-warn-partial-type-signatures #-}
 module Boids(Boids, boidsSimulatorInstance,boidsNeuralInstance) where
 
 import           Brain
@@ -20,6 +11,7 @@ import           Data.List
 import qualified Data.Vector.Storable as V
 import           Graphics.Gloss
 import           GHC.TypeLits
+import           Data.Proxy
 import           Minimizer
 import           Numeric.FastMath()
 import           Simulator
@@ -103,7 +95,7 @@ myUpdater goal poss =
 
 
 boidsNeuralInstance :: (RealFloat a,Ord a,V.Storable a) =>
-                              NeuralSim (Boids _ a) a _ _
+                              NeuralSim (Boids _ a) a _ _ _ _
 boidsNeuralInstance = NeuralSim boidsSimulatorInstance currentBox randTrainingState neuralStep
   where
     currentBox@(brain,_,_) = tinyBox
@@ -124,7 +116,7 @@ neuralUpdater (Brain feed) weights goal poss = feed weights cleanedInputs & size
 
 
 complexerBox :: _ => BrainBox a _ _ _ _
-complexerBox = buildBrain (initBrain complexerTrained #> (biased @2 @2 >< shared Proxy inputizer)
+complexerBox = buildBrain (initBrain complexerTrained #> (biased @2 @2 >< shared inputizer)
                                                       #> (biased @4)
                                                       #> (biased @2))
   where inputizer = (biased @4 @2 \> biased @1)
@@ -134,7 +126,7 @@ complexerTrained =mkN 1.740308366769931 0.4489899455805406 0.843114109910376 1.5
 
 
 tinyBox :: _ => BrainBox a _ _ _ _
-tinyBox = buildBrain (initBrain theSmartOnes #> (biased @2 @2 >< recurrent Proxy (biased @2 @10 \> biased @2))
+tinyBox = buildBrain (initBrain theSmartOnes #> (biased @2 @2 >< recurrent (biased @2 @10 \> biased @2))
                                                   #> (biased @8)
                                                   #> (biased @2))
 

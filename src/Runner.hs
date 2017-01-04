@@ -8,6 +8,7 @@ import Simulator
 import Boids
 import Test
 import Minimizer
+import Charter
 
 import Graphics.Gloss
 
@@ -21,11 +22,12 @@ stage = InWindow "Simulation" (200,200) (10,10)
 
 fps = 60
 
-runner :: String -> IO ()
-runner "train" = printMinimizer neuralInstance
-runner "alternate" = printAlternateMinimizer neuralInstance
-runner "run"   = let Simulator simRender simStep _ mainState = currentInstance
-                 in simulate stage black fps mainState simRender (\_ _ a -> simStep a)
-runner "test"  = mapM_ print (trackCost 100 currentInstance)
-runner _       = print "wrong arg, try train run or test"
+runner :: [String] -> IO ()
+runner ["train"] = printMinimizer neuralInstance
+runner ["alternate"] = printAlternateMinimizer neuralInstance
+runner ["run"]   = let Simulator simRender simStep _ mainState = currentInstance
+                   in simulate stage black fps mainState simRender (\_ _ a -> simStep a)
+runner ["test"]  = mapM_ print (trackCost 100 currentInstance)
+runner ["chart"] = singleWeightChangeChart neuralInstance
+runner _         = print "wrong arg, try train run or test"
 

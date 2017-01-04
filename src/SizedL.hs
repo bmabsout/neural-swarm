@@ -1,20 +1,23 @@
-{-# LANGUAGE DataKinds,KindSignatures,TypeOperators,TypeFamilies,ScopedTypeVariables #-}
+{-# LANGUAGE KindSignatures#-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE ConstraintKinds #-}
-{-# LANGUAGE PartialTypeSignatures #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# OPTIONS_GHC -fno-warn-partial-type-signatures #-}
-module SizedL (module SizedL,module Data.Proxy) where
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE TypeInType #-}
+{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
+module SizedL (module SizedL) where
 
 import Data.Proxy
 import GHC.TypeLits
 import Convenience
 import Data.List
 import Data.List.Split
+import qualified Data.Kind as K
 import qualified Data.Vector.Storable as V
 
 newtype Sized (n::Nat) a = Sized [a] deriving (Eq,Functor,Foldable)
@@ -47,6 +50,11 @@ shead = sunsafe head
 stail :: S (n+1) a -> S n a
 stail (Sized l) = (Sized (tail l))
 
+replaceAt :: forall m n a. _ => Proxy (m+1) -> Sized (m+n+1) a -> a -> Sized (m+1+n) a
+replaceAt index list e = joinSized a (scons e (stail b))
+    where
+        (a,b) = splitSized list :: (Sized m a,Sized (n+1) a)
+
 sreplicate :: forall n a . (K n) => a -> S n a
 sreplicate a = replicate (typeNum (Proxy :: Proxy n)) a & Sized
 
@@ -60,8 +68,8 @@ sconcat :: _ => S m (S n a) -> S (m*n) a
 sconcat l = l &> fromSized & concat & Sized
 
 transform :: forall z a b n m . (K n) =>
-                 Proxy z -> (S n a -> S m b) -> S (n*z) a -> S (m*z) b
-transform _ f (Sized v) = chunksOf n v &> (Sized &. f &. fromSized) & concat & Sized
+                 (S n a -> S m b) -> S (n*z) a -> S (m*z) b
+transform f (Sized v) = chunksOf n v &> (Sized &. f &. fromSized) & concat & Sized
   where n = typeNum (Proxy :: Proxy n)
 
 chunkMap :: forall a n chunkSize b .
@@ -93,8 +101,8 @@ empty = Sized []
 singleton :: a -> S 1 a
 singleton a = Sized [a]
 
-cons :: a -> S n a -> S (n+1) a
-cons e (Sized vec) = Sized (e : vec)
+scons :: a -> S n a -> S (n+1) a
+scons e (Sized vec) = Sized (e : vec)
 
 snoc :: S n a -> a -> S (n+1) a
 snoc (Sized vec) e = Sized (vec ++ [e])
@@ -131,8 +139,38 @@ instance Make n a (Sized n a) where
     {-# INLINE make #-}
 
 instance (Make (n+1) a r) => Make n a (a -> r) where
-    make acc a = make (a `cons` acc)
+    make acc a = make (a `scons` acc)
     {-# INLINE make #-}
 
 mkN :: (Make 1 a r) => a -> r
 mkN = make empty
+
+
+data HList (ts :: [K.Type]) :: K.Type where
+  Nil  :: HList '[]
+  (:>) :: t -> HList ts -> HList (t ': ts)
+infixr 5 :>
+
+type family AllC c (xs :: [a]) :: K.Constraint where
+  AllC c '[]       = ()
+  AllC c (x ': xs) = (c x, AllC c xs)
+
+hmap :: forall c ts. AllC c ts => (forall x. c x => x -> x) -> HList ts -> HList ts
+hmap f Nil       = Nil
+hmap f (x :> xs) = f x :> hmap @c f xs
+
+hmap' :: forall c ts r. AllC c ts => (forall x. c x => x -> r) -> HList ts -> [r]
+hmap' f Nil       = []
+hmap' f (x :> xs) = f x : hmap' @c f xs
+
+
+instance AllC Show ts => Show (HList ts) where
+  show xs = "[" ++ intercalate ", " (hmap' @Show show xs) ++ "]"
+-- func :: HList (k :: Nat) ->
+
+
+-- test :: [Int]
+-- test = hmap' @KnownNat natVal cheese
+
+
+test = [natVal (Proxy @3), natVal (Proxy @4)]

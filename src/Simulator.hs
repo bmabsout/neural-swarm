@@ -1,5 +1,7 @@
+{-# LANGUAGE TemplateHaskell #-}
 module Simulator (module Simulator) where
 import Graphics.Gloss
+import Control.Lens
 import Convenience
 import Numeric.FastMath()
 
@@ -9,6 +11,7 @@ data Simulator a b = Simulator {
     _simCost :: a -> b,
     _mainState :: a
 }
+makeLenses ''Simulator
 
 simulateN :: (Num a, Num t, Ord a) => Simulator t1 t -> a -> t1 -> (t, t1)
 simulateN (Simulator _ simStep simCost _) n initState =

@@ -6,4 +6,4 @@ import Runner
 main :: IO ()
 main = do
   simulationType <- getArgs
-  runner (head simulationType)
+  runner simulationType

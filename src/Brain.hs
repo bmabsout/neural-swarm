@@ -1,13 +1,9 @@
-{-# LANGUAGE KindSignatures,DataKinds,TypeOperators,ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE NegativeLiterals #-}
 {-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE PartialTypeSignatures #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# OPTIONS_GHC -fno-warn-partial-type-signatures #-}
 
 module Brain(module Brain,module SizedL) where
 
@@ -15,6 +11,7 @@ import Convenience
 import Data.Proxy
 import Numeric.FastMath()
 import GHC.TypeLits
+import Control.Lens hiding (transform,cons)
 import SizedL
 import qualified Data.Vector.Storable as V
 import           Foreign.Storable.Tuple()
@@ -31,6 +28,9 @@ type Inputs w t = S w t
 type Outputs w t = S w t
 
 type BrainBox t ins outs w n = (Brain t ins outs w, Weights w t, Weights w t -> Weights n t)
+
+boxWeights :: Lens' (BrainBox t ins outs w n) (Weights w t)
+boxWeights = lens (\(_,w,_) -> w) (\(a,b,c) w -> (a,w,c))
 
 infixr 5 \>
 (\>) :: _ => B b a t w1 -> B c b t w2 -> B c a t (w1+w2)
@@ -74,12 +74,12 @@ stronglyConnected :: _ => B outs ins t (ins*outs)
 stronglyConnected = Brain (\weights inputs ->
   chunkMap (sZipWith (*) inputs &. ssum &. sigmoid) weights)
 
-shared :: _ => Proxy n -> B outs ins t w -> B (outs*n) (ins*n) t w
-shared prox (Brain feed) = Brain (\weights inputs ->
-    transform prox (feed weights) inputs)
+shared :: _ => B outs ins t w -> B (outs*n) (ins*n) t w
+shared (Brain feed) = Brain (\weights inputs ->
+    transform (feed weights) inputs)
 
-recurrent :: forall n t ins shared w . _ => Proxy n -> Brain t (ins+shared) shared w -> Brain t (ins*n) shared w
-recurrent inputSize (Brain feed) = Brain newFeed
+recurrent :: forall n t ins shared w . _ => Brain t (ins+shared) shared w -> Brain t (ins*n) shared w
+recurrent (Brain feed) = Brain newFeed
   where
     newFeed weights inputs = sfoldl' (\acc input -> feed weights (joinSized acc input)) (sreplicate 0) feedList
       where
@@ -93,7 +93,7 @@ infixr 6 >!<
     in joinSized (feed1 weights i1) (feed2 weights i2))
 
 biased :: _ => B outs ins t ((ins+1)*outs)
-biased = Brain (\weights inputs -> (unBrain stronglyConnected) weights (cons 1 inputs))
+biased = Brain (\weights inputs -> (unBrain stronglyConnected) weights (scons 1 inputs))
 
 randWeights :: (K n,RealFloat a) => a -> Weights n a
 randWeights = randomS (-1,1)

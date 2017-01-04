@@ -1,14 +1,11 @@
-{-# LANGUAGE DataKinds,KindSignatures,TypeOperators,TypeFamilies,ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE ConstraintKinds #-}
-{-# LANGUAGE PartialTypeSignatures #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# OPTIONS_GHC -fno-warn-partial-type-signatures #-}
-module SizedS (module SizedS,module Data.Proxy) where
+module SizedS (module SizedS) where
 
 import Data.Proxy
 import GHC.TypeLits
@@ -51,9 +48,9 @@ sizedMap :: S n a -> (a -> b) -> S n b
 sizedMap = flip fmap
 
 transform :: forall z a b n m . (KnownNat z,KnownNat n) =>
-                 Proxy z -> (S n a -> S m b) -> S (n*z) a -> S (m*z) b
-transform prox f (Sized v) =  ana z (S.splitAt n &. first (Sized &. f &. fromSized)) v & foldr (S.><) S.empty & Sized
-  where z = typeNum prox :: Int
+                 (S n a -> S m b) -> S (n*z) a -> S (m*z) b
+transform f (Sized v) =  ana z (S.splitAt n &. first (Sized &. f &. fromSized)) v & foldr (S.><) S.empty & Sized
+  where z = typeNum (Proxy :: Proxy z) :: Int
         n = typeNum (Proxy :: Proxy n)
 
 chunkMap :: forall a n chunkSize b .

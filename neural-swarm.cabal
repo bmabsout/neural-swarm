@@ -26,8 +26,11 @@ library
                      , SizedL
                      , SizedS
                      , Test
+                     , Charter
   build-depends:       base >= 4.7 && < 5
                      , split
+                     , Chart
+                     , Chart-gtk
                      , gloss > 1.10
                      , hmatrix-gsl
                      , hmatrix
@@ -37,7 +40,18 @@ library
                      , containers
                      , vector
                      , storable-tuple
+                     , ghc-typelits-natnormalise
   default-language:    Haskell2010
+  extensions: PartialTypeSignatures,
+              DataKinds,
+              TypeOperators,
+              KindSignatures,
+              TypeApplications,
+              TypeFamilies,
+              FunctionalDependencies,
+              ExistentialQuantification,
+              ScopedTypeVariables
+  ghc-options: -fno-warn-partial-type-signatures -freduction-depth=0 -fplugin GHC.TypeLits.Normalise
 
 executable neural-swarm-exe
   hs-source-dirs:      app
@@ -46,6 +60,7 @@ executable neural-swarm-exe
   build-depends:       base,
                        neural-swarm
   default-language:    Haskell2010
+
 
 test-suite neural-swarm-test
   type:                exitcode-stdio-1.0
