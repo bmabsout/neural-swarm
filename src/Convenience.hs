@@ -7,6 +7,8 @@ import           Data.Function
 -- import qualified Data.Set as S
 import           Data.List
 import           Data.Ord
+import           Control.Parallel
+import           Control.Parallel.Strategies
 import           Numeric.FastMath()
 import qualified Data.Vector.Storable as V
 import           Foreign.Storable.Tuple()
@@ -29,6 +31,11 @@ infixl 1 &>
 (&>) :: Functor f => f a -> (a -> b) -> f b
 (&>) = flip (<$>)
 {-# INLINE (&>) #-}
+
+infixl 1 &!>
+(&!>) :: NFData b => [a] -> (a -> b) -> [b]
+(&!>) l a = parMap rdeepseq a l
+{-# INLINE (&!>) #-}
 
 ifd :: Bool -> (a->a) -> (a->a)
 ifd b f = if b then f else id

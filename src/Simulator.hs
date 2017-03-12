@@ -5,15 +5,15 @@ import Control.Lens
 import Convenience
 import Numeric.FastMath()
 
-data Simulator a b = Simulator {
+data Simulator a = Simulator {
     _simRender :: a -> Picture,
     _simStep :: a -> a,
-    _simCost :: a -> b,
+    _simCost :: a -> Double,
     _mainState :: a
 }
 makeLenses ''Simulator
 
-simulateN :: (Num a, Num t, Ord a) => Simulator t1 t -> a -> t1 -> (t, t1)
+simulateN :: (Num a, Ord a) => Simulator t -> a -> t -> (Double, t)
 simulateN (Simulator _ simStep simCost _) n initState =
     apply n (\(count,accost,state) ->
                  let newState = simStep state
@@ -23,7 +23,7 @@ simulateN (Simulator _ simStep simCost _) n initState =
      & (\(_,cost,finalState) -> (cost,finalState))
 
 
-trackCost :: Int -> Simulator a b -> [b]
+trackCost :: Int -> Simulator a -> [Double]
 trackCost iterations (Simulator _ simStep simCost mainState) = iterate (apply iterations simStep) mainState &> simCost
 
 

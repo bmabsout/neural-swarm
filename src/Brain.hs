@@ -19,31 +19,33 @@ import           Foreign.Storable.Tuple()
 sigmoid :: Floating a => a -> a
 sigmoid n = 1/(1 + exp (-n))
 
-newtype Brain t ins outs w = Brain { unBrain :: Weights w t -> Inputs ins t -> Outputs outs t }
+newtype Brain ins outs w = Brain { unBrain :: Weights w -> Inputs ins -> Outputs outs }
 
-type B outs ins t w = Brain t ins outs w
+type B outs ins w = Brain ins outs w
 
-type Weights w t = S w t
-type Inputs w t = S w t
-type Outputs w t = S w t
+type Weights w = S w Double
+type Inputs w = S w Double
+type Outputs w = S w Double
 
-type BrainBox t ins outs w n = (Brain t ins outs w, Weights w t, Weights w t -> Weights n t)
+type Restorer enabled all = Weights enabled -> Weights all
 
-boxWeights :: Lens' (BrainBox t ins outs w n) (Weights w t)
+type BrainBox ins outs w n = (Brain ins outs w, Weights w, Restorer w n)
+
+boxWeights :: Lens' (BrainBox ins outs w n) (Weights w)
 boxWeights = lens (\(_,w,_) -> w) (\(a,b,c) w -> (a,w,c))
 
 infixr 5 \>
-(\>) :: _ => B b a t w1 -> B c b t w2 -> B c a t (w1+w2)
+(\>) :: _ => B b a w1 -> B c b w2 -> B c a (w1+w2)
 (\>) (Brain feed1) (Brain feed2) =
     splitSized &. (\(s1,s2) -> feed1 s1 &. feed2 s2) & Brain
 
 infixl 5 #>
-(#>) :: _ => (Brain t ins1 outs1 w1, Weights (w2+n) t, Weights w1 t, Weights w1 t -> Weights y t)
-             -> b2 t outs1 outs2 w2
-             -> (Brain t ins1 outs2 (w1 + NumWeightsOut b2 w2),
-                 Weights n t,
-                 Weights (w1 + NumWeightsOut b2 w2) t,
-                 Weights (w1 + NumWeightsOut b2 w2) t -> Weights (y+w2) t)
+(#>) :: _ => (Brain ins1 outs1 w1, Weights (w2+n), Weights w1, Restorer w1 y)
+             -> b2 outs1 outs2 w2
+             -> (Brain ins1 outs2 (w1 + NumWeightsOut b2 w2),
+                 Weights n,
+                 Weights (w1 + NumWeightsOut b2 w2),
+                 Weights (w1 + NumWeightsOut b2 w2) -> Weights (y+w2))
 (#>) (accumBrain, win, wbefores, recreator) tempBrain =
     (accumBrain \> brain, rest, joinSized wbefores wafters, recreator2)
   where
@@ -53,52 +55,52 @@ infixl 5 #>
     (wbrain,rest) = splitSized win
     (brain,wafters) = disabler tempBrain wbrain
 
-initBrain :: Weights w t -> (Brain t ins ins 0, Weights w t, Weights 0 t, Weights 0 t -> Weights 0 t)
+initBrain :: Weights w -> (Brain ins ins 0, Weights w, Weights 0,Restorer 0 0)
 initBrain ws = (Brain (\_ inp -> inp), ws, empty, id)
 
-buildBrain :: _ => (Brain t ins outs w, Weights 0 t, Weights w t, Weights w t -> Weights n t) ->
-                    BrainBox t ins outs w n
+buildBrain :: _ => (Brain ins outs w, Weights 0, Weights w, Restorer w n) ->
+                    BrainBox ins outs w n
 buildBrain (brain,_, uneatenWeights, weightRebuilder) = (brain, uneatenWeights, weightRebuilder)
 
 applyBeforeBox (brain,weights,_) f = f brain weights
 
 infixr 6 ><
-(><) :: _ => B out1 in1 t w1 -> B out2 in2 t w2 -> B (out1+out2) (in1+in2) t (w1+w2)
+(><) :: _ => B out1 in1 w1 -> B out2 in2 w2 -> B (out1+out2) (in1+in2) (w1+w2)
 (><) (Brain feed1) (Brain feed2) = Brain (\weights inputs ->
     let (w1,w2) = splitSized weights
         (i1,i2) = splitSized inputs
     in joinSized (feed1 w1 i1) (feed2 w2 i2))
 
 
-stronglyConnected :: _ => B outs ins t (ins*outs)
+stronglyConnected :: _ => B outs ins (ins*outs)
 stronglyConnected = Brain (\weights inputs ->
   chunkMap (sZipWith (*) inputs &. ssum &. sigmoid) weights)
 
-shared :: _ => B outs ins t w -> B (outs*n) (ins*n) t w
+shared :: _ => B outs ins w -> B (outs*n) (ins*n) w
 shared (Brain feed) = Brain (\weights inputs ->
     transform (feed weights) inputs)
 
-recurrent :: forall n t ins shared w . _ => Brain t (ins+shared) shared w -> Brain t (ins*n) shared w
+recurrent :: forall n ins shared w . _ => Brain (ins+shared) shared w -> Brain (ins*n) shared w
 recurrent (Brain feed) = Brain newFeed
   where
     newFeed weights inputs = sfoldl' (\acc input -> feed weights (joinSized acc input)) (sreplicate 0) feedList
       where
-        feedList :: _ => Sized n (Sized ins t)
+        feedList :: _ => Sized n (Weights ins)
         feedList = chunkMap id inputs
 
 infixr 6 >!<
-(>!<) :: _ => B out1 in1 t w -> B out2 in2 t w -> B (out1+out2) (in1+in2) t w
+(>!<) :: _ => B out1 in1 w -> B out2 in2 w -> B (out1+out2) (in1+in2) w
 (>!<) (Brain feed1) (Brain feed2) = Brain (\weights inputs ->
     let (i1,i2) = splitSized inputs
     in joinSized (feed1 weights i1) (feed2 weights i2))
 
-biased :: _ => B outs ins t ((ins+1)*outs)
+biased :: _ => B outs ins ((ins+1)*outs)
 biased = Brain (\weights inputs -> (unBrain stronglyConnected) weights (scons 1 inputs))
 
-randWeights :: (K n,RealFloat a) => a -> Weights n a
+randWeights :: K n => Double -> Weights n
 randWeights = randomS (-1,1)
 
-newtype Disable t ins outs w = Disable (Brain t ins outs w)
+newtype Disable ins outs w = Disable (Brain ins outs w)
 
 type family NumWeightsOut a (w::Nat) where
   NumWeightsOut Brain w = w
@@ -109,10 +111,10 @@ type family IfEnabled brain a b where
   IfEnabled Disable _a b = b
 
 class BrainDisabler a where
-  disabler :: (KnownNat w) => a t ins outs w -> Weights w t ->
-                               (Brain t ins outs (NumWeightsOut a w), Weights (NumWeightsOut a w) t)
-  realSecondWeights :: (KnownNat w) => a t ins outs w -> Weights (NumWeightsOut a w) t ->
-                                        Weights w t -> Weights w t
+  disabler :: (KnownNat w) => a ins outs w -> Weights w ->
+                               (Brain ins outs (NumWeightsOut a w), Weights (NumWeightsOut a w))
+  realSecondWeights :: (KnownNat w) => a ins outs w -> Weights (NumWeightsOut a w) ->
+                                        Weights w -> Weights w
 
 instance BrainDisabler Brain where
   disabler b w = (b, w)

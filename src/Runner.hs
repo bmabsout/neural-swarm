@@ -1,6 +1,3 @@
-{-# LANGUAGE PartialTypeSignatures #-}
-{-# LANGUAGE DataKinds #-}
-{-# OPTIONS_GHC -fno-warn-partial-type-signatures #-}
 module Runner(runner) where
 
 import FireFlies
@@ -9,25 +6,34 @@ import Boids
 import Test
 import Minimizer
 import Charter
+import Convenience
 
+import Data.Map
+import Data.List
 import Graphics.Gloss
 
-currentInstance :: Simulator _ Double
-currentInstance = fliesSimulatorInstance
+currentInstance :: Simulator _
+currentInstance = boidsSimulatorInstance
 
-neuralInstance = fliesNeuralSimInstance
+neuralInstance = boidsNeuralInstance
 
 stage :: Display
 stage = InWindow "Simulation" (200,200) (10,10)
 
 fps = 60
 
+(|=) = singleton
+
+actions :: Map [String] (IO ())
+actions = mconcat [
+    ["train"]     |=  minimizer neuralInstance,
+    ["run"]       |=  let Simulator simRender simStep _ mainState = currentInstance
+                      in simulate stage black fps mainState simRender (\_ _ a -> simStep a),
+    ["test"]      |=  mapM_ print (trackCost 100 currentInstance),
+    ["chart"]     |=  singleWeightChangeChart neuralInstance]
+
 runner :: [String] -> IO ()
-runner ["train"] = printMinimizer neuralInstance
-runner ["alternate"] = printAlternateMinimizer neuralInstance
-runner ["run"]   = let Simulator simRender simStep _ mainState = currentInstance
-                   in simulate stage black fps mainState simRender (\_ _ a -> simStep a)
-runner ["test"]  = mapM_ print (trackCost 100 currentInstance)
-runner ["chart"] = singleWeightChangeChart neuralInstance
-runner _         = print "wrong arg, try train run or test"
+runner args = findWithDefault (putStrLn $ "wrong arguments choose : " ++ helpString) args actions
+    where helpString = keys actions &> unwords & intersperse " | " & mconcat
+
 

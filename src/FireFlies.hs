@@ -3,7 +3,7 @@
 module FireFlies
     ( Flies,
       fliesSimulatorInstance,
-      fliesNeuralSimInstance
+      fliesNeuralInstance
     ) where
 
 import           Control.Lens
@@ -19,22 +19,22 @@ import           Minimizer
 
 timepf = 1/60
 
-type Syncer a = [a] -> a
-type Fly a = (Vec a, a)
-data Flies a = Flies {
-    _period           :: a,
+type Syncer = [Double] -> Double
+type Fly = (Vec Double, Double)
+data Flies = Flies {
+    _period           :: Double,
     _flyNeighbhorhood :: Int,
-    _times            :: [a],
-    _positions        :: [Vec a],
+    _times            :: [Double],
+    _positions        :: [Vec Double],
     _size             :: Int,
     _matrix           :: [[Int]],
-    _syncer           :: Syncer a}
+    _syncer           :: Syncer}
 makeLenses ''Flies
 
 
 nonSyncer = randFlies (10,20) 234 5 (\_ _ -> 0) False
 
-fliesSimulatorInstance :: (Ord a,RealFloat a,V.Storable a) => Simulator (Flies a) a
+fliesSimulatorInstance :: Simulator Flies
 fliesSimulatorInstance = Simulator simRender simStep simCost mainState
   where
     simCost (Flies p n ts _ s m _) = m &> newGetIxs (V.fromList ts)
@@ -70,9 +70,8 @@ fliesSimulatorInstance = Simulator simRender simStep simCost mainState
 
 type NumNeighbhors = 5
 
-fliesNeuralSimInstance :: (RealFloat a,Ord a,V.Storable a) =>
-                              NeuralSim (Flies a) a _ _ _ _
-fliesNeuralSimInstance = NeuralSim fliesSimulatorInstance currentBox randTrainingState neuralStep
+fliesNeuralInstance :: NeuralSim Flies _ _ _ _
+fliesNeuralInstance = NeuralSim auto fliesSimulatorInstance currentBox randTrainingState neuralStep
   where
     currentBox@(brain,_,_) = reallySmallBox
     numNeighbhors = typeNum (Proxy :: Proxy NumNeighbhors)
@@ -87,17 +86,17 @@ newGetIxs vec indices = indices & V.fromList & V.map fromIntegral
                                 & V.backpermute vec & V.toList
 
 
-neuralSyncer :: _ => Brain a _ _ w -> Weights w a -> a -> Syncer a
+neuralSyncer :: _ => Brain _ _ w -> Weights w -> Double -> Syncer
 neuralSyncer (Brain feedForward) weights period inputs = feedForward weights (fromList inputs) & shead & (*(-period))
 
-mySyncer :: (Ord a,Fractional a) => a -> Syncer a
+mySyncer :: Double -> Syncer
 mySyncer period l = l &> ringDiff period & mean
   where ringDiff n t = t + if t > n/2 then -n+t else t
         mean [] = 0
         mean l  = sum l / fromIntegral (length l)
 
 
-randFlies :: RealFloat a => (a,a) -> a -> Int -> (a -> Syncer a) -> Bool -> Flies a
+randFlies :: (Double,Double) -> Double -> Int -> (Double -> Syncer) -> Bool -> Flies
 randFlies numFliesRange seed numNeighbhors syncer singleLine =
     Flies per numNeighbhors tgen vecs size (closestIs numNeighbhors vecs) (syncer per)
     where
@@ -115,7 +114,7 @@ randFlies numFliesRange seed numNeighbhors syncer singleLine =
 -- closests :: (Ord a,Num a) =>  Flies a -> Fly a -> Flies a
 -- closests (Flies t pos _) (fp,_) = (zip pos t) & sortBy (comparing (\(p,_) -> magVsq (fp-p))) & tail
 
-closestIs :: (Fractional a,Ord a) => Int -> [Vec a] -> [[Int]]
+closestIs :: Int -> [Vec Double] -> [[Int]]
 closestIs n l = l &> sortDist withIs
     where withIs = zip [0..] l
           sortDist l e = l & sortOn (snd &. distsq e)
@@ -127,15 +126,17 @@ timeDist n t1 t2 = min absDiff (n - absDiff)
   where absDiff = abs (t1 - t2)
 
 
-rnnBox :: _ => BrainBox t NumNeighbhors 1 _ _
+rnnBox :: _ => BrainBox NumNeighbhors 1 _ _
 rnnBox = buildBrain (initBrain (randWeights 4354) #> (recurrent (biased @3 @3 \> biased @2)) #> biased @3 #> biased)
 
-rnnWeights :: (RealFloat a, V.Storable a) => Weights 33 a
+rnnWeights :: Weights 33
 rnnWeights = mkN 1.750423440485752 3.222924885666668 2.2910227257536877 5.439806511011806 4.142005480385802 0.9805584364407558 2.5731630594431865 2.1391747233079625 -3.753164586650063 1.3161119585357113 0.2727157753602446 3.1794925669165823 0.41001096249619695 2.213345108078485 0.2780969665798213 0.9830443442915242 0.7433014784356982 1.6996108574973636 -3.7336393201376086 1.7007999286302289 5.752409698338232 5.2568993666229495 6.0264486640847686e-2 6.986510599213041 5.431577136860181 5.216348090138221 -6.760813283224193 -0.9074726111072304 -0.5494264835463663 -9.957843973110734 -16.751593067894785 -20.83451745186865 -5.652927477333056
 
 
-reallySmallBox :: _ => BrainBox t NumNeighbhors 1 _ _
+reallySmallBox :: _ => BrainBox NumNeighbhors 1 _ _
 reallySmallBox = buildBrain (initBrain reallysmallWeights #> (biased @3) #> biased @3 #> biased)
 
-reallysmallWeights :: (RealFloat a, V.Storable a) => Weights 34 a
-reallysmallWeights = mkN -21.147765925861748 -7.157520810353779 21.867200558295607 3.1873027120123423 23.153808797252992 19.953684577169447 -13.931980859957292 19.690257687079672 -0.725098590502125 16.864812826017662 24.388280078155965 36.565231025605044 -24.763620768975855 12.380198264778645 10.061059717637573 -0.8041508421257408 -9.97285236309175 0.7930357200543705 -9.71132095994771 0.212352901695059 8.168080838848994 -55.31368141505385 -6.433411124149906 -13.11363109954484 -2.044228629855218 -3.2491047847162804 -5.378954435521983 10.620746019167061 -11.492523001566003 -8.824140419183614 -6.8609385938675995 30.279113023315666 6.655981326763193 -24.438219318848198
+reallysmallWeights :: Weights 34
+reallysmallWeights = mkN -15.18170986966183 -3.468838594930856 26.749499493238694 5.369622375702876 28.287233497185504 19.812787024769847 -22.21178484369407 21.870129865061706 4.056926111610593 22.268754057477068 24.91998189703059 34.6774160024471 -24.36860448569042 14.058940908668045 9.420002878804068 -2.0726825294530172e-2 -9.341990499430814 2.676561498447912 -9.543770503562017 0.1780907476439586 8.335392411913825 -53.247911434931325 -6.04425645458969 -10.346201282685383 -4.20987560209897 -17.260992882938744 -4.138928691919586 10.426602561145696 -10.308927139767542 -10.434896816345635 -9.26147116013366 28.562345051310405 12.07769534995233 -26.110517229260317
+
+

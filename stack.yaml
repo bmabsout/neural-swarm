@@ -2,7 +2,7 @@ flags: {}
 packages:
 - '.'
 extra-deps:
-- Chart-gtk-1.8.1
+- Chart-gtk-1.8.2
 - fast-math-1.0.2
 - storable-tuple-0.0.3.2
-resolver: lts-7.14
+resolver: lts-8.3

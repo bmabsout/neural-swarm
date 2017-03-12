@@ -144,33 +144,3 @@ instance (Make (n+1) a r) => Make n a (a -> r) where
 
 mkN :: (Make 1 a r) => a -> r
 mkN = make empty
-
-
-data HList (ts :: [K.Type]) :: K.Type where
-  Nil  :: HList '[]
-  (:>) :: t -> HList ts -> HList (t ': ts)
-infixr 5 :>
-
-type family AllC c (xs :: [a]) :: K.Constraint where
-  AllC c '[]       = ()
-  AllC c (x ': xs) = (c x, AllC c xs)
-
-hmap :: forall c ts. AllC c ts => (forall x. c x => x -> x) -> HList ts -> HList ts
-hmap f Nil       = Nil
-hmap f (x :> xs) = f x :> hmap @c f xs
-
-hmap' :: forall c ts r. AllC c ts => (forall x. c x => x -> r) -> HList ts -> [r]
-hmap' f Nil       = []
-hmap' f (x :> xs) = f x : hmap' @c f xs
-
-
-instance AllC Show ts => Show (HList ts) where
-  show xs = "[" ++ intercalate ", " (hmap' @Show show xs) ++ "]"
--- func :: HList (k :: Nat) ->
-
-
--- test :: [Int]
--- test = hmap' @KnownNat natVal cheese
-
-
-test = [natVal (Proxy @3), natVal (Proxy @4)]

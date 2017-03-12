@@ -15,16 +15,16 @@ import SizedL
 rangedReplace :: _ => [a] -> Sized _ a -> Proxy _ -> [Sized _ a]
 rangedReplace rep xs index = rep &> replaceAt index xs
 
-neuralChart :: forall (m :: Nat) a (t :: Nat) (t1 :: Nat) (t2 :: Nat) b (n1 :: Nat).
-                       (KnownNat m, RealFloat a, Enum a) =>
+neuralChart :: forall (m :: Nat) (t :: Nat) (t1 :: Nat) (t2 :: Nat) b (n1 :: Nat).
+                       (KnownNat m) =>
                        Proxy (m + 1)
                        -> Int
-                       -> NeuralSim b a ((m + n1) + 1) t t1 t2 -> [(a, a)]
+                       -> NeuralSim b ((m + n1) + 1) t t1 t2 -> [(Double, Double)]
 
-neuralChart weightIndex numIters (NeuralSim simulator (_, startWeights, _) randTrainingState neuralStep) =
+neuralChart weightIndex numIters (NeuralSim _ simulator (_, startWeights, _) randTrainingState neuralStep) =
   zip weightVals (costsOf weightVals weightIndex)
     where
-      weightVals = [-40,-39.9 .. 40]
+      weightVals = [-40,-39 .. 40]
       generalSeed = 2342344
       numSystemsPerMinimization = 10
       Simulator _ step cost defaultState = simulator
@@ -39,10 +39,11 @@ neuralChart weightIndex numIters (NeuralSim simulator (_, startWeights, _) randT
 signal :: [Double] -> [(Double,Double)]
 signal = map $ \x -> (x,(sin (x*3.14159/45) + 1) / 2 * (sin (x*3.14159/5)))
 
-singleWeightChangeChart :: _ => NeuralSim a b _ d e f -> IO ()
+singleWeightChangeChart :: _ => NeuralSim a _ d e f -> IO ()
 singleWeightChangeChart neuralSim = toWindow 500 500 $ do
     layout_title .= "Amplitude Modulation"
     setColors [opaque blue, opaque red, opaque green, opaque purple]
-    plot (line "am" ([neuralChart (Proxy @10) 10 neuralSim]))
-    plot (line "pm" ([neuralChart (Proxy @10) 100 neuralSim]))
-    plot (line "cm" ([neuralChart (Proxy @10) 250 neuralSim]))
+    -- plot (line "10" ([neuralChart (Proxy @1) 10 neuralSim]))
+    -- plot (line "20" ([neuralChart (Proxy @1) 20 neuralSim]))
+    plot (line "30" ([neuralChart (Proxy @1) 100 neuralSim]))
+    -- plot (line "50" ([neuralChart (Proxy @2) 100 neuralSim]))
