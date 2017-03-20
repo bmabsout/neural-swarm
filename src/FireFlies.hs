@@ -70,10 +70,10 @@ fliesSimulatorInstance = Simulator simRender simStep simCost mainState
 
 type NumNeighbhors = 5
 
-fliesNeuralInstance :: NeuralSim Flies _ _ _ _
-fliesNeuralInstance = NeuralSim auto fliesSimulatorInstance currentBox randTrainingState neuralStep
+fliesNeuralInstance :: NeuralSim Flies _ _
+fliesNeuralInstance = NeuralSim auto fliesSimulatorInstance boxWeights restorer randTrainingState neuralStep
   where
-    currentBox@(brain,_,_) = reallySmallBox
+    currentBox@(brain,boxWeights,restorer) = reallySmallBox
     numNeighbhors = typeNum (Proxy :: Proxy NumNeighbhors)
 
     neuralStep system weights =

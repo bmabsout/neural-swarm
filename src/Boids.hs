@@ -96,10 +96,10 @@ myUpdater goal poss =
           gravity a b = (b-a) / fromScalar (max ((0.05*dist b a)^^(3::Int)) 10)
 
 
-boidsNeuralInstance :: NeuralSim (Boids _) _ _ _ _
-boidsNeuralInstance = NeuralSim auto boidsSimulatorInstance currentBox randTrainingState neuralStep
+boidsNeuralInstance :: NeuralSim (Boids _) _ _
+boidsNeuralInstance = NeuralSim auto boidsSimulatorInstance boxWeights restorer randTrainingState neuralStep
   where
-    currentBox@(brain,_,_) = stupidBox
+    currentBox@(brain,boxWeights,restorer) = stupidBox
     neuralStep boids weights = _simStep boidsSimulatorInstance (boids & updater .~ (neuralUpdater brain weights))
     randTrainingState seed weights =
       randBoids (7,10) (seed+1) (neuralUpdater brain weights) False

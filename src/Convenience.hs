@@ -14,9 +14,6 @@ import qualified Data.Vector.Storable as V
 import           Foreign.Storable.Tuple()
 
 
--- import Data.Matrix
-
-
 infixl 2 &.
 (&.) :: (a -> b) -> (b -> c) -> a -> c
 (&.) = flip (.)
@@ -51,16 +48,6 @@ getIxs :: Integral a => [b] -> [a] -> [b]
 getIxs l indices = indices & sort & mapAccumL accumate (0,l) & snd
     where accumate (oldI,currL) i = ((i,dropped),head dropped)
               where dropped = genericDrop (i-oldI) currL
-
--- sortAndNub :: (Ord a) => [a] -> [a]
--- sortAndNub = go S.empty
---   where go _ [] = []
---         go s (x:xs) | S.member x s = go s xs
---                     | otherwise    = x : go (S.insert x s) xs
-
--- nub' :: (Ord a) => [a] -> [a]
--- nub' = S.fromList &. S.toList
-
 ofLength :: Integral b => b -> [a] -> Bool
 ofLength 0 []     = True
 ofLength 0 _      = False
@@ -85,12 +72,6 @@ window :: (Integral b) => ([a] -> c) -> b -> [a] -> [c]
 window f n l = tails l & take (fromIntegral n)
                        & transposeCut
                        &> f
-
--- matrixWindow :: Int -> Int -> Matrix Int -> [Matrix Int]
--- matrixWindow ww wh mat = [submatrix currH (currH+wh-1) currW (currW+ww-1) mat | currW <- [1..w], currH <- [1..h]]
---     where w = ncols mat - ww + 1
---           h = nrows mat - wh + 1
-
 
 readTwo :: (Read a, Read b) => IO (a,b)
 readTwo = getLine &> words &. \(a:b:_) -> (read a, read b)
@@ -207,3 +188,6 @@ qsortOn f l = qsort (comparing f) l []
 
 lerp :: Num a => a -> a -> a -> a
 lerp a b n = (b - a)*n + a
+
+class Default a where
+  auto :: a

@@ -15,13 +15,13 @@ import SizedL
 rangedReplace :: _ => [a] -> Sized _ a -> Proxy _ -> [Sized _ a]
 rangedReplace rep xs index = rep &> replaceAt index xs
 
-neuralChart :: forall (m :: Nat) (t :: Nat) (t1 :: Nat) (t2 :: Nat) b (n1 :: Nat).
+neuralChart :: forall (m :: Nat) (t :: Nat) b (n1 :: Nat).
                        (KnownNat m) =>
                        Proxy (m + 1)
                        -> Int
-                       -> NeuralSim b ((m + n1) + 1) t t1 t2 -> [(Double, Double)]
+                       -> NeuralSim b ((m + n1) + 1) t -> [(Double, Double)]
 
-neuralChart weightIndex numIters (NeuralSim _ simulator (_, startWeights, _) randTrainingState neuralStep) =
+neuralChart weightIndex numIters (NeuralSim _ simulator startWeights _ randTrainingState neuralStep) =
   zip weightVals (costsOf weightVals weightIndex)
     where
       weightVals = [-40,-39 .. 40]
@@ -39,7 +39,7 @@ neuralChart weightIndex numIters (NeuralSim _ simulator (_, startWeights, _) ran
 signal :: [Double] -> [(Double,Double)]
 signal = map $ \x -> (x,(sin (x*3.14159/45) + 1) / 2 * (sin (x*3.14159/5)))
 
-singleWeightChangeChart :: _ => NeuralSim a _ d e f -> IO ()
+singleWeightChangeChart :: _ => NeuralSim a _ d -> IO ()
 singleWeightChangeChart neuralSim = toWindow 500 500 $ do
     layout_title .= "Amplitude Modulation"
     setColors [opaque blue, opaque red, opaque green, opaque purple]
