@@ -1,7 +1,7 @@
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Convenience
-(module Convenience,module Data.Function) where
+(module Convenience,module Data.Function,module Data.Proxy) where
 
 import           Data.Function
 -- import qualified Data.Set as S
@@ -12,6 +12,7 @@ import           Control.Parallel.Strategies
 import           Numeric.FastMath()
 import qualified Data.Vector.Storable as V
 import           Foreign.Storable.Tuple()
+import           Data.Proxy
 
 
 infixl 2 &.

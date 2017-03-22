@@ -21,7 +21,7 @@ neuralChart :: forall (m :: Nat) (t :: Nat) b (n1 :: Nat).
                        -> Int
                        -> NeuralSim b ((m + n1) + 1) t -> [(Double, Double)]
 
-neuralChart weightIndex numIters (NeuralSim _ simulator startWeights _ randTrainingState neuralStep) =
+neuralChart weightIndex numIters (NeuralSim _ startWeights _ randTrainingState neuralStep) =
   zip weightVals (costsOf weightVals weightIndex)
     where
       weightVals = [-40,-39 .. 40]

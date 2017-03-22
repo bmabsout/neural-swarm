@@ -61,13 +61,11 @@ instance Default Settings where
 
 data NeuralSim system enabled all = NeuralSim {
     _settings          :: Settings,
-    _simulatorInstance :: Simulator system,
     _weights           :: Weights enabled,
     _restorer          :: Restorer enabled all,
     _randTrainingState :: forall g. Weights enabled -> Rand g system,
     _neuralStep :: system -> Weights enabled -> system
 }
-makeLenses ''NeuralSim
 
 minimizeS :: (KnownNat n) => NelderMeadsParams -> Minimizer n
 minimizeS (NelderMeadsParams iterations) cost xi =
@@ -85,12 +83,11 @@ toMinimizer (NelderMeads pars) = minimizeS pars
 toMinimizer (Annealing pars) = annealing pars
 
 minimizer :: (KnownNat all,KnownNat enabled) => NeuralSim system enabled all -> IO ()
-minimizer neuralSim@(NeuralSim settings sim _ _ randTrainingState neuralStep) =
-  printMinimizer (toMinimizer (settings^.minSettings)) neuralSim
+minimizer neuralSim@(NeuralSim settings _ _ randTrainingState neuralStep) = undefined
 
 
-merged :: Minimizer n -> Settings -> Simulator system -> Weights w
-merged optimizer settings simulator = undefined
+merged :: (Simulator s) => Minimizer n -> Settings -> Proxy s -> Weights w
+merged optimizer settings p = undefined
 
 
 -- networkMinimizer :: Minimizer n -> NeuralSim a n w -> ([Vector Double],Weights w, [(Double,Double)])
