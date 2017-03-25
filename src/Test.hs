@@ -54,7 +54,7 @@ neuralUpdater (Brain feed) weights points goal =
     sizedToVec :: Weights 2 -> Vec Double
     sizedToVec (Sized [a,b]) = Vec (lerp -10 10 a, lerp -10 10 b)
 
-testNeuralInstance :: NeuralSim Test _ _ _ _
+testNeuralInstance :: NeuralSim _ _ _ _ Test
 testNeuralInstance = NeuralSim auto testSimulatorInstance currentBox randTrainingState neuralStep
     where
         currentBox@(brain,_,_) = bronx

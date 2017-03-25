@@ -34,6 +34,9 @@ type BrainBox ins outs w n = (Brain ins outs w, Weights w, Restorer w n)
 boxWeights :: Lens' (BrainBox ins outs w n) (Weights w)
 boxWeights = lens (\(_,w,_) -> w) (\(a,b,c) w -> (a,w,c))
 
+boxRestorer :: Lens' (BrainBox ins outs w n) (Restorer w n)
+boxRestorer = lens (\(_,_,r) -> r) (\(a,b,c) r -> (a,b,r))
+
 infixr 5 \>
 (\>) :: _ => B b a w1 -> B c b w2 -> B c a (w1+w2)
 (\>) (Brain feed1) (Brain feed2) =

@@ -21,6 +21,7 @@ import           Simulator
 import           Control.Parallel.Strategies
 import           Foreign.C.Types
 import           Control.Arrow
+import           Control.Monad.Reader
 
 type Minimizer n = (Weights n -> Double) -> Weights n -> (Weights n,Vector Double)
 
@@ -74,7 +75,7 @@ makeLenses ''Settings
 instance Default Settings where
   auto = Settings auto auto 230948 3
 
-data NeuralSim system w n ins outs = NeuralSim {
+data NeuralSim w n ins outs system = NeuralSim {
     _minSettings       :: Settings,
     _simulatorInstance :: Simulator system,
     _startBox          :: BrainBox ins outs w n,
@@ -98,7 +99,7 @@ toMinimizer :: KnownNat n => MinSettings -> Minimizer n
 toMinimizer (NelderMeads pars) = minimizeS pars
 toMinimizer (Annealing pars) = annealing pars
 
-minimizer :: (KnownNat n,KnownNat w) => NeuralSim system w n ins outs -> IO ()
+minimizer :: (KnownNat n,KnownNat w) => NeuralSim w n ins outs system -> IO ()
 minimizer neuralSim@(NeuralSim settings sim box randTrainingState neuralStep) =
   printRunner typeMin (toMinimizer minSettings) neuralSim
   where
@@ -107,7 +108,7 @@ minimizer neuralSim@(NeuralSim settings sim box randTrainingState neuralStep) =
     printRunner (Normal _)     = printAlternateMinimizer
 
 
-networkMinimizer :: Minimizer n -> NeuralSim a n w ins outs -> ([Vector Double],Weights w, [(Double,Double)])
+networkMinimizer :: Minimizer n -> NeuralSim n w ins outs a -> ([Vector Double],Weights w, [(Double,Double)])
 networkMinimizer optimizer (NeuralSim _ simulator startBox randTrainingState _) =
   (paths,weightRestorer minimizedWeights, zip (defaultCosts startWeights) (defaultCosts minimizedWeights))
     where
@@ -134,7 +135,7 @@ networkMinimizer optimizer (NeuralSim _ simulator startBox randTrainingState _) 
                   & sum
 
 
-perEpisodeMinimizer :: Minimizer n -> NeuralSim a n w ins outs -> Weights w
+perEpisodeMinimizer :: Minimizer n -> NeuralSim n w ins outs a -> Weights w
 perEpisodeMinimizer optimizer (NeuralSim _ simulator (_, startWeights, weightRestorer) randTrainingState neuralStep) =
   (weightRestorer minimizedWeights)
     where
@@ -157,13 +158,13 @@ perEpisodeMinimizer optimizer (NeuralSim _ simulator (_, startWeights, weightRes
 
 
 
-printMinimizer :: _ => Minimizer n -> NeuralSim a n w ins outs -> IO ()
+printMinimizer :: _ => Minimizer n -> NeuralSim n w ins outs a -> IO ()
 printMinimizer optimizer neuralSim = do
   mapM_ print a
   print b
   print c
     where (a,b,c) = networkMinimizer optimizer neuralSim
 
-printAlternateMinimizer :: _ => Minimizer n -> NeuralSim a n w ins outs -> IO ()
+printAlternateMinimizer :: _ => Minimizer n -> NeuralSim n w ins outs a -> IO ()
 printAlternateMinimizer optimizer neuralSim = do
   print (perEpisodeMinimizer optimizer neuralSim)

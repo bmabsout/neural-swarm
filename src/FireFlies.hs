@@ -70,7 +70,7 @@ fliesSimulatorInstance = Simulator simRender simStep simCost mainState
 
 type NumNeighbhors = 5
 
-fliesNeuralInstance :: NeuralSim Flies _ _ _ _
+fliesNeuralInstance :: NeuralSim _ _ _ _ Flies
 fliesNeuralInstance = NeuralSim auto fliesSimulatorInstance currentBox randTrainingState neuralStep
   where
     currentBox@(brain,_,_) = reallySmallBox

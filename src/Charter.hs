@@ -19,7 +19,7 @@ neuralChart :: forall (m :: Nat) (t :: Nat) (t1 :: Nat) (t2 :: Nat) b (n1 :: Nat
                        (KnownNat m) =>
                        Proxy (m + 1)
                        -> Int
-                       -> NeuralSim b ((m + n1) + 1) t t1 t2 -> [(Double, Double)]
+                       -> NeuralSim ((m + n1) + 1) t t1 t2 b -> [(Double, Double)]
 
 neuralChart weightIndex numIters (NeuralSim _ simulator (_, startWeights, _) randTrainingState neuralStep) =
   zip weightVals (costsOf weightVals weightIndex)
@@ -39,7 +39,7 @@ neuralChart weightIndex numIters (NeuralSim _ simulator (_, startWeights, _) ran
 signal :: [Double] -> [(Double,Double)]
 signal = map $ \x -> (x,(sin (x*3.14159/45) + 1) / 2 * (sin (x*3.14159/5)))
 
-singleWeightChangeChart :: _ => NeuralSim a _ d e f -> IO ()
+singleWeightChangeChart :: _ => NeuralSim _ d e f a -> IO ()
 singleWeightChangeChart neuralSim = toWindow 500 500 $ do
     layout_title .= "Amplitude Modulation"
     setColors [opaque blue, opaque red, opaque green, opaque purple]

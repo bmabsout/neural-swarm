@@ -37,6 +37,7 @@ library
                      , hmatrix
                      , kdt
                      , lens
+                     , mtl
                      , fast-math
                      , containers
                      , vector
