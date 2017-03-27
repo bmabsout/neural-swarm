@@ -12,8 +12,7 @@ import Data.Map
 import Data.List
 import Graphics.Gloss
 
-currentInstance :: Simulator _
-currentInstance = boidsSimulatorInstance
+currentInstance = auto @(Boids 4)
 
 neuralInstance = boidsNeuralInstance
 
@@ -27,8 +26,7 @@ fps = 60
 actions :: Map [String] (IO ())
 actions = mconcat [
     ["train"]     |=  minimizer neuralInstance,
-    ["run"]       |=  let Simulator simRender simStep _ mainState = currentInstance
-                      in simulate stage black fps mainState simRender (\_ _ a -> simStep a),
+    ["run"]       |=  simulate stage black fps currentInstance simRender (\_ _ a -> simStep a),
     ["test"]      |=  mapM_ print (trackCost 100 currentInstance),
     ["chart"]     |=  singleWeightChangeChart neuralInstance]
 

@@ -2,7 +2,7 @@
 {-# LANGUAGE NegativeLiterals #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE UndecidableInstances #-}
-module Boids(Boids, boidsSimulatorInstance,boidsNeuralInstance) where
+module Boids(Boids,boidsNeuralInstance) where
 
 import           Brain
 import           Control.Lens
@@ -77,10 +77,10 @@ randBoids :: (Double,Double) -> Updater n -> Bool -> R.Rand _ (Boids n)
 randBoids numBoidsRange updater singleLine =
   do
     numBoids <- R.getRandomR numBoidsRange
-    goal <- R.getRandomR ((-1000,1000),(-1000,1000))
+    goal <- getRandomVec (-1000,1000)
     let size = floor numBoids
     moves <- getRandomVecs (-200,200) &> take size
-    return $ Boids (addVelocities $ if singleLine then oneLine numBoids else moves) (goal,Vec (0,0)) 0 size updater
+    return $ Boids (addVelocities $ if singleLine then oneLine numBoids else moves) (goal,0) 0 size updater
   where oneLine :: Double -> [Doubles]
         oneLine numBoids = zip (iterate (+16) (-numBoids*8)) (repeat 0) &> Vec
         addVelocities :: [Doubles] -> [(Doubles,Doubles)]
@@ -97,11 +97,11 @@ myUpdater goal poss =
           gravity a b = (b-a) / fromScalar (max ((0.05*dist b a)^^(3::Int)) 10)
 
 
-boidsNeuralInstance :: NeuralSim (Boids _) _ _
+boidsNeuralInstance :: NeuralSim (Boids 4) _ _
 boidsNeuralInstance = NeuralSim auto boxWeights restorer randTrainingState neuralStep
   where
     currentBox@(brain,boxWeights,restorer) = stupidBox
-    neuralStep boids weights = _simStep boidsSimulatorInstance (boids & updater .~ (neuralUpdater brain weights))
+    neuralStep boids weights = simStep (boids & updater .~ (neuralUpdater brain weights))
     randTrainingState weights =
       randBoids (7,10) (neuralUpdater brain weights) False
 

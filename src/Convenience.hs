@@ -121,6 +121,10 @@ instance (R.Random x, R.Random y) => R.Random (x, y) where
     let (x, gen2) = R.randomR (x1, x2) gen1
         (y, gen3) = R.randomR (y1, y2) gen2
     in ((x, y), gen3)
+  random gen1 =
+    let (x, gen2) = R.random gen1
+        (y, gen3) = R.random gen2
+    in ((x, y), gen3)
 
 getRandomVecs range = R.getRandomRs (Vec range, Vec range)
 getRandomVec range = R.getRandomR (Vec range, Vec range)
