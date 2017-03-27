@@ -40,7 +40,7 @@ numNeighbhors _ = typeNum (Proxy :: Proxy n)
 boidSize :: RealFloat s => s
 boidSize = 8
 
-instance CanRender (Boids 4) where
+instance CanRender (Boids n) where
   simRender boids =
       boids^.moves &> (\(p,_) -> circleSolid boidSize & vecTranslate p
                                                       & color white)
@@ -49,7 +49,7 @@ instance CanRender (Boids 4) where
                    & pictures
       where vecTranslate (Vec (x,y)) = translate (realToFrac x) (realToFrac y)
 
-instance Steppable (Boids 4) where
+instance KnownNat n => Steppable (Boids n) where
   simStep boids@(Boids moves goal@(loc,angle) numBumps size updater) =
       Boids newMoves (loc,angle+0.06) newNumBumps size updater
     where
@@ -60,7 +60,7 @@ instance Steppable (Boids 4) where
           numCollisions = (inRadius kdm boidSize pos & length & fromIntegral) - 1
           nClosest = kNearest kdm (numNeighbhors boids) pos & fromList
 
-instance HasCost (Boids 4) where
+instance HasCost (Boids n) where
   simCost boids = closenessCost + 0.001*boids^.numBumps
     where closenessCost = boids^.moves &> fst
                                        &> distsq (computeGoal (boids^.goal))
@@ -81,9 +81,7 @@ randBoids numBoidsRange updater singleLine =
     let size = floor numBoids
     moves <- getRandomVecs (-200,200) &> take size
     return $ Boids (addVelocities $ if singleLine then oneLine numBoids else moves) (goal,0) 0 size updater
-  where oneLine :: Double -> [Doubles]
-        oneLine numBoids = zip (iterate (+16) (-numBoids*8)) (repeat 0) &> Vec
-        addVelocities :: [Doubles] -> [(Doubles,Doubles)]
+  where oneLine numBoids = zip (iterate (+16) (-numBoids*8)) (repeat 0) &> Vec
         addVelocities l = l &> (\x -> (x, Vec (0,0)))
 
 
