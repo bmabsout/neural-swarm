@@ -2,7 +2,6 @@
 {-# LANGUAGE NegativeLiterals #-}
 module FireFlies
     ( Flies,
-      fliesSimulatorInstance,
       fliesNeuralInstance
     ) where
 
@@ -16,6 +15,7 @@ import           Data.Proxy
 import           Brain
 import           Simulator
 import           Minimizer
+import qualified Control.Monad.Random as R
 
 timepf = 1/60
 
@@ -32,17 +32,13 @@ data Flies = Flies {
 makeLenses ''Flies
 
 
-nonSyncer = randFlies (10,20) 234 5 (\_ _ -> 0) False
-
-fliesSimulatorInstance :: Simulator Flies
-fliesSimulatorInstance = Simulator simRender simStep simCost mainState
-  where
+instance HasCost Flies where
     simCost (Flies p n ts _ s m _) = m &> newGetIxs (V.fromList ts)
                                        &. allWithAll p (fromIntegral n)
                                        & sum & (/ fromIntegral s) & realToFrac
         where allWithAll p s l = l &> (\a -> l &> (\b ->timeDist p a b ^^2) & sum)
                                    & sum & (/ s^^2)
-
+instance CanRender Flies where
     simRender fs = zipWith (renderFirefly (fs^.period)) (fs^.positions) (fs^.times)
                    & pictures
         where
@@ -53,7 +49,7 @@ fliesSimulatorInstance = Simulator simRender simStep simCost mainState
                       currentColor = let t = realToFrac (time / period)
                                      in makeColor t t t 1
 
-
+instance Steppable Flies where
     simStep fs@(Flies per _ ts _ _ matrix syncer) = fs & times .~ newTimes
         where
           newTimes =
@@ -65,21 +61,21 @@ fliesSimulatorInstance = Simulator simRender simStep simCost mainState
                             matrix
             where sync indices ts syncer = indices & newGetIxs ts & syncer
 
-    mainState = randFlies (100,100) 203430 5 (applyBeforeBox reallySmallBox neuralSyncer) True
-
+instance Default Flies where
+  auto = R.evalRand (randFlies (100,100) 5 (applyBeforeBox reallySmallBox neuralSyncer) True) (R.mkStdGen 234234)
 
 type NumNeighbhors = 5
 
 fliesNeuralInstance :: NeuralSim Flies _ _
-fliesNeuralInstance = NeuralSim auto fliesSimulatorInstance boxWeights restorer randTrainingState neuralStep
+fliesNeuralInstance = NeuralSim auto boxWeights restorer randTrainingState neuralStep
   where
     currentBox@(brain,boxWeights,restorer) = reallySmallBox
     numNeighbhors = typeNum (Proxy :: Proxy NumNeighbhors)
 
     neuralStep system weights =
-      _simStep fliesSimulatorInstance (system & syncer .~ (neuralSyncer brain weights (system^.period)))
-    randTrainingState seed weights =
-        randFlies (100,100) (seed+1) numNeighbhors (neuralSyncer brain weights) True
+      simStep (system & syncer .~ (neuralSyncer brain weights (system^.period)))
+    randTrainingState weights =
+        randFlies (100,100) numNeighbhors (neuralSyncer brain weights) True
 
 
 newGetIxs vec indices = indices & V.fromList & V.map fromIntegral
@@ -95,24 +91,23 @@ mySyncer period l = l &> ringDiff period & mean
         mean [] = 0
         mean l  = sum l / fromIntegral (length l)
 
+randFlies :: (Double,Double) -> Int -> (Double -> Syncer) -> Bool -> R.Rand _ Flies
+randFlies numFliesRange numNeighbhors syncer singleLine =
+  do
+    numFlies <- R.getRandomR numFliesRange
+    xs <- (let xgen | singleLine = return $ iterate (+16) (-numFlies*8)
+                    | otherwise  = R.getRandomRs (-500,500)
+           in xgen)
+    ys <- (let ygen | singleLine = return $ repeat 0
+                    | otherwise  = R.getRandomRs (-500,500)
+           in ygen)
+    let size = floor numFlies
+    let per = 0.5
+    ts <- R.getRandomRs (0,per) &> take size
+    let vecs = zip xs ys & take size &> Vec
+    return $ Flies per numNeighbhors ts vecs size (closestIs numNeighbhors vecs) (syncer per)
 
-randFlies :: (Double,Double) -> Double -> Int -> (Double -> Syncer) -> Bool -> Flies
-randFlies numFliesRange seed numNeighbhors syncer singleLine =
-    Flies per numNeighbhors tgen vecs size (closestIs numNeighbhors vecs) (syncer per)
-    where
-      per = 0.5
-      size = floor numFlies
-      numFlies = pseudoRand numFliesRange (seed+3)
-      xgen | singleLine = iterate (+16) (-numFlies*8)
-           | otherwise  = pseudoRands (-500,500) (seed+2)
 
-      ygen | singleLine = repeat 0
-           | otherwise  = pseudoRands (-500,500) (seed+1)
-      vecs = zip xgen ygen & take size &> Vec
-      tgen = pseudoRands (0,per) seed & take size
-
--- closests :: (Ord a,Num a) =>  Flies a -> Fly a -> Flies a
--- closests (Flies t pos _) (fp,_) = (zip pos t) & sortBy (comparing (\(p,_) -> magVsq (fp-p))) & tail
 
 closestIs :: Int -> [Vec Double] -> [[Int]]
 closestIs n l = l &> sortDist withIs

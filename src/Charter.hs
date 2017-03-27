@@ -11,27 +11,25 @@ import Brain
 import Simulator
 import Convenience
 import SizedL
+import Control.Monad.Random
 
 rangedReplace :: _ => [a] -> Sized _ a -> Proxy _ -> [Sized _ a]
 rangedReplace rep xs index = rep &> replaceAt index xs
 
 neuralChart :: forall (m :: Nat) (t :: Nat) b (n1 :: Nat).
-                       (KnownNat m) =>
+                       (KnownNat m, Simulator b) =>
                        Proxy (m + 1)
                        -> Int
                        -> NeuralSim b ((m + n1) + 1) t -> [(Double, Double)]
-
 neuralChart weightIndex numIters (NeuralSim _ startWeights _ randTrainingState neuralStep) =
   zip weightVals (costsOf weightVals weightIndex)
     where
       weightVals = [-40,-39 .. 40]
       generalSeed = 2342344
       numSystemsPerMinimization = 10
-      Simulator _ step cost defaultState = simulator
-      randSystems = seeds &> flip randTrainingState startWeights
-        where seeds = pseudoRands (0,1000) generalSeed & take numSystemsPerMinimization
+      randSystems = evalRand (replicateM numSystemsPerMinimization $ randTrainingState startWeights) (mkStdGen generalSeed)
       costsOf xs index = rangedReplace xs startWeights index &> neuralStepsN randSystems &> costs
-        where costs systems = systems &> cost &> (^^2) & sum & (^^2)
+        where costs systems = systems &> simCost &> (^^2) & sum & (^^2)
               neuralStepsN systems weights =
                 apply numIters (neuralSteps weights) systems
               neuralSteps weights systems = systems &> (\s -> neuralStep s weights)

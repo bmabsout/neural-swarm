@@ -1,47 +1,48 @@
 {-# LANGUAGE NegativeLiterals #-}
 {-# LANGUAGE FlexibleContexts #-}
-module Test(Test, testSimulatorInstance, testNeuralInstance) where
+module Test(Test, testNeuralInstance) where
 
 import Brain
 import Convenience
 import Minimizer
 import Simulator
 import Graphics.Gloss
+import Control.Monad.Random
 
 type Updater = [Vec Double] -> Vec Double -> [Vec Double]
 
 newtype Test = Test ([Vec Double],(Vec Double, Double),Updater)
 
-testSimulatorInstance :: Simulator Test
-testSimulatorInstance = Simulator simRender simStep simCost mainState
-    where
-        simRender (Test (points, goal, _)) =
-            points &> (\p -> circleSolid 8 & vecTranslate p
-                                           & color white)
-                   & (:) (circleSolid 16 & vecTranslate (computeGoal goal)
-                                         & color red)
-                   & pictures
-            where vecTranslate (Vec (x,y)) = translate (realToFrac x) (realToFrac y)
+instance CanRender Test where
+  simRender (Test (points, goal, _)) =
+      points &> (\p -> circleSolid 8 & vecTranslate p
+                                     & color white)
+             & (:) (circleSolid 16 & vecTranslate (computeGoal goal)
+                                   & color red)
+             & pictures
+      where vecTranslate (Vec (x,y)) = translate (realToFrac x) (realToFrac y)
 
-        simStep (Test (points, goal@(loc, angle) , updater)) = Test (zipWith (+) points vecs, (loc, angle+0.1), updater)
-            where vecs = updater points (computeGoal goal)
+instance Steppable Test where
+  simStep (Test (points, goal@(loc, angle) , updater)) = Test (zipWith (+) points vecs, (loc, angle+0.1), updater)
+      where vecs = updater points (computeGoal goal)
 
-        simCost (Test (points, goal, _)) = points &> distsq (computeGoal goal) & sum
+instance HasCost Test where
+  simCost (Test (points, goal, _)) = points &> distsq (computeGoal goal) & sum
 
-        mainState = randTests (100,100) (applyBeforeBox bronx neuralUpdater) 114678
+instance Default Test where
+  auto = evalRand (randTests (100,100) (applyBeforeBox bronx neuralUpdater)) (mkStdGen 114678)
 
 computeGoal ::(Vec Double, Double) -> Vec Double
 computeGoal (loc, angle) = rotateVec (fromScalar 100) angle + loc
 
-randTests :: (Double,Double) -> Updater -> Double -> Test
-randTests numTestsRange updater seed = Test (points, (randGoal,0), updater)
-    where range = (-500,500)
-          randGoal = Vec (pseudoRand range seed, pseudoRand range (seed+1))
-          numTests = pseudoRand numTestsRange (seed+2) & floor
-          points = zipWith (curry Vec)
-                           (pseudoRands range (seed+3))
-                           (pseudoRands range (seed+4))
-                   & take numTests
+randTests :: (Double,Double) -> Updater -> Rand StdGen Test
+randTests numTestsRange updater =
+  do
+    let range = (-500,500)
+    randGoal <- getRandomR range
+    numTests <- getRandomR numTestsRange &> floor
+    points <- getRandomRs range &> take numTests
+    return $ Test (points, (randGoal,0), updater)
 
 myUpdater points goal = points &> (\p -> (goal - p)/(dist goal p & fromScalar))
 
@@ -55,12 +56,12 @@ neuralUpdater (Brain feed) weights points goal =
     sizedToVec (Sized [a,b]) = Vec (lerp -10 10 a, lerp -10 10 b)
 
 testNeuralInstance :: NeuralSim Test _ _
-testNeuralInstance = NeuralSim auto testSimulatorInstance boxWeights restorer randTrainingState neuralStep
+testNeuralInstance = NeuralSim auto boxWeights restorer randTrainingState neuralStep
     where
         currentBox@(brain,boxWeights,restorer) = bronx
-        neuralStep (Test (a,b,_)) weights = _simStep testSimulatorInstance (Test (a,b,neuralUpdater brain weights))
-        randTrainingState seed weights =
-            randTests (10,10) (neuralUpdater brain weights) (seed+1)
+        neuralStep (Test (a,b,_)) weights = simStep (Test (a,b,neuralUpdater brain weights))
+        randTrainingState weights =
+            randTests (10,10) (neuralUpdater brain weights)
 
 box :: _ => BrainBox _ _ _ _
 box = buildBrain (initBrain bamboo #> (Disable (biased @3)) #> biased @10 #> biased @2)

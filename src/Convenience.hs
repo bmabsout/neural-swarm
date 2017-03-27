@@ -13,7 +13,7 @@ import           Numeric.FastMath()
 import qualified Data.Vector.Storable as V
 import           Foreign.Storable.Tuple()
 import           Data.Proxy
-
+import qualified Control.Monad.Random as R
 
 infixl 2 &.
 (&.) :: (a -> b) -> (b -> c) -> a -> c
@@ -115,7 +115,15 @@ pseudoRand (a,b) seed = ring (a,b) ((sin (seed * ring (20,30) seed) + 1) * (newB
 pseudoRands :: RealFloat a => (a,a) -> a -> [a]
 pseudoRands (a,b) seed = iterate (pseudoRand (a,b)) seed & tail
 
-newtype Vec a = Vec (a,a) deriving (Eq, Show,V.Storable)
+newtype Vec a = Vec (a,a) deriving (Eq, Show,V.Storable, R.Random)
+instance (R.Random x, R.Random y) => R.Random (x, y) where
+  randomR ((x1, y1), (x2, y2)) gen1 =
+    let (x, gen2) = R.randomR (x1, x2) gen1
+        (y, gen3) = R.randomR (y1, y2) gen2
+    in ((x, y), gen3)
+
+getRandomVecs range = R.getRandomRs (Vec range, Vec range)
+getRandomVec range = R.getRandomR (Vec range, Vec range)
 
 instance Num a => Num (Vec a) where
     Vec (a,b) + Vec (a2,b2) = Vec (a+a2,b+b2)

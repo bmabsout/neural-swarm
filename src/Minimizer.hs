@@ -63,7 +63,7 @@ data NeuralSim system enabled all = NeuralSim {
     _settings          :: Settings,
     _weights           :: Weights enabled,
     _restorer          :: Restorer enabled all,
-    _randTrainingState :: forall g. Weights enabled -> Rand g system,
+    _randTrainingState :: forall g. Weights enabled -> Rand StdGen system,
     _neuralStep :: system -> Weights enabled -> system
 }
 

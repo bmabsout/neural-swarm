@@ -54,7 +54,8 @@ library
               FunctionalDependencies,
               ExistentialQuantification,
               ScopedTypeVariables,
-              ConstraintKinds
+              ConstraintKinds,
+              FlexibleInstances
   ghc-options: -fno-warn-partial-type-signatures -freduction-depth=0 -fplugin GHC.TypeLits.Normalise
 
 executable neural-swarm-exe

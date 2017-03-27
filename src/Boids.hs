@@ -1,6 +1,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE NegativeLiterals #-}
 {-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE UndecidableInstances #-}
 module Boids(Boids, boidsSimulatorInstance,boidsNeuralInstance) where
 
 import           Brain
@@ -16,6 +17,7 @@ import           Minimizer
 import           Numeric.FastMath()
 import           Simulator
 import           Data.KdMap.Static hiding (size)
+import qualified Control.Monad.Random as R
 
 type Doubles = Vec Double
 
@@ -34,56 +36,55 @@ makeLenses ''Boids
 numNeighbhors :: forall n x. _ => Boids n -> x
 numNeighbhors _ = typeNum (Proxy :: Proxy n)
 
-boidsSimulatorInstance :: Simulator (Boids 4)
-boidsSimulatorInstance = Simulator simRender simStep simCost mainState
+
+boidSize :: RealFloat s => s
+boidSize = 8
+
+instance CanRender (Boids 4) where
+  simRender boids =
+      boids^.moves &> (\(p,_) -> circleSolid boidSize & vecTranslate p
+                                                      & color white)
+                   & ((:) (circleSolid (boidSize*2) & vecTranslate (computeGoal (boids^.goal))
+                                                    & color red))
+                   & pictures
+      where vecTranslate (Vec (x,y)) = translate (realToFrac x) (realToFrac y)
+
+instance Steppable (Boids 4) where
+  simStep boids@(Boids moves goal@(loc,angle) numBumps size updater) =
+      Boids newMoves (loc,angle+0.06) newNumBumps size updater
     where
-        boidSize :: RealFloat s => s
-        boidSize = 8
-        simRender boids =
-            boids^.moves &> (\(p,_) -> circleSolid boidSize & vecTranslate p
-                                                            & color white)
-                         & ((:) (circleSolid (boidSize*2) & vecTranslate (computeGoal (boids^.goal))
-                                                          & color red))
-                         & pictures
-            where vecTranslate (Vec (x,y)) = translate (realToFrac x) (realToFrac y)
+      (newMoves, newNumBumps) = moves &> update & unzip & second (sum &. (+numBumps))
+      kdm = buildWithDist vecToList distsq moves
+      update (pos,vel) = ((pos+vel,updater (computeGoal goal) nClosest), numCollisions)
+        where
+          numCollisions = (inRadius kdm boidSize pos & length & fromIntegral) - 1
+          nClosest = kNearest kdm (numNeighbhors boids) pos & fromList
 
-        simStep boids@(Boids moves goal@(loc,angle) numBumps size updater) =
-            Boids newMoves (loc,angle+0.06) newNumBumps size updater
-          where
-            (newMoves, newNumBumps) = moves &> update & unzip & second (sum &. (+numBumps))
-            kdm = buildWithDist vecToList distsq moves
-            update (pos,vel) = ((pos+vel,updater (computeGoal goal) nClosest), numCollisions)
-              where
-                numCollisions = (inRadius kdm boidSize pos & length & fromIntegral) - 1
-                nClosest = kNearest kdm (numNeighbhors boids) pos & fromList
+instance HasCost (Boids 4) where
+  simCost boids = closenessCost + 0.001*boids^.numBumps
+    where closenessCost = boids^.moves &> fst
+                                       &> distsq (computeGoal (boids^.goal))
+                                       & sum
+                                       & (/ fromIntegral (boids^.size))
 
-
-        simCost boids = closenessCost + 0.001*boids^.numBumps
-          where closenessCost = boids^.moves &> fst
-                                             &> distsq (computeGoal (boids^.goal))
-                                             & sum
-                                             & (/ fromIntegral (boids^.size))
-
-        mainState = randBoids (10,15) 135467 (applyBeforeBox stupidBox neuralUpdater) False
-
-
+instance Default (Boids 4) where
+  auto = R.evalRand (randBoids (10,15) (applyBeforeBox stupidBox neuralUpdater) False) (R.mkStdGen 23423)
 
 computeGoal :: (Doubles, Double) -> Doubles
 computeGoal (loc, angle) = rotateVec (fromScalar 400) angle + loc
 
-randBoids :: (Double,Double) -> Double -> Updater n -> Bool -> Boids n
-randBoids numBoidsRange seed updater singleLine =
-    Boids moves (goal,0) 0 size updater
-    where
-      goal = pseudoRands (-1000,1000) (seed+4) & (\(a:b:_) -> Vec (a,b))
-      size = floor numBoids
-      numBoids = pseudoRand numBoidsRange (seed+3)
-      xgen | singleLine = iterate (+16) (-numBoids*8)
-           | otherwise  = pseudoRands (-200,200) (seed+2)
-
-      ygen | singleLine = repeat 0
-           | otherwise  = pseudoRands (-200,200) (seed+1)
-      moves = zipWith (curry Vec) xgen ygen & flip zip (repeat $ Vec (0,0)) & take size
+randBoids :: (Double,Double) -> Updater n -> Bool -> R.Rand _ (Boids n)
+randBoids numBoidsRange updater singleLine =
+  do
+    numBoids <- R.getRandomR numBoidsRange
+    goal <- R.getRandomR ((-1000,1000),(-1000,1000))
+    let size = floor numBoids
+    moves <- getRandomVecs (-200,200) &> take size
+    return $ Boids (addVelocities $ if singleLine then oneLine numBoids else moves) (goal,Vec (0,0)) 0 size updater
+  where oneLine :: Double -> [Doubles]
+        oneLine numBoids = zip (iterate (+16) (-numBoids*8)) (repeat 0) &> Vec
+        addVelocities :: [Doubles] -> [(Doubles,Doubles)]
+        addVelocities l = l &> (\x -> (x, Vec (0,0)))
 
 
 myUpdater :: _ => Updater (n+1)
@@ -97,12 +98,12 @@ myUpdater goal poss =
 
 
 boidsNeuralInstance :: NeuralSim (Boids _) _ _
-boidsNeuralInstance = NeuralSim auto boidsSimulatorInstance boxWeights restorer randTrainingState neuralStep
+boidsNeuralInstance = NeuralSim auto boxWeights restorer randTrainingState neuralStep
   where
     currentBox@(brain,boxWeights,restorer) = stupidBox
     neuralStep boids weights = _simStep boidsSimulatorInstance (boids & updater .~ (neuralUpdater brain weights))
-    randTrainingState seed weights =
-      randBoids (7,10) (seed+1) (neuralUpdater brain weights) False
+    randTrainingState weights =
+      randBoids (7,10) (neuralUpdater brain weights) False
 
 neuralUpdater :: Brain (n*4+2) 2 w -> Weights w -> Updater n
 neuralUpdater (Brain feed) weights goal poss = feed weights cleanedInputs & sizedToVec
