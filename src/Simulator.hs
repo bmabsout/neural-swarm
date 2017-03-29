@@ -4,6 +4,7 @@ import Graphics.Gloss
 import Control.Lens
 import Convenience
 import Numeric.FastMath()
+import Control.Monad.Random
 
 
 class CanRender a where
@@ -17,7 +18,7 @@ class HasCost a where
 
 type CostStep a = (HasCost a, Steppable a)
 
-type Simulator a = (CostStep a, CanRender a)
+type Simulator a = (CostStep a, CanRender a, Random a)
 
 simulateN :: (Num a, Ord a, CostStep t) => a -> t -> (Double, t)
 simulateN n initState =

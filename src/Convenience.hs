@@ -14,6 +14,7 @@ import qualified Data.Vector.Storable as V
 import           Foreign.Storable.Tuple()
 import           Data.Proxy
 import qualified Control.Monad.Random as R
+import           Control.Monad
 
 infixl 2 &.
 (&.) :: (a -> b) -> (b -> c) -> a -> c
@@ -95,6 +96,12 @@ apply !n !f !beg = go beg n
             | i <= 0    = acc
             | otherwise = go (f acc) (i-1)
 
+compose :: Monad m => [a -> m a] -> (a -> m a)
+compose []     = return
+compose (c:cs) = c >=> compose cs
+
+composeN :: Monad m => Int -> (a -> m a) -> (a -> m a)
+composeN n = compose . replicate n
 
 ring :: RealFrac a => (a, a) -> a -> a
 ring (a,b) n
