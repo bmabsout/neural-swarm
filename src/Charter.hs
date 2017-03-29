@@ -21,21 +21,7 @@ neuralChart :: forall (m :: Nat) (t :: Nat) b (n1 :: Nat).
                        Proxy (m + 1)
                        -> Int
                        -> NeuralSim b ((m + n1) + 1) t -> [(Double, Double)]
-neuralChart weightIndex numIters (NeuralSim _ startWeights _ randTrainingState neuralStep) =
-  zip weightVals (costsOf weightVals weightIndex)
-    where
-      weightVals = [-40,-39 .. 40]
-      generalSeed = 2342344
-      numSystemsPerMinimization = 10
-      randSystems = evalRand (replicateM numSystemsPerMinimization $ randTrainingState startWeights) (mkStdGen generalSeed)
-      costsOf xs index = rangedReplace xs startWeights index &> neuralStepsN randSystems &> costs
-        where costs systems = systems &> simCost &> (^^2) & sum & (^^2)
-              neuralStepsN systems weights =
-                apply numIters (neuralSteps weights) systems
-              neuralSteps weights systems = systems &> (\s -> neuralStep s weights)
-
-signal :: [Double] -> [(Double,Double)]
-signal = map $ \x -> (x,(sin (x*3.14159/45) + 1) / 2 * (sin (x*3.14159/5)))
+neuralChart weightIndex numIters (NeuralSim _ startWeights _ nSet) = undefined
 
 singleWeightChangeChart :: _ => NeuralSim a _ d -> IO ()
 singleWeightChangeChart neuralSim = toWindow 500 500 $ do

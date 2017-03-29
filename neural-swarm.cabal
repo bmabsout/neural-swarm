@@ -43,6 +43,7 @@ library
                      , storable-tuple
                      , parallel
                      , MonadRandom
+                     , mtl
                      , ghc-typelits-natnormalise
   default-language:    Haskell2010
   extensions: PartialTypeSignatures,
@@ -55,7 +56,8 @@ library
               ExistentialQuantification,
               ScopedTypeVariables,
               ConstraintKinds,
-              FlexibleInstances
+              FlexibleInstances,
+              FlexibleContexts
   ghc-options: -fno-warn-partial-type-signatures -freduction-depth=0 -fplugin GHC.TypeLits.Normalise
 
 executable neural-swarm-exe

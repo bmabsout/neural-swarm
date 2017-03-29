@@ -64,18 +64,18 @@ instance Steppable Flies where
 instance Default Flies where
   auto = R.evalRand (randFlies (100,100) 5 (applyBeforeBox reallySmallBox neuralSyncer) True) (R.mkStdGen 234234)
 
+instance R.Random Flies where
+  random = R.runRand $
+    randFlies (100,100) (typeNum (Proxy @NumNeighbhors)) mySyncer True
+  randomR = error "no!"
+
 type NumNeighbhors = 5
 
 fliesNeuralInstance :: NeuralSim Flies _ _
-fliesNeuralInstance = NeuralSim auto boxWeights restorer randTrainingState neuralStep
+fliesNeuralInstance = NeuralSim auto boxWeights restorer setWeights
   where
     currentBox@(brain,boxWeights,restorer) = reallySmallBox
-    numNeighbhors = typeNum (Proxy :: Proxy NumNeighbhors)
-
-    neuralStep system weights =
-      simStep (system & syncer .~ (neuralSyncer brain weights (system^.period)))
-    randTrainingState weights =
-        randFlies (100,100) numNeighbhors (neuralSyncer brain weights) True
+    setWeights weights system = system & syncer .~ (neuralSyncer brain weights (system^.period))
 
 
 newGetIxs vec indices = indices & V.fromList & V.map fromIntegral
@@ -91,7 +91,7 @@ mySyncer period l = l &> ringDiff period & mean
         mean [] = 0
         mean l  = sum l / fromIntegral (length l)
 
-randFlies :: (Double,Double) -> Int -> (Double -> Syncer) -> Bool -> R.Rand _ Flies
+randFlies :: R.RandomGen g => (Double,Double) -> Int -> (Double -> Syncer) -> Bool -> R.Rand g Flies
 randFlies numFliesRange numNeighbhors syncer singleLine =
   do
     numFlies <- R.getRandomR numFliesRange

@@ -23,7 +23,7 @@ import           Foreign.C.Types
 import           Control.Arrow
 import           Control.Monad.Random
 
-type Minimizer n = (Weights n -> Double) -> Weights n -> (Weights n,Vector Double)
+type Minimizer n = (Weights n -> Double) -> Weights n -> Weights n
 
 newtype NelderMeadsParams = NelderMeadsParams Int
 
@@ -63,18 +63,18 @@ data NeuralSim system enabled all = NeuralSim {
     _settings          :: Settings,
     _weights           :: Weights enabled,
     _restorer          :: Restorer enabled all,
-    _randTrainingState :: forall g. Weights enabled -> Rand StdGen system,
-    _neuralStep :: system -> Weights enabled -> system
+    _setWeights        :: Weights enabled -> system -> system
 }
+makeLenses ''NeuralSim
 
 minimizeS :: (KnownNat n) => NelderMeadsParams -> Minimizer n
 minimizeS (NelderMeadsParams iterations) cost xi =
   minimizeV NMSimplex2 0.0001 iterations (V.replicate (ssize xi) 1) (fromVec &. cost) (toVec xi)
-  & second (toColumns &. (!!1))
-  & first fromVec
+  & fst & fromVec
+  -- & second (toColumns &. (!!1))
 
 annealing :: (KnownNat n) => SimulatedAnnealingParams -> Minimizer n
-annealing anParams cost xi = (simanSolve 123 (ssize xi) anParams xi cost metricDist stepFunction Nothing, V.empty)
+annealing anParams cost xi = simanSolve 123 (ssize xi) anParams xi cost metricDist stepFunction Nothing
   where metricDist a1 a2 = sZipWith (\x1 x2 -> (x1-x2)*(x1-x2)) a1 a2 & ssum & sqrt
         stepFunction rands stepSize current = rands & fromVec &> (\x -> x*2*stepSize - stepSize) & sZipWith (+) current
 
@@ -83,12 +83,22 @@ toMinimizer (NelderMeads pars) = minimizeS pars
 toMinimizer (Annealing pars) = annealing pars
 
 minimizer :: (KnownNat all,KnownNat enabled) => NeuralSim system enabled all -> IO ()
-minimizer neuralSim@(NeuralSim settings _ _ randTrainingState neuralStep) = undefined
+minimizer neuralSim = undefined
+
+episodicM :: (CostStep s,Random s) => Minimizer enabled -> NeuralSim s enabled all -> Rand StdGen (Weights enabled)
+episodicM minimizer nSim = do
+  iters <- getRandomR (nSim^.settings.iterRange)
+  systems <- getRandoms &> take (nSim^.settings.systems)
+  return $ episodic iters systems minimizer nSim
 
 
-merged :: (Simulator s) => Minimizer n -> Settings -> Proxy s -> Weights w
-merged optimizer settings p = undefined
-
+episodic :: CostStep s => Int -> [s] -> Minimizer enabled -> NeuralSim s enabled all -> Weights enabled
+episodic iters systems optimizer nSim =
+    apply episodes perEpisode (systems, nSim^.weights) & snd
+  where episodes = iters `div` episodeSize
+        episodeSize = nSim^.settings.groupedBy
+        perEpisode (ss,ws) = (simEpisode ss, optimizer (\w -> simCost $ simEpisode (ss &> (nSim^.setWeights) w)) ws)
+          where simEpisode = apply episodeSize simStep
 
 -- networkMinimizer :: Minimizer n -> NeuralSim a n w -> ([Vector Double],Weights w, [(Double,Double)])
 -- networkMinimizer optimizer (NeuralSim _ simulator startWeights weightRestorer randTrainingState _) =

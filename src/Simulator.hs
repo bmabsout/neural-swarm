@@ -33,3 +33,12 @@ trackCost :: (Default a, CostStep a) => Int -> a -> [Double]
 trackCost iterations a = iterate (apply iterations simStep) a &> simCost
 
 
+
+instance CanRender a => CanRender [a] where
+    simRender l = l &> simRender & pictures
+
+instance Steppable a => Steppable [a] where
+    simStep l = l &> simStep
+
+instance HasCost a => HasCost [a] where
+    simCost l = l &> simCost & sum

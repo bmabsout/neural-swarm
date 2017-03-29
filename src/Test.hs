@@ -32,10 +32,14 @@ instance HasCost Test where
 instance Default Test where
   auto = evalRand (randTests (100,100) (applyBeforeBox bronx neuralUpdater)) (mkStdGen 114678)
 
+instance Random Test where
+  random = runRand $ randTests (10,10) myUpdater
+  randomR = error "no!"
+
 computeGoal ::(Vec Double, Double) -> Vec Double
 computeGoal (loc, angle) = rotateVec (fromScalar 100) angle + loc
 
-randTests :: (Double,Double) -> Updater -> Rand StdGen Test
+randTests :: RandomGen g => (Double,Double) -> Updater -> Rand g Test
 randTests numTestsRange updater =
   do
     let range = (-500,500)
@@ -56,12 +60,11 @@ neuralUpdater (Brain feed) weights points goal =
     sizedToVec (Sized [a,b]) = Vec (lerp -10 10 a, lerp -10 10 b)
 
 testNeuralInstance :: NeuralSim Test _ _
-testNeuralInstance = NeuralSim auto boxWeights restorer randTrainingState neuralStep
+testNeuralInstance = NeuralSim auto boxWeights restorer neuralSet
     where
         currentBox@(brain,boxWeights,restorer) = bronx
-        neuralStep (Test (a,b,_)) weights = simStep (Test (a,b,neuralUpdater brain weights))
-        randTrainingState weights =
-            randTests (10,10) (neuralUpdater brain weights)
+        neuralSet weights (Test (a,b,_)) = Test (a,b,neuralUpdater brain weights)
+
 
 box :: _ => BrainBox _ _ _ _
 box = buildBrain (initBrain bamboo #> (Disable (biased @3)) #> biased @10 #> biased @2)

@@ -70,10 +70,14 @@ instance HasCost (Boids n) where
 instance Default (Boids 4) where
   auto = R.evalRand (randBoids (10,15) (applyBeforeBox stupidBox neuralUpdater) False) (R.mkStdGen 23423)
 
+instance (x ~ (n+1)) => R.Random (Boids x) where
+  random = R.runRand $ randBoids (7,10) myUpdater False
+  randomR = error "no!"
+
 computeGoal :: (Doubles, Double) -> Doubles
 computeGoal (loc, angle) = rotateVec (fromScalar 400) angle + loc
 
-randBoids :: (Double,Double) -> Updater n -> Bool -> R.Rand _ (Boids n)
+randBoids :: R.RandomGen g => (Double,Double) -> Updater n -> Bool -> R.Rand g (Boids n)
 randBoids numBoidsRange updater singleLine =
   do
     numBoids <- R.getRandomR numBoidsRange
@@ -96,12 +100,10 @@ myUpdater goal poss =
 
 
 boidsNeuralInstance :: NeuralSim (Boids 4) _ _
-boidsNeuralInstance = NeuralSim auto boxWeights restorer randTrainingState neuralStep
+boidsNeuralInstance = NeuralSim auto boxWeights restorer neuralSet
   where
     currentBox@(brain,boxWeights,restorer) = stupidBox
-    neuralStep boids weights = simStep (boids & updater .~ (neuralUpdater brain weights))
-    randTrainingState weights =
-      randBoids (7,10) (neuralUpdater brain weights) False
+    neuralSet weights = updater .~ (neuralUpdater brain weights)
 
 neuralUpdater :: Brain (n*4+2) 2 w -> Weights w -> Updater n
 neuralUpdater (Brain feed) weights goal poss = feed weights cleanedInputs & sizedToVec
