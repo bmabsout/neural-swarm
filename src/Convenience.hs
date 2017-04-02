@@ -122,14 +122,14 @@ pseudoRand (a,b) seed = ring (a,b) ((sin (seed * ring (20,30) seed) + 1) * (newB
 pseudoRands :: RealFloat a => (a,a) -> a -> [a]
 pseudoRands (a,b) seed = iterate (pseudoRand (a,b)) seed & tail
 
-newtype Vec a = Vec (a,a) deriving (Eq, Show,V.Storable, R.Random)
-instance (R.Random x, R.Random y) => R.Random (x, y) where
-  randomR ((x1, y1), (x2, y2)) =
-    R.runRand $ (,) <$> R.getRandomR (x1,x2) <*> R.getRandomR (y1,y2)
-  random = R.runRand $ (,) <$> R.getRandom <*> R.getRandom
+newtype Vec a = Vec (a,a) deriving (Eq, Show,V.Storable)
+instance (R.Random x) => R.Random (Vec x) where
+  randomR (Vec (x1, y1),Vec (x2, y2)) =
+    R.runRand $ (curry Vec) <$> R.getRandomR (x1,x2) <*> R.getRandomR (y1,y2)
+  random = R.runRand $ (curry Vec) <$> R.getRandom <*> R.getRandom
 
-getRandomVecs range = R.getRandomRs (Vec range, Vec range)
-getRandomVec range = R.getRandomR (Vec range, Vec range)
+getRandomVecs (x,y) = R.getRandomRs (Vec (x,x), Vec (y,y))
+getRandomVec (x,y) = R.getRandomR (Vec (x,x), Vec (y,y))
 
 instance Num a => Num (Vec a) where
     Vec (a,b) + Vec (a2,b2) = Vec (a+a2,b+b2)

@@ -68,7 +68,7 @@ instance HasCost (Boids n) where
                                        & (/ fromIntegral (boids^.size))
 
 instance Default (Boids 4) where
-  auto = R.evalRand (randBoids (10,15) (applyBeforeBox stupidBox neuralUpdater) False) (R.mkStdGen 23423)
+  auto = R.evalRand (randBoids (10,15) (applyBeforeBox tinyBox neuralUpdater) True) (R.mkStdGen 3423)
 
 instance (x ~ (n+1)) => R.Random (Boids x) where
   random = R.runRand $ randBoids (7,10) myUpdater False
@@ -81,10 +81,11 @@ randBoids :: R.RandomGen g => (Double,Double) -> Updater n -> Bool -> R.Rand g (
 randBoids numBoidsRange updater singleLine =
   do
     numBoids <- R.getRandomR numBoidsRange
-    goal <- getRandomVec (-1000,1000)
+    goal <- getRandomVec (-500,500)
     let size = floor numBoids
-    moves <- getRandomVecs (-200,200) &> take size
-    return $ Boids (addVelocities $ if singleLine then oneLine numBoids else moves) (goal,0) 0 size updater
+    positions <- getRandomVecs (-200,200)
+    let moves = (if singleLine then oneLine numBoids else positions) & addVelocities & take size
+    return $ Boids moves (goal,0) 0 size updater
   where oneLine numBoids = zip (iterate (+16) (-numBoids*8)) (repeat 0) &> Vec
         addVelocities l = l &> (\x -> (x, Vec (0,0)))
 
@@ -102,7 +103,7 @@ myUpdater goal poss =
 boidsNeuralInstance :: NeuralSim (Boids 4) _ _
 boidsNeuralInstance = NeuralSim auto boxWeights restorer neuralSet
   where
-    currentBox@(brain,boxWeights,restorer) = stupidBox
+    currentBox@(brain,boxWeights,restorer) = tinyBox
     neuralSet weights = updater .~ (neuralUpdater brain weights)
 
 neuralUpdater :: Brain (n*4+2) 2 w -> Weights w -> Updater n
@@ -128,9 +129,16 @@ complexerTrained = mkN 1.740308366769931 0.4489899455805406 0.843114109910376 1.
 
 
 tinyBox :: _ => BrainBox _ _ _ _
-tinyBox = buildBrain (initBrain theSmartOnes #> (biased @2 @2 >< recurrent (biased @2 @10 \> biased @2))
+tinyBox = buildBrain (initBrain tiny #> (biased @2 @2 >< recurrent (biased @2 @10 \> biased @2))
                                                   #> (biased @8)
                                                   #> (biased @2))
+
+
+tiny :: _ => Weights _
+tiny = mkN 1.4348987820727492 0.613507101754025 1.2804864389573112 1.0204880687575546 -1.4105787161356558 0.14292390106680603 -1.0599030443814304e-2 1.2521418181564963 1.687190026258417 1.4388765648766686 0.4506024013501242 -0.501981271269873 0.1314771912698784 2.2362644642943295 1.4336451401637484 -6.655881969957586e-2 2.4509548792394806 1.0674248792161398 1.6666199396303667 0.4270462041790948 1.6667856886202688 2.244191247963391 -0.6825169441576142 1.1500722385770876 0.5297773639626697 1.4884095014944956 0.952692035073214 -0.7905580972718063 -0.3762697157426852 -1.2515709761648846 3.332501141502653 1.097125803204594 1.5614160398877237 -0.1333515121986691 0.4736041503058849 -0.9112971881581511 1.2585946801039598 1.2681584357997546 1.1559397703354026 0.4040662712765085 -0.7691051345751172 -0.23645288611483423 -1.9255702896847917 0.7819488961907439 -0.4208746817939496 -0.8759256695675628 1.6592967898158375 0.3439475185253944 0.8299461348209987 1.8846087598092023 0.47098261026604393 0.8336160303141849 0.733947866865009 1.1866817868321737 -0.3282558667588601 0.1552822166634239 1.717592672399812 2.5311209335392286 -0.29391107832526087 0.83250562454558 -0.21910426282296236 1.16873032080948 1.4140894170358185 0.4246932699156054 1.3696000575219958e-2 1.5609108400198175 0.11382285751367183 1.6508191318347514 0.4149346110941511 -0.6074191758627849 1.997151688587251 0.5668078660447742 0.9816152155296678 2.3637285761384117 -5.467483105585508 1.190338768494327 0.41841423473268513 1.2085604122160385 -0.21250773582379723 1.5474897186510375 1.8058684570280419 0.8239927344584466 -0.27675087879777427 -1.8759711007379325 0.1875081202695283 4.325063630135443 0.6150730724976996 0.6230869236586949 -1.0010790330698716 0.5742852403672789 -1.1240222689190316 0.12014486483833178
+
+
+
 
 
 theSmartOnes :: _ => Weights _

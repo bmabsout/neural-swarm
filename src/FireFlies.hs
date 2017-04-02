@@ -62,7 +62,7 @@ instance Steppable Flies where
             where sync indices ts syncer = indices & newGetIxs ts & syncer
 
 instance Default Flies where
-  auto = R.evalRand (randFlies (20,20) 5 (applyBeforeBox reallySmallBox neuralSyncer) True) (R.mkStdGen 234234)
+  auto = R.evalRand (randFlies (20,20) 5 (applyBeforeBox reallySmallBox neuralSyncer) False) (R.mkStdGen 234234)
 
 instance R.Random Flies where
   random = R.runRand $
@@ -95,17 +95,14 @@ randFlies :: R.RandomGen g => (Double,Double) -> Int -> (Double -> Syncer) -> Bo
 randFlies numFliesRange numNeighbhors syncer singleLine =
   do
     numFlies <- R.getRandomR numFliesRange
-    xs <- (let xgen | singleLine = return $ iterate (+16) (-numFlies*8)
-                    | otherwise  = R.getRandomRs (-500,500)
-           in xgen)
-    ys <- (let ygen | singleLine = return $ repeat 0
-                    | otherwise  = R.getRandomRs (-500,500)
-           in ygen)
     let size = floor numFlies
     let per = 0.5
     ts <- R.getRandomRs (0,per) &> take size
-    let vecs = zip xs ys & take size &> Vec
-    return $ Flies per numNeighbhors ts vecs size (closestIs numNeighbhors vecs) (syncer per)
+    randomPositions <- getRandomVecs (-500,500)
+    let vecs = (if singleLine
+                then zip (iterate (+16) (-numFlies*8)) (repeat 0) &> Vec
+                else randomPositions) & take size
+    return $ Flies per numNeighbhors ts (vecs) size (closestIs numNeighbhors vecs) (syncer per)
 
 
 
