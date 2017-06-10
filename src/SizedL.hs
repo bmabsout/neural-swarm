@@ -9,7 +9,6 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE TypeInType #-}
 {-# LANGUAGE RankNTypes #-}
-{-# LANGUAGE AllowAmbiguousTypes #-}
 module SizedL (module SizedL) where
 
 import Data.Proxy
@@ -37,7 +36,7 @@ sfoldl' :: (b -> a -> b) -> b -> S n a -> b
 sfoldl' f e (Sized v) = foldl' f e v
 
 
-sunsafe :: _ => ([a] -> b) -> S n a -> b
+sunsafe :: ([a] -> b) -> S n a -> b
 sunsafe f (Sized v) = f v
 {-# INLINE sunsafe #-}
 
@@ -50,7 +49,7 @@ shead = sunsafe head
 stail :: S (n+1) a -> S n a
 stail (Sized l) = (Sized (tail l))
 
-replaceAt :: forall m n a. _ => Proxy (m+1) -> Sized (m+n+1) a -> a -> Sized (m+1+n) a
+replaceAt :: forall m n a. KnownNat m => Proxy (m+1) -> Sized (m+n+1) a -> a -> Sized (m+1+n) a
 replaceAt index list e = joinSized a (scons e (stail b))
     where
         (a,b) = splitSized list :: (Sized m a,Sized (n+1) a)
@@ -61,10 +60,10 @@ sreplicate a = replicate (typeNum (Proxy :: Proxy n)) a & Sized
 sizedMap :: S n a -> (a -> b) -> S n b
 sizedMap (Sized v) f = map f v & Sized
 
-sconcatMap :: _ => (a -> S n b) -> S m a -> S (n*m) b
+sconcatMap :: (a -> S n b) -> S m a -> S (n*m) b
 sconcatMap f (Sized v) = concatMap (f &. fromSized) v & Sized
 
-sconcat :: _ => S m (S n a) -> S (m*n) a
+sconcat :: S m (S n a) -> S (m*n) a
 sconcat l = l &> fromSized & concat & Sized
 
 transform :: forall z a b n m . (K n) =>
@@ -91,7 +90,7 @@ splitSized :: forall a n m . (K n) => S (n+m) a -> (S n a,S m a)
 splitSized (Sized v) = splitAt (typeNum (Proxy :: Proxy n)) v
                         & (\(v1,v2) -> (Sized v1,Sized v2))
 
-sZipWith :: _ => (a -> b -> c) -> S n a -> S n b -> S n c
+sZipWith :: (a -> b -> c) -> S n a -> S n b -> S n c
 sZipWith f (Sized v1) (Sized v2) = Sized (zipWith f v1 v2)
 {-# INLINE sZipWith #-}
 
@@ -134,7 +133,7 @@ ssize _ = typeNum (Proxy :: Proxy n)
 class Make n a r | r -> a where
     make :: Sized n a -> r
 
-instance Make n a (Sized n a) where
+instance (ErrorIfUnequal n x, n~x) => Make n a (Sized x a) where
     make x = sreverse x
     {-# INLINE make #-}
 
@@ -142,5 +141,23 @@ instance (Make (n+1) a r) => Make n a (a -> r) where
     make acc a = make (a `scons` acc)
     {-# INLINE make #-}
 
+type family ErrorIfUnequal (a :: Nat) (b :: Nat) where
+  ErrorIfUnequal a a = (() :: K.Constraint)
+  ErrorIfUnequal a b = TypeError (Text "The created vector has size: " :<>: ShowType a
+                                  :$$: Text " While the expected size is: " :<>: ShowType b)
+
 mkN :: (Make 1 a r) => a -> r
 mkN = make empty
+
+type family LengthO a :: Nat where
+  LengthO (a -> r) = 1 + LengthO r
+  LengthO a = 1
+
+-- class Trying r where
+--   mk :: r
+
+-- instance Trying b => Trying (Sized n a -> b -> Sized (n+(LengthO b)) a) where
+--   mk =
+
+-- instance  where
+--   func =

@@ -72,7 +72,7 @@ infixr 6 ><
     in joinSized (feed1 w1 i1) (feed2 w2 i2))
 
 
-stronglyConnected :: _ => B outs ins (ins*outs)
+stronglyConnected :: _ => B outs ins (ins * outs)
 stronglyConnected = Brain (\weights inputs ->
   chunkMap (sZipWith (*) inputs &. ssum &. sigmoid) weights)
 
@@ -118,8 +118,8 @@ class BrainDisabler a where
 
 instance BrainDisabler Brain where
   disabler b w = (b, w)
-  realSecondWeights b w _ = w
+  realSecondWeights _ w _ = w
 
 instance BrainDisabler Disable where
   disabler (Disable (Brain feed)) weights = (Brain (\_ -> feed weights), empty)
-  realSecondWeights b _ w = w
+  realSecondWeights _ _ w = w
