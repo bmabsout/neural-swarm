@@ -12,9 +12,15 @@ import Data.Map
 import Data.List
 import Graphics.Gloss
 
+-- currentInstance = auto @Flies
+-- neuralInstance = fliesNeuralInstance
+-- currentInstance = auto @Test
+-- neuralInstance = testNeuralInstance
 currentInstance = auto @(Boids 4)
-
 neuralInstance = boidsNeuralInstance
+-- currentInstance = auto @Filler
+-- neuralInstance = fillerNeuralInstance
+
 
 stage :: Display
 stage = InWindow "Simulation" (200,200) (10,10)

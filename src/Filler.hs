@@ -49,7 +49,7 @@ neuralUpdater (Brain feed) weights points goal =
     vecToSized :: (Vec a,Vec a) -> Sized 4 a
     vecToSized (Vec (a,b), Vec (c,d)) = Sized [a,b,c,d]
     sizedToVec :: Num a => Sized 2 a -> Vec a
-    sizedToVec (Sized [a,b]) = Vec (lerp -10 10 a, lerp -10 10 b)
+    sizedToVec (Sized [a,b]) = Vec (10*a, 10*b)
 
 fillerNeuralInstance :: RealFloat a => NeuralSim (Filler a) a _ _ _ _
 fillerNeuralInstance = NeuralSim fillerSimulatorInstance currentBox randTrainingState neuralStep

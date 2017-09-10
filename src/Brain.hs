@@ -19,6 +19,12 @@ import           Foreign.Storable.Tuple()
 sigmoid :: Floating a => a -> a
 sigmoid n = 1/(1 + exp (-n))
 
+relu :: (Ord a,Floating a) => a -> a
+relu = max 0
+
+leakyRelu :: (Ord a, Floating a) => a -> a
+leakyRelu z = max (0.01*z) z
+
 newtype Brain ins outs w = Brain { unBrain :: Weights w -> Inputs ins -> Outputs outs }
 
 type B outs ins w = Brain ins outs w
@@ -72,9 +78,9 @@ infixr 6 ><
     in joinSized (feed1 w1 i1) (feed2 w2 i2))
 
 
-stronglyConnected :: _ => B outs ins (ins * outs)
+stronglyConnected :: _ => B outs ins (ins*outs)
 stronglyConnected = Brain (\weights inputs ->
-  chunkMap (sZipWith (*) inputs &. ssum &. sigmoid) weights)
+  chunkMap (sZipWith (*) inputs &. ssum &. tanh) weights)
 
 shared :: _ => B outs ins w -> B (outs*n) (ins*n) w
 shared (Brain feed) = Brain (\weights inputs ->
@@ -98,7 +104,7 @@ biased :: _ => B outs ins ((ins+1)*outs)
 biased = Brain (\weights inputs -> (unBrain stronglyConnected) weights (scons 1 inputs))
 
 randWeights :: K n => Double -> Weights n
-randWeights = randomS (-1,1)
+randWeights = randomS (-0.01,0.01)
 
 newtype Disable ins outs w = Disable (Brain ins outs w)
 

@@ -9,6 +9,7 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE TypeInType #-}
 {-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE TypeFamilyDependencies #-}
 module SizedL (module SizedL) where
 
 import Data.Proxy
@@ -149,10 +150,42 @@ type family ErrorIfUnequal (a :: Nat) (b :: Nat) where
 mkN :: (Make 1 a r) => a -> r
 mkN = make empty
 
+data Trumbo = Trumbo
+
 type family LengthO a :: Nat where
   LengthO (a -> r) = 1 + LengthO r
   LengthO a = 1
 
+-- type family Dor r where
+--   Dor (r -> a) = a -> Dor r
+--   Dor a = a
+
+-- g :: r -> Dor r
+-- g = undefined
+
+-- test :: Sized 3 Int
+-- test = mkN 1 2 3 Trumbo
+
+-- f :: a -> a -> a
+-- f = undefined
+
+-- m :: Dor r
+-- m = undefined
+
+-- class T r where
+--   m :: r
+
+-- instance T (a -> Sized 1 a) where
+--   m = singleton
+
+-- instance (Dor ) => T ((a -> a) -> Sized 2 a) where
+--   m a b = m a `snoc` b
+
+-- instance T (a -> a -> a) a 3 where
+--   m a b c = m a b `snoc` c
+
+-- test :: _
+-- test = m 1 2 3
 -- class Trying r where
 --   mk :: r
 
@@ -161,3 +194,33 @@ type family LengthO a :: Nat where
 
 -- instance  where
 --   func =
+
+-- data Vector n a where
+--     VNil :: Vector 0 a
+--     VCons :: a -> Vector n a -> Vector (n+1) a
+
+-- type family FtoV r where
+--   FtoV (a -> r) = a ': FtoV r
+--   FtoV a = '[a]
+
+-- type family L xs where
+--    L '[]       = 0
+--    L (x ': xs) = 1 + L xs
+
+
+
+-- class Trumber n a r | r -> a where
+--   type Peh a
+--   make :: Sized n a -> Peh a -> r
+
+-- instance Trumber n a (Sized n a) where
+--   type Peh a = Trumbo
+--   make acc t = acc
+
+-- instance (Trumber (n+1) a r) => Trumber n a (r) where
+--   type Peh a = a
+--   make acc a = make (acc `snoc` a)
+
+-- test :: Sized 3 Int
+-- test = make empty 1 2 3 Trumbo
+
