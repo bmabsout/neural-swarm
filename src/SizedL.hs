@@ -6,10 +6,8 @@
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE GADTs #-}
 {-# LANGUAGE TypeInType #-}
-{-# LANGUAGE RankNTypes #-}
-{-# LANGUAGE TypeFamilyDependencies #-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
 module SizedL (module SizedL) where
 
 import Data.Proxy
@@ -144,17 +142,22 @@ instance (Make (n+1) a r) => Make n a (a -> r) where
 
 type family ErrorIfUnequal (a :: Nat) (b :: Nat) where
   ErrorIfUnequal a a = (() :: K.Constraint)
-  ErrorIfUnequal a b = TypeError (Text "The created vector has size: " :<>: ShowType a
-                                  :$$: Text " While the expected size is: " :<>: ShowType b)
+  ErrorIfUnequal a b = TypeError ('Text "The created vector has size: " ':<>: 'ShowType a
+                                  ':$$: 'Text " While the expected size is: " ':<>: 'ShowType b)
 
 mkN :: (Make 1 a r) => a -> r
 mkN = make empty
 
-data Trumbo = Trumbo
+-- mk1 :: (Make 1 a r) => a -> r
+-- mk1 first = mkN first
 
-type family LengthO a :: Nat where
-  LengthO (a -> r) = 1 + LengthO r
-  LengthO a = 1
+
+-- type family LengthO a :: Nat where
+--   LengthO (a -> r) = 1 + LengthO r
+--   LengthO a = 1
+
+
+-- test = mk1 1 2 3
 
 -- type family Dor r where
 --   Dor (r -> a) = a -> Dor r
@@ -208,6 +211,7 @@ type family LengthO a :: Nat where
 --    L (x ': xs) = 1 + L xs
 
 
+-- data Trumbo = Trumbo
 
 -- class Trumber n a r | r -> a where
 --   type Peh a
@@ -224,3 +228,14 @@ type family LengthO a :: Nat where
 -- test :: Sized 3 Int
 -- test = make empty 1 2 3 Trumbo
 
+type family Length (a :: [k]) = (n::Nat) where
+  Length '[] = 0
+  Length (x ': xs) = 1 + Length xs
+
+class  MakeVector list where
+  create :: Num a => S (Length list) a
+instance MakeVector '[] where
+  create = empty
+
+instance forall x xs. (KnownNat x, MakeVector xs) => MakeVector ((x::Nat) ': xs) where
+  create = typeNum (Proxy :: Proxy x) `scons` create @xs

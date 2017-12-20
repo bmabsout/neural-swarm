@@ -7,7 +7,6 @@ import           Data.Function
 -- import qualified Data.Set as S
 import           Data.List
 import           Data.Ord
-import           Control.Parallel
 import           Control.Parallel.Strategies
 import           Numeric.FastMath()
 import qualified Data.Vector.Storable as V
@@ -31,9 +30,14 @@ infixl 1 &>
 (&>) = flip (<$>)
 {-# INLINE (&>) #-}
 
+infixl 1 &>>
+(&>>) :: (Functor f, Functor g) => g (f a) -> (a -> b) -> g (f b)
+(&>>) l f = l &> (&> f)
+{-# INLINE (&>>) #-}
+
 infixl 1 &!>
-(&!>) :: NFData b => [a] -> (a -> b) -> [b]
-(&!>) l a = parMap rdeepseq a l
+(&!>) :: [a] -> (a -> b) -> [b]
+(&!>) l a = parMap rseq a l
 {-# INLINE (&!>) #-}
 
 ifd :: Bool -> (a->a) -> (a->a)
@@ -97,8 +101,7 @@ apply !n !f !beg = go beg n
             | otherwise = go (f acc) (i-1)
 
 compose :: Monad m => [a -> m a] -> (a -> m a)
-compose []     = return
-compose (c:cs) = c >=> compose cs
+compose = foldr (>=>) return
 
 composeN :: Monad m => Int -> (a -> m a) -> (a -> m a)
 composeN n = compose . replicate n
@@ -122,50 +125,54 @@ pseudoRand (a,b) seed = ring (a,b) ((sin (seed * ring (20,30) seed) + 1) * (newB
 pseudoRands :: RealFloat a => (a,a) -> a -> [a]
 pseudoRands (a,b) seed = iterate (pseudoRand (a,b)) seed & tail
 
-newtype Vec a = Vec (a,a) deriving (Eq, Show,V.Storable)
+data Vec a = Vec !a !a deriving (Eq, Show)
 instance (R.Random x) => R.Random (Vec x) where
-  randomR (Vec (x1, y1),Vec (x2, y2)) =
-    R.runRand $ (curry Vec) <$> R.getRandomR (x1,x2) <*> R.getRandomR (y1,y2)
-  random = R.runRand $ (curry Vec) <$> R.getRandom <*> R.getRandom
+  randomR (Vec x1 y1, Vec x2 y2) =
+    R.runRand $ Vec <$> R.getRandomR (x1, x2) <*> R.getRandomR (y1,y2)
+  random = R.runRand $ Vec <$> R.getRandom <*> R.getRandom
 
-getRandomVecs (x,y) = R.getRandomRs (Vec (x,x), Vec (y,y))
-getRandomVec (x,y) = R.getRandomR (Vec (x,x), Vec (y,y))
+getRandomVecs :: (R.Random a,R.MonadRandom m) => (a, a) -> m [Vec a]
+getRandomVecs (x,y) = R.getRandomRs (Vec x x, Vec y y)
+
+getRandomVec :: (R.Random a, R.MonadRandom m) => (a, a) -> m (Vec a)
+getRandomVec (x,y) = R.getRandomR (Vec x x, Vec y y)
 
 instance Num a => Num (Vec a) where
-    Vec (a,b) + Vec (a2,b2) = Vec (a+a2,b+b2)
-    Vec (a,b) - Vec (a2,b2) = Vec (a-a2,b-b2)
-    Vec (a,b) * Vec (a2,b2) = Vec (a*a2,b*b2)
-    abs (Vec (a,b)) = Vec (abs a,abs b)
-    signum (Vec (a,b)) = Vec (signum a,signum b)
-    fromInteger a = Vec (fromInteger a,fromInteger a)
+    (Vec a b) + (Vec a2 b2) = Vec (a+a2) (b+b2)
+    (Vec a b) - (Vec a2 b2) = Vec (a-a2) (b-b2)
+    (Vec a b) * (Vec a2 b2) = Vec (a*a2) (b*b2)
+    abs (Vec a b) = Vec (abs a) (abs b)
+    signum (Vec a b) = Vec (signum a) (signum b)
+    fromInteger a = Vec (fromInteger a) (fromInteger a)
 
 vecToList :: Vec a -> [a]
-vecToList (Vec (x,y)) = [x,y]
+vecToList (Vec x y) = [x,y]
 
 listToVec :: [a] -> Vec a
-listToVec [x,y] = Vec (x,y)
+listToVec [x,y] = Vec x y
+listToVec _ = error "list must be of length 2"
 
 dot :: Num a => Vec a -> Vec a -> a
-dot (Vec (x1,y1)) (Vec (x2,y2))= x1*x2 + y1*y2
+dot (Vec x1 y1) (Vec x2 y2)= x1*x2 + y1*y2
 
 magVsq :: Num a => Vec a -> a
-magVsq (Vec (x,y)) = x*x + y*y
+magVsq (Vec x y) = x*x + y*y
 
 distsq :: Num a => Vec a -> Vec a -> a
 distsq !p1 !p2 = magVsq (p1-p2)
 
 rotateVec :: Floating a => Vec a -> a -> Vec a
-rotateVec (Vec (x,y)) o = Vec (x * sin o, y*  cos o)
+rotateVec (Vec x y) o = Vec (x*cos o - y*sin o) (x*sin o + y* cos o)
 
 dist :: Floating b => Vec b -> Vec b -> b
 dist !p1 !p2 = distsq p1 p2 & sqrt
 
 instance Fractional a => Fractional (Vec a) where
-  fromRational a = Vec (fromRational a,fromRational a)
-  (/) (Vec (ax,ay)) (Vec (bx,by)) = Vec (ax/bx,ay/by)
+  fromRational a = Vec (fromRational a) (fromRational a)
+  (/) (Vec ax ay) (Vec bx by) = Vec (ax/bx) (ay/by)
 
 fromScalar :: a -> Vec a
-fromScalar a = Vec (a,a)
+fromScalar a = Vec a a
 
 qsort :: (a -> a -> Ordering) -> [a] -> [a] -> [a]
 qsort _   []     r = r
@@ -206,3 +213,4 @@ lerp a b n = (b - a)*n + a
 
 class Default a where
   auto :: a
+

@@ -5,4 +5,9 @@ extra-deps:
 - Chart-gtk-1.8.2
 - fast-math-1.0.2
 - storable-tuple-0.0.3.2
-resolver: lts-9.3
+resolver: ghc-8.2.1
+
+nix:
+  enable: true
+  shell-file: default.nix
+

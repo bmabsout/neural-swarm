@@ -20,10 +20,10 @@ neuralChart :: forall (m :: Nat) (t :: Nat) b (n1 :: Nat).
                        (KnownNat m, Simulator b) =>
                        Proxy (m + 1)
                        -> Int
-                       -> NeuralSim b ((m + n1) + 1) t -> [(Double, Double)]
+                       -> NeuralSim b ((m + n1) + 1) t Double -> [(Double, Double)]
 neuralChart weightIndex numIters (NeuralSim _ startWeights _ nSet) = undefined
 
-singleWeightChangeChart :: _ => NeuralSim a _ d -> IO ()
+singleWeightChangeChart :: _ => NeuralSim a _ d Double -> IO ()
 singleWeightChangeChart neuralSim = toWindow 500 500 $ do
     layout_title .= "Amplitude Modulation"
     setColors [opaque blue, opaque red, opaque green, opaque purple]

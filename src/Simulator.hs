@@ -1,45 +1,34 @@
-{-# LANGUAGE TemplateHaskell #-}
+
 module Simulator (module Simulator) where
 import Graphics.Gloss
 import Control.Lens
+import Control.Arrow
 import Convenience
 import Numeric.FastMath()
 import Control.Monad.Random
 
 
 class CanRender a where
-    simRender :: a -> Picture
+    simRender :: a Double -> Picture
 
 class Steppable a where
-    simStep :: a -> a
+    simStep :: Floating f => a f -> a f
 
 class HasCost a where
-    simCost :: a -> Double
+    simCost :: Floating float => a float -> float
 
 type CostStep a = (HasCost a, Steppable a)
 
-type Simulator a = (CostStep a, CanRender a, Random a)
+class (CostStep a, CanRender a,Random (a Double)) => Simulator a where
+    realToFracSim :: Floating floating => a Double -> a floating
 
-simulateN :: (Num a, Ord a, CostStep t) => a -> t -> (Double, t)
-simulateN n initState =
-    apply n (\(count,accost,state) ->
-                 let newState = simStep state
-                     newCost = accost + if count > 198 then (simCost newState)^2 else 0
-                 in (if count > n then 0 else count + 1, newCost, newState))
-            (0,0,initState)
-     & (\(_,cost,finalState) -> (cost,finalState))
+simulateN :: (CostStep t,Floating float) => Int -> t float -> (float, t float)
+simulateN n initState = apply n simStep initState & simCost &&& id
 
 
-trackCost :: (Default a, CostStep a) => Int -> a -> [Double]
+trackCost :: (Default (a Double), CostStep a) => Int -> a Double -> [Double]
 trackCost iterations a = iterate (apply iterations simStep) a &> simCost
 
-
-
-instance CanRender a => CanRender [a] where
-    simRender l = l &> simRender & pictures
-
-instance Steppable a => Steppable [a] where
-    simStep l = l &> simStep
-
-instance HasCost a => HasCost [a] where
-    simCost l = l &> simCost & sum
+simsRender l = l &!> simRender & pictures
+simsStep l   = l &!> simStep
+simsCost l   = l &!> simCost & sum

@@ -36,8 +36,8 @@ instance HasCost Flies where
     simCost (Flies p n ts _ s m _) = m &> newGetIxs (V.fromList ts)
                                        &. allWithAll p (fromIntegral n)
                                        & sum & (/ fromIntegral s) & realToFrac & log
-        where allWithAll p s l = l &> (\a -> l &> (\b ->timeDist p a b ^^2) & sum)
-                                   & sum & (/ s^^2)
+        where allWithAll p s l = l &> (\a -> l &> (\b ->timeDist p a b) & sum)
+                                   & sum & (/ s**2)
 instance CanRender Flies where
     simRender fs = zipWith (renderFirefly (fs^.period)) (fs^.positions) (fs^.times)
                    & pictures
@@ -45,7 +45,7 @@ instance CanRender Flies where
             renderFirefly :: RealFloat a => a -> Vec a -> a -> Picture
             renderFirefly period pos time = circleSolid 8 & vecTranslate pos
                                                           & color currentColor
-                where vecTranslate (Vec (x,y)) = translate (realToFrac x) (realToFrac y)
+                where vecTranslate (Vec x y) = translate (realToFrac x) (realToFrac y)
                       currentColor = let t = realToFrac (time / period)
                                      in makeColor t t t 1
 
@@ -62,11 +62,11 @@ instance Steppable Flies where
             where sync indices ts syncer = indices & newGetIxs ts & syncer
 
 instance Default Flies where
-  auto = R.evalRand (randFlies (20,20) 5 (applyBeforeBox reallySmallBox neuralSyncer) False) (R.mkStdGen 234234)
+  auto = R.evalRand (randFlies (15,15) 5 (applyBeforeBox reallySmallBox neuralSyncer) False) (R.mkStdGen 23434)
 
 instance R.Random Flies where
   random = R.runRand $
-    randFlies (20,20) (typeNum (Proxy @NumNeighbhors)) mySyncer True
+    randFlies (15,15) (typeNum (Proxy @NumNeighbhors)) mySyncer False
   randomR = error "no!"
 
 type NumNeighbhors = 5
@@ -82,7 +82,7 @@ newGetIxs vec indices = indices & V.fromList & V.map fromIntegral
                                 & V.backpermute vec & V.toList
 
 
-neuralSyncer :: _ => Brain _ _ w -> Weights w -> Double -> Syncer
+neuralSyncer :: _ => Brain _ _ w -> S w a -> a -> Syncer
 neuralSyncer (Brain feedForward) weights period inputs = feedForward weights (fromList inputs) & shead & (+1) & (*0.5) & (*(-period))
 
 mySyncer :: Double -> Syncer
@@ -100,7 +100,7 @@ randFlies numFliesRange numNeighbhors syncer singleLine =
     ts <- R.getRandomRs (0,per) &> take size
     randomPositions <- getRandomVecs (-500,500)
     let vecs = (if singleLine
-                then zip (iterate (+16) (-numFlies*8)) (repeat 0) &> Vec
+                then zipWith Vec (iterate (+16) (-numFlies*8)) (repeat 0)
                 else randomPositions) & take size
     return $ Flies per numNeighbhors ts (vecs) size (closestIs numNeighbhors vecs) (syncer per)
 
@@ -138,4 +138,5 @@ reallysmallWeights = mkN -15.18170986966183 -3.468838594930856 26.74949949323869
 
 
 tanhed :: Weights _
-tanhed = mkN -0.1649060731561937 -0.1867250132130671 -0.1496091589342382 -0.14217635019566144 1.553775885828816 -1.4909723751466285e-2 0.158331971066524 -0.6704966530961088 1.5272613055433666 1.388370254675665 7.201849875088812 1.4124043646322582e-2 -8.127760798566028 2.1639265310649503 4.98371947306775 0.24802843637578154 7.565482325102569 4.174144449318046 -4.221407019301641 -4.177587959639491 5.3102732751280195 12.078543237116174 3.7984202521890635 -4.099214174522579 -4.963231076525161 11.327485656313904 -0.21526835386299056 -2.5949048463629225 1.550891918033966 0.4920230695676343 1.357047655635067 -0.5088224447934837 -7.456501407086415e-2 2.0844269205460155
+tanhed = mkN 3.7238029189993616 -3.475245020438038 -9.692364045372943e-2 -4.009637440957896 -3.82127028826974 0.16593670077656644 0.6169153303742647 0.42019091420908855 0.1660307923214792 0.49464966684020073 5.138080252180406e-2 0.11339081710082474 0.3292300899087112 2.8663675247833114 0.1934281883730344 3.1606551415132604 3.3678007577422064e-2 8.369876295418474e-2 -1.397604274832784 1.6530932501825175 0.7174063413151947 2.334965421863858 0.446904883979963 2.1219410660326754 1.150742494644102 2.4450649701697413 0.19975980078601627 0.25702530502151505 -1.441784029097739 0.5575806237907395 1.4373009905254988 0.8800629111947817 -2.1597571816627466 -1.9309050027487862
+
