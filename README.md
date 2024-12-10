@@ -1,5 +1,5 @@
 # Neural Swarm
-The function of this research project is to do massive cooperative controller learning whereby all agents have the same controller that's being optimized to achieve global goals 
+This codebase implements a massive cooperative controller learning framework, agents use the same controller that's being optimized to achieve global goals 
 ### Learning to synchronize fireflies
 https://github.com/user-attachments/assets/f922fb46-dbb9-41b3-bade-203f57af09ff
 ### Learning to maintain specific distances while avoiding collisions
