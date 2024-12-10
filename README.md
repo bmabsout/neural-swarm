@@ -1,3 +1,9 @@
+# Neural Swarm
+The function of this research project is to do massive cooperative controller learning whereby all agents have the same controller that's being optimized to achieve global goals 
+### Learning to synchronize fireflies
+https://github.com/user-attachments/assets/f922fb46-dbb9-41b3-bade-203f57af09ff
+### Learning to maintain specific distances while avoiding collisions
+https://github.com/user-attachments/assets/edf6230c-6dcb-46dd-8145-5170380d72b8
 ## To install
 git clone this directory then install stack(haskell package management tool)
 then run `stack setup`
